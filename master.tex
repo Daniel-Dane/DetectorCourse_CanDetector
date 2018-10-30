@@ -1,0 +1,75 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{detectorhandins}
+\author{Daniel S. Nielsen}
+\date{October 2018}
+\usepackage{siunitx} % SI units
+\usepackage{cancel}  % cancel parts of equation
+\usepackage{amsmath} % equations
+\usepackage{tikz}
+\usepackage{hyperref}
+
+\begin{document}
+	% === Front matter ====================================================
+
+	%\frontmatter
+	\maketitle
+	
+	\tableofcontents
+	
+	%\listoffigures
+	
+	%\listoftables
+	
+	%\lstlistoflistings
+	
+	\cleardoublepage
+	\input{./sections/General/Abstract.tex}
+	
+	\cleardoublepage
+	\input{./sections/General/Acknowledgement.tex}	
+	
+	\clearpage
+	\input{./sections/introduction.tex}	
+	
+	
+	
+	% === Main matter =====================================================
+	
+	% --- Chapter 1: Background -----------------------------------------------
+	
+	\cleardoublepage 		
+	%\chapter{Theory}
+	
+	\clearpage
+	\input{./sections/theory.tex}
+	
+	\clearpage
+	\input{./sections/conclusion.tex}
+	
+	
+	
+	% === Appendices ======================================================	
+	
+	\appendix
+	\cleardoublepage
+	\section*{Appendices}
+	\addcontentsline{toc}{chapter}{\protect\numberline{}Appendices}
+
+	%\clearpage
+	%\input{./sections/appendixA.tex}
+
+
+	
+	% === Back matter =====================================================
+	
+	% References
+	%\bibliographystyle{plain}
+	%\bibliographystyle{acm}
+	\bibliographystyle{unsrt}
+	\bibliography{./sections/General/References}
+	\clearpage
+	\pagestyle{empty}
+	\cleardoublepage
+\end{document}

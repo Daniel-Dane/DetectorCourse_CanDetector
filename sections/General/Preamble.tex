@@ -1,0 +1,269 @@
+\documentclass[
+	twoside=semi,
+	a4paper,
+	symmetric,
+	justified
+]{sections/CustomStyles/tufte-book}
+
+% Missing packages
+\usepackage{feynmp-auto} % FeynMF to make Feynman 
+\usepackage{siunitx}     % To show non-italic units in math-mode
+%\sisetup{number-unit-product = \hspace{0.16667em plus 0.08334em}}
+\usepackage{physics}
+\usepackage{nameref}
+%\usepackage{float}
+
+% Proper square root symbol
+\usepackage{letltxmacro}
+\makeatletter
+\let\oldr@@t\r@@t
+\def\r@@t#1#2{%
+	\setbox0=\hbox{$\oldr@@t#1{#2\,}$}\dimen0=\ht0
+	\advance\dimen0-0.2\ht0
+	\setbox2=\hbox{\vrule height\ht0 depth -\dimen0}%
+	{\box0\lower0.4pt\box2}}
+\LetLtxMacro{\oldsqrt}{\sqrt}
+\renewcommand*{\sqrt}[2][\ ]{\oldsqrt[#1]{#2}}
+\makeatother
+
+\title[An alternative analysis of semi-leptonic diboson final states in the boosted regime]{An alternative \\ \noindent analysis of the \\ \noindent semi-leptonic \\ \noindent diboson final \\ \noindent states in the \\ \noindent boosted regime}
+
+\author[Daniel Stefaniak Nielsen]{Daniel Stefaniak Nielsen}
+\publisher{MSc thesis \\ \noindent Niels Bohr Institute, University of Copenhagen}
+
+
+%
+% Style settings are set in 'tufte-common.def'
+%
+
+%%
+% For nice reference listings.
+%\usepackage[sorting=none]{biblatex}
+
+%%
+% Proper typesetting
+\usepackage{microtype}
+
+%% 
+% Helvetica available as math sans serif font
+\usepackage{sansmath} % Enables turning on sans-serif math mode, and using other environments
+%\sansmath % Enable sans-serif math for rest of document
+
+%%
+% Just some sample text
+\usepackage{lipsum}
+
+%%
+% For nicely typeset tabular material
+\usepackage{booktabs}
+
+%%
+% For graphics / images
+\usepackage{graphicx}
+\setkeys{Gin}{width=\linewidth,totalheight=\textheight,keepaspectratio}
+\graphicspath{{graphics/}}
+
+% The fancyvrb package lets us customize the formatting of verbatim
+% environments.  We use a slightly smaller font.
+\usepackage{fancyvrb}
+\fvset{fontsize=\normalsize}
+
+
+% Prints an epigraph and speaker in sans serif, all-caps type.
+\newcommand{\openepigraph}[2]{%
+  %\sffamily\fontsize{14}{16}\selectfont
+  \begin{fullwidth}
+  \sffamily\large
+  \begin{doublespace}
+  \noindent\allcaps{#1}\\% epigraph
+  \noindent\allcaps{#2}% author
+  \end{doublespace}
+  \end{fullwidth}
+}
+
+
+% Inserts a blank page
+\newcommand{\blankpage}{\newpage\hbox{}\thispagestyle{empty}\newpage}
+
+\usepackage{units}
+
+% Typesets the font size, leading, and measure in the form of 10/12x26 pc.
+\newcommand{\measure}[3]{#1/#2$\times$\unit[#3]{pc}}
+
+% Generates the index
+\usepackage{makeidx}
+\makeindex
+
+% Upright greek letters, e.g. $\upphi$
+\usepackage{upgreek}	
+
+% Double-stroke numbers
+\usepackage{bbm}
+
+% Allows table cells to span multiple rows
+\usepackage{multirow}
+
+% Enables dashed table lines
+\usepackage{array}
+\usepackage{arydshln}
+
+\setlength\dashlinedash{0.2pt}
+\setlength\dashlinegap{1.5pt}
+\setlength\arrayrulewidth{0.3pt}
+
+% Enable table notes.
+\usepackage{threeparttable}
+
+% Enable strike-out
+\usepackage{cancel}
+
+% Enable caption formatting (used in listings and for subfigures).
+\usepackage{graphicx}
+\usepackage[compatibility=false,font=small]{caption}
+\usepackage[font=small]{subcaption}
+
+% Enable listings
+\usepackage{listings}
+
+\lstdefinestyle{m_C++}{ % \lstset{ 
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+%  xleftmargin=\parindent,
+  framexleftmargin=0.75em,
+  frame=tb,
+  framesep=0.75em,
+  tabsize=4,
+  language=C,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{m_FlatUI_2},		%\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{m_FlatUI_1},			%\color{green!40!black},		%\color{purple!40!black},
+  identifierstyle=\color{m_FlatUI_5},				%\color{m_backcolor},
+  stringstyle=\color{m_FlatUI_2!70!black}, 		% \color{m_FlatUI_4},	  		%\color{orange},
+  backgroundcolor=\color{m_FlatUI_3},
+  numbers=left,
+  numberstyle=\scriptsize\color{black!50}\ttfamily,
+  numberbychapter=true,
+}
+
+\lstdefinelanguage{pseudo}{
+	morekeywords={if, then, else, do, while, return, for, each, all, in, otherwise, begin, end, get, remove},
+	sensitive=false,
+	morecomment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	morestring=[b]",
+}
+
+
+\lstdefinestyle{m_pseudo}{ % \lstset{ 
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+%  xleftmargin=\parindent,
+  framexleftmargin=0.75em,
+  frame=tb,
+  framesep=0.75em,
+  tabsize=4,
+  language=pseudo,
+  showstringspaces=false,
+  basicstyle=\small\sffamily,
+  keywordstyle=\bfseries,
+  commentstyle=\itshape,	
+  identifierstyle={},
+  stringstyle={},
+  backgroundcolor=\color{m_FlatUI_3},
+  numbers=left,
+  numberstyle=\scriptsize\color{black!50}\sffamily,
+  numberbychapter=true,
+  flexiblecolumns=true,
+}
+
+\lstset{style=m_C++}
+
+\captionsetup[lstlisting]{ singlelinecheck=false, margin=0pt, font={footnotesize} }
+
+
+% Custom commands.
+% ---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+% * Manchet: Styles the first paragraph in some of the enumerated sections
+\definecolor{manchet}{RGB}{75,75,75}
+\newenvironment{manchet}{\sffamily\color{manchet}\small}{\color{black}\normalsize}
+
+% * Whitespace: Defines the space before an enumerated section
+\newcommand{\whitespace}{}  % \phantom{.} \vspace{0cm}
+
+% * arxiv: Creating a href in the references, to the arXiv page in question
+\newcommand{\bibArxiv}[1]{\href{https://arxiv.org/abs/#1}{\texttt{[arXiv:#1]}}}
+
+% * inspire: Creating a href in the references, to the inSPIREhep page in question
+\newcommand{\bibInspire}[1]{\href{https://inspirehep.net/record/#1}{\texttt{[inSPIRE:#1]}}}
+
+% * inspire: Creating a href in the references, to the CERN CDS page in question
+\newcommand{\bibCDS}[1]{\href{https://cds.cern.ch/record/#1}{\texttt{[CDS:#1]}}}
+
+
+% * vol: Making journal volume upright and bold-face 
+\newcommand{\bibVol}[1]{{\upshape\bfseries#1}}
+
+% * title: Typesetting author(s) in small caps
+\newcommand{\bibAuthor}[1]{{\scshape#1}}
+
+% * cleartoleftpage: Makes sure that the following is put out to an odd-numbered (left) page.
+\newcommand*\cleartoleftpage{%
+  \clearpage
+  \ifodd\value{page}\hbox{}\newpage\fi
+}
+
+
+% * Declaring inverse hyperbolic trigonometric functions as math operators (omitted by standard)
+\DeclareMathOperator{\arccosh}{arccosh}
+\DeclareMathOperator{\arcsinh}{arcsinh}
+\DeclareMathOperator{\arctanh}{arctanh}
+\DeclareMathOperator*{\median}{median}
+
+\newcommand{\MET}{E^{\mathrm{miss}}_{T}}
+
+\newcommand{\Emiss}{E^{\mathrm{miss}}}
+
+\newcommand{\vek}[1]{\boldsymbol{\mathbf{#1}}}
+
+\newcommand{\Tr}{\,\text{Tr}}
+
+\newcommand{\diag}{\,\text{diag}}
+
+\newcommand{\lb}{\langle}
+
+\newcommand{\rb}{\rangle}
+
+\newcommand{\norm}[1]{|\hspace{-0.15em}| #1 |\hspace{-0.15em}|}
+
+\newcommand{\ex}[1]{\left\langle #1 \right\rangle}
+
+\newcommand{\rightarrowsub}[1]{ \xrightarrow[ ~ #1 ~ ]{} }
+\newcommand{\rightarrowsup}[1]{ \xrightarrow[]{ ~ #1 ~ } }
+
+\newcommand{\bra}[1]{\langle#1|}
+\newcommand{\ket}[1]{|#1\rangle}
+\newcommand{\bracket}[2]{\langle#1\,|\,#2\rangle}
+
+\newcommand{\diff}[2]{\frac{\mathrm{d}#1}{\mathrm{d}#2}}
+\newcommand{\ddiff}[2]{\frac{\mathrm{d}^{2}#1}{\mathrm{d}#2^{2}}}
+
+\let\oldcancelto\cancelto
+\renewcommand{\cancelto}[2]{\oldcancelto{\scriptstyle #1}{#2}}
+
+% * Name macros.
+\newcommand{\pilemc}{\textsc{pilemc}}
+\newcommand{\pythia}{\textsc{pythia}}
+\newcommand{\herwig}{\textsc{Herwig}}
+\newcommand{\herwigpp}{{\herwig}++}
+\newcommand{\rivet}{\textsc{Rivet}}
+\newcommand{\gsl}{\textsc{gsl}}
+\newcommand{\newwave}{\textsc{NewWave}}
+\newcommand{\fastjet}{\textsc{FastJet}}
+\newcommand{\Root}{\textsc{root}}
+\newcommand{\madgraph}{\textsc{MadGraph}}
+\newcommand{\geant}{\textsc{Geant}}
+\newcommand{\jetrec}{\textsc{jetrec}}
+\newcommand{\powheg}{\textsc{powheg}}
+\newcommand{\sherpa}{\textsc{sherpa}}

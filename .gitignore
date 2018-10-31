@@ -2,3 +2,8 @@ master.aux
 master.log
 master.out
 master.toc
+master.bbl
+master.blg
+master.synctex.gz
+**/.DS_Store
+.*~

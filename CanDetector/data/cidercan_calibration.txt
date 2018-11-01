@@ -1,0 +1,9 @@
+[Amplitude mV]	[Amplitude uncertainties \muV] [Gaussian mean] [Gaussian FWHM] [Gaussian uncertainty on mean] [Amplitude after pre-amp V]	[Amplitude after pre-amp uncertainty mV]
+12.2	220	72.28	1.7662	0.74	0.720	6.5
+32.4	250	209.58	2.0243	0.73	2.03	7.5
+49.8	260	326.31	1.803	0.73	3.18	7.6
+78.8	280	514.74	1.7206	0.73	4.99	4.8
+99.98	300	656.57	2.0086	0.73	6.35	0.2
+125.6	330	832.34	1.8949	0.73	8.13	28
+144.0	200	954.20	1.5840	0.73	9.33	12.8
+151.6	200	993.84	1.5239	0.73	9.73	

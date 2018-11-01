@@ -5,6 +5,7 @@
 *.bbl
 *.blg
 auto
+CanDetector/master.pdf
 *.synctex.gz
 **/.DS_Store
 .*~

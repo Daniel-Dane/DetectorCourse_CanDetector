@@ -1,0 +1,2153 @@
+' XStreamDSO ConfigurationVBScript ...
+' LECROY,WP735Zi-A,Win7ProFES,7.8.1
+' Thursday, November 01, 2018 9:20:29 AM
+
+On Error Resume Next
+set XStreamDSO = CreateObject("LeCroy.XStreamDSO")
+set RecallSetupLocker = XStreamDSO.RecallSetupLock
+
+
+' XStreamDSO ...
+XStreamDSO.HideClock = False
+
+Set ProbesCal = XStreamDSO.ProbesCal
+' ProbesCal ...
+ProbesCal.CalSource = "FastEdge"
+ProbesCal.DeskewCalRef = "C2"
+ProbesCal.DeskewAll = 0
+ProbesCal.CommonMode = 0
+ProbesCal.Gain1 = 1
+ProbesCal.Offset1 = 0
+ProbesCal.Gain2 = 1
+ProbesCal.Offset2 = 0
+ProbesCal.Gain3 = 1
+ProbesCal.Offset3 = 0
+ProbesCal.Gain4 = 1
+ProbesCal.Offset4 = 0
+ProbesCal.SkewCal1 = 0
+ProbesCal.SkewCal2 = 0
+ProbesCal.SkewCal3 = 0
+ProbesCal.SkewCal4 = 0
+ProbesCal.SkewCal5 = 0
+ProbesCal.SkewCal6 = 0
+ProbesCal.SkewCal7 = 0
+ProbesCal.SkewCal8 = 0
+ProbesCal.SkewCal9 = 0
+ProbesCal.AdvancedMode = False
+
+Set CustomDSO = XStreamDSO.CustomDSO
+' CustomDSO ...
+CustomDSO.ActionScript1 = "D:\CustomDSO\custom 1.lss"
+CustomDSO.ActionEnable1 = True
+CustomDSO.ActionScript2 = "D:\CustomDSO\custom 2.lss"
+CustomDSO.ActionEnable2 = True
+CustomDSO.ActionScript3 = "D:\CustomDSO\custom 3.lss"
+CustomDSO.ActionEnable3 = True
+CustomDSO.ActionScript4 = "D:\CustomDSO\custom 4.lss"
+CustomDSO.ActionEnable4 = True
+CustomDSO.ActionScript5 = "D:\CustomDSO\custom 5.lss"
+CustomDSO.ActionEnable5 = True
+CustomDSO.ActionScript6 = "D:\CustomDSO\custom 6.lss"
+CustomDSO.ActionEnable6 = True
+CustomDSO.ActionScript7 = "D:\CustomDSO\custom 7.lss"
+CustomDSO.ActionEnable7 = True
+CustomDSO.ActionScript8 = "D:\CustomDSO\custom 8.lss"
+CustomDSO.ActionEnable8 = True
+CustomDSO.Mode = "Basic"
+CustomDSO.PresentAtPowerUp = False
+CustomDSO.PlugIn1ProgId = "LeCroy.CustomDSODemo.1"
+CustomDSO.PlugIn1Installed = False
+
+Set WaveScan = XStreamDSO.WaveScan
+' WaveScan ...
+WaveScan.Enable = False
+WaveScan.SeparateBar = False
+WaveScan.Mode = "Edge"
+WaveScan.Measurement = "Rise"
+WaveScan.Source1 = "C1"
+WaveScan.Source2 = "C1"
+WaveScan.FilterMethod = "NoFilter"
+WaveScan.RarestMode = "Both"
+WaveScan.Limit = 0
+WaveScan.DeltaPct = 1
+WaveScan.Delta = 0.000000000001
+WaveScan.TriggerAction = "None"
+WaveScan.ShowTimes = False
+WaveScan.LevelType = "Percent"
+WaveScan.PercentLevel = 50
+WaveScan.AbsLevel = 0
+WaveScan.Slope = "Neg"
+WaveScan.FindUseMeanImage = "<image>"
+WaveScan.FindRarestImage = "<image>"
+WaveScan.FindRareSigmaImage = "<image>"
+
+Set WaveScanScanDecode = WaveScan.ScanDecode
+' ScanDecode ...
+WaveScanScanDecode.View = False
+WaveScanScanDecode.UseLandscape = ""
+WaveScanScanDecode.TableLocation = "WaveScanTableContainer"
+
+Set WaveScanScanOverlay = WaveScan.ScanOverlay
+' ScanOverlay ...
+WaveScanScanOverlay.View = False
+WaveScanScanOverlay.UseGrid = "NotOnGrid"
+WaveScanScanOverlay.UseLandscape = ""
+WaveScanScanOverlay.Persisted = False
+WaveScanScanOverlay.PersistenceSaturation = 50
+WaveScanScanOverlay.PersistenceMonoChrome = True
+WaveScanScanOverlay.Persistence3d = False
+WaveScanScanOverlay.ShowLastTrace = False
+WaveScanScanOverlay.PersistDotJoined = False
+WaveScanScanOverlay.PersistenceTime = "0.5s"
+WaveScanScanOverlay.Persist3DQuality = "Solid"
+WaveScanScanOverlay.AxisXRotation = 45
+WaveScanScanOverlay.AxisYRotation = 20
+WaveScanScanOverlay.LabelsText = ""
+WaveScanScanOverlay.LabelsPosition = ""
+WaveScanScanOverlay.ViewLabels = False
+WaveScanScanOverlay.EnablePersistence = True
+
+Set WaveScanScanOverlaySlicer = WaveScanScanOverlay.Slicer
+' Slicer ...
+WaveScanScanOverlaySlicer.Frequency = 3000000
+WaveScanScanOverlaySlicer.PriorPeriods = 0
+WaveScanScanOverlaySlicer.PostPeriods = 0
+WaveScanScanOverlaySlicer.Parameter = "MeanTime"
+WaveScanScanOverlaySlicer.Delay = 0
+WaveScanScanOverlaySlicer.Margin = 0
+WaveScanScanOverlaySlicer.Exclude = False
+WaveScanScanOverlaySlicer.HorScale = 0.000000001
+WaveScanScanOverlaySlicer.VariableHorZoom = False
+WaveScanScanOverlaySlicer.PartialWF = True
+WaveScanScanOverlaySlicer.UpdateNumber = 0
+
+Set WaveScanScanHisto = WaveScan.ScanHisto
+' ScanHisto ...
+WaveScanScanHisto.View = False
+WaveScanScanHisto.UseGrid = "NotOnGrid"
+WaveScanScanHisto.UseLandscape = ""
+WaveScanScanHisto.Persisted = False
+WaveScanScanHisto.PersistenceSaturation = 78
+WaveScanScanHisto.PersistenceMonoChrome = False
+WaveScanScanHisto.Persistence3d = False
+WaveScanScanHisto.ShowLastTrace = False
+WaveScanScanHisto.PersistDotJoined = False
+WaveScanScanHisto.PersistenceTime = "20s"
+WaveScanScanHisto.Persist3DQuality = "Solid"
+WaveScanScanHisto.AxisXRotation = 45
+WaveScanScanHisto.AxisYRotation = 20
+WaveScanScanHisto.LabelsText = ""
+WaveScanScanHisto.LabelsPosition = ""
+WaveScanScanHisto.ViewLabels = False
+WaveScanScanHisto.IncludedInMZgroup = False
+
+Set WaveScanScanHistoZoom = WaveScanScanHisto.Zoom
+' Zoom ...
+WaveScanScanHistoZoom.VariableVerZoom = False
+WaveScanScanHistoZoom.VariableHorZoom = False
+WaveScanScanHistoZoom.VerZoom = 1
+WaveScanScanHistoZoom.VerPos = 0
+WaveScanScanHistoZoom.HorZoom = 1
+WaveScanScanHistoZoom.HorPos = 0
+
+Set WaveScanScanHistoHistogram = WaveScanScanHisto.Histogram
+' Histogram ...
+WaveScanScanHistoHistogram.Values = 1000
+WaveScanScanHistoHistogram.Bins = 100
+WaveScanScanHistoHistogram.HorScale = 1
+WaveScanScanHistoHistogram.Center = 0
+WaveScanScanHistoHistogram.VerScaleType = "Linear"
+WaveScanScanHistoHistogram.AutoFindScale = True
+WaveScanScanHistoHistogram.AutoRange = False
+WaveScanScanHistoHistogram.EdgeFilter = "Any"
+
+Set LabNotebook = XStreamDSO.LabNotebook
+' LabNotebook ...
+LabNotebook.RemovableDevices = "Nonepresent"
+
+Set TriggerScan = XStreamDSO.TriggerScan
+' TriggerScan ...
+TriggerScan.StopOnTrigger = False
+TriggerScan.TriggerList = "undef"
+TriggerScan.DwellTime = 1
+TriggerScan.SetupFileName = "TriggerScan.lss"
+TriggerScan.TrainerSource = "C1"
+TriggerScan.TrainEdges = True
+TriggerScan.TrainWidths = True
+TriggerScan.TrainRunts = True
+TriggerScan.TrainIntervals = True
+TriggerScan.TrainGlitches = True
+
+Set Display = XStreamDSO.Display
+' Display ...
+Display.GridMode = "Single"
+Display.TraceStyle = "Line"
+Display.TraceIntensity = 5
+Display.GridIntensity = 40
+Display.GridOnTop = True
+Display.AxisLabels = True
+Display.NumSegmentsDisplayed = 100000
+Display.StartSegment = 1
+Display.SegmentMode = "Adjacent"
+Display.ScreenSaveEnable = True
+Display.ScreenSaveTimeout = 60
+Display.LockPersistence = "AllLocked"
+Display.PersistenceStyle = "ColorGraded"
+Display.Persisted = False
+Display.PersistenceMonoChrome = False
+Display.Persistence3d = False
+Display.PersistDotJoined = False
+Display.Persist3DQuality = "Solid"
+Display.AxisXRotation = 45
+Display.AxisYRotation = 20
+Display.PersistenceSaturation = 78
+Display.PersistenceTime = "20s"
+Display.PersistenceLastTrace = False
+Display.MultiLandscapeMode = "Mosaic"
+
+Set Acquisition = XStreamDSO.Acquisition
+' Acquisition ...
+Acquisition.TriggerMode = "Stopped"
+
+Set AuxOutput = Acquisition.AuxOutput
+' AuxOutput ...
+AuxOutput.Mode = "Square"
+AuxOutput.CalMode = "Square"
+AuxOutput.AuxMode = "Square"
+AuxOutput.Amplitude = 1
+AuxOutput.Frequency = 1000
+AuxOutput.AuxInCoupling = "DC50"
+AuxOutput.PulseWidth = 0.1
+AuxOutput.TrigOutPulseWidth = 0.0000004
+
+Set AuxIn = Acquisition.AuxIn
+' AuxIn ...
+AuxIn.Attenuation = "x1"
+AuxIn.Coupling = "DC1M"
+AuxIn.ProbeAttenuation = 1
+
+Set C1 = Acquisition.C1
+' C1 ...
+C1.View = True
+C1.UseGrid = "YT1"
+C1.UseLandscape = "MainLandscape"
+C1.Persisted = False
+C1.PersistenceSaturation = 78
+C1.PersistenceMonoChrome = False
+C1.Persistence3d = False
+C1.ShowLastTrace = False
+C1.PersistDotJoined = False
+C1.PersistenceTime = "20s"
+C1.Persist3DQuality = "Solid"
+C1.AxisXRotation = 45
+C1.AxisYRotation = 20
+C1.LabelsText = ""
+C1.LabelsPosition = ""
+C1.ViewLabels = False
+C1.SegmentMode = "Adjacent"
+C1.VerScale = 0.02
+C1.VerScaleVariable = False
+C1.VerOffset = -0.0072
+C1.AverageSweeps = 1
+C1.EnhanceResType = "None"
+C1.InterpolateType = "Linear"
+C1.Invert = False
+C1.Deskew = 0
+C1.StartSegment = 1
+C1.StartSamples = 1
+C1.EndSamples = 1
+C1.OptimizeGroupDelay = "PulseResponse"
+C1.ActiveInput = "InputB"
+C1.ProbeLabel = ""
+C1.ProbeAttenuation = 1
+C1.Coupling = "DC50"
+C1.BandwidthLimit = "200MHz"
+C1.CableCompensation = False
+
+Set C1InputB = C1.InputB
+' InputB ...
+C1InputB.VerScale = 0.02
+C1InputB.VerScaleVariable = False
+C1InputB.VerOffset = -0.0072
+C1InputB.ProbeAttenuation = 1
+C1InputB.BandwidthLimit = "200MHz"
+C1InputB.Coupling = "DC50"
+
+Set C2 = Acquisition.C2
+' C2 ...
+C2.View = False
+C2.UseGrid = "NotOnGrid"
+C2.UseLandscape = "MainLandscape"
+C2.Persisted = False
+C2.PersistenceSaturation = 78
+C2.PersistenceMonoChrome = False
+C2.Persistence3d = False
+C2.ShowLastTrace = False
+C2.PersistDotJoined = False
+C2.PersistenceTime = "20s"
+C2.Persist3DQuality = "Solid"
+C2.AxisXRotation = 45
+C2.AxisYRotation = 20
+C2.LabelsText = ""
+C2.LabelsPosition = ""
+C2.ViewLabels = False
+C2.SegmentMode = "Adjacent"
+C2.VerScale = 0.2
+C2.VerScaleVariable = False
+C2.VerOffset = 0.015
+C2.AverageSweeps = 1
+C2.EnhanceResType = "None"
+C2.InterpolateType = "Linear"
+C2.Invert = False
+C2.Deskew = 0
+C2.StartSegment = 1
+C2.StartSamples = 1
+C2.EndSamples = 1
+C2.OptimizeGroupDelay = "PulseResponse"
+C2.ActiveInput = "InputB"
+C2.ProbeLabel = ""
+C2.ProbeAttenuation = 1
+C2.Coupling = "DC50"
+C2.BandwidthLimit = "Full"
+C2.CableCompensation = False
+
+Set C2InputB = C2.InputB
+' InputB ...
+C2InputB.VerScale = 0.2
+C2InputB.VerScaleVariable = False
+C2InputB.VerOffset = 0.015
+C2InputB.ProbeAttenuation = 1
+C2InputB.BandwidthLimit = "Full"
+C2InputB.Coupling = "DC50"
+
+Set C3 = Acquisition.C3
+' C3 ...
+C3.View = False
+C3.UseGrid = "NotOnGrid"
+C3.UseLandscape = "MainLandscape"
+C3.Persisted = False
+C3.PersistenceSaturation = 78
+C3.PersistenceMonoChrome = False
+C3.Persistence3d = False
+C3.ShowLastTrace = False
+C3.PersistDotJoined = False
+C3.PersistenceTime = "20s"
+C3.Persist3DQuality = "Solid"
+C3.AxisXRotation = 45
+C3.AxisYRotation = 20
+C3.LabelsText = ""
+C3.LabelsPosition = ""
+C3.ViewLabels = False
+C3.SegmentMode = "Adjacent"
+C3.VerScale = 0.2
+C3.VerScaleVariable = False
+C3.VerOffset = -0.39
+C3.AverageSweeps = 1
+C3.EnhanceResType = "None"
+C3.InterpolateType = "Linear"
+C3.Invert = False
+C3.Deskew = 0
+C3.StartSegment = 1
+C3.StartSamples = 1
+C3.EndSamples = 1
+C3.OptimizeGroupDelay = "PulseResponse"
+C3.ActiveInput = "InputB"
+C3.ProbeLabel = ""
+C3.ProbeAttenuation = 1
+C3.Coupling = "DC50"
+C3.BandwidthLimit = "Full"
+C3.CableCompensation = False
+
+Set C3InputB = C3.InputB
+' InputB ...
+C3InputB.VerScale = 0.2
+C3InputB.VerScaleVariable = False
+C3InputB.VerOffset = -0.39
+C3InputB.ProbeAttenuation = 1
+C3InputB.BandwidthLimit = "Full"
+C3InputB.Coupling = "DC50"
+
+Set C4 = Acquisition.C4
+' C4 ...
+C4.View = False
+C4.UseGrid = "NotOnGrid"
+C4.UseLandscape = "MainLandscape"
+C4.Persisted = False
+C4.PersistenceSaturation = 78
+C4.PersistenceMonoChrome = False
+C4.Persistence3d = False
+C4.ShowLastTrace = False
+C4.PersistDotJoined = False
+C4.PersistenceTime = "20s"
+C4.Persist3DQuality = "Solid"
+C4.AxisXRotation = 45
+C4.AxisYRotation = 20
+C4.LabelsText = ""
+C4.LabelsPosition = ""
+C4.ViewLabels = False
+C4.SegmentMode = "Adjacent"
+C4.VerScale = 0.05
+C4.VerScaleVariable = False
+C4.VerOffset = 0
+C4.AverageSweeps = 1
+C4.EnhanceResType = "None"
+C4.InterpolateType = "Linear"
+C4.Invert = False
+C4.Deskew = 0
+C4.StartSegment = 1
+C4.StartSamples = 1
+C4.EndSamples = 1
+C4.OptimizeGroupDelay = "PulseResponse"
+C4.ActiveInput = "InputB"
+C4.ProbeLabel = ""
+C4.ProbeAttenuation = 1
+C4.Coupling = "AC1M"
+C4.BandwidthLimit = "Full"
+C4.CableCompensation = False
+
+Set C4InputB = C4.InputB
+' InputB ...
+C4InputB.VerScale = 0.05
+C4InputB.VerScaleVariable = False
+C4InputB.VerOffset = 0
+C4InputB.ProbeAttenuation = 1
+C4InputB.BandwidthLimit = "Full"
+C4InputB.Coupling = "AC1M"
+
+Set Horizontal = Acquisition.Horizontal
+' Horizontal ...
+Horizontal.SampleMode = "RealTime"
+Horizontal.NumSegments = 10
+Horizontal.SequenceTimeout = 1
+Horizontal.SequenceTimeoutEnable = True
+Horizontal.SampleClock = "Internal"
+Horizontal.Maximize = "SetMaximumMemory"
+Horizontal.SampleRate = 20000000000
+Horizontal.HorScale = 0.000002
+Horizontal.HorOffset = 0
+Horizontal.HorOffsetOrigin = 5
+Horizontal.ReferenceClock = "Internal"
+Horizontal.ReferenceClockOut = "10MHz"
+Horizontal.ActiveChannels = "Auto"
+Horizontal.MaxSamples = 2500000
+Horizontal.ExtraStartSamplesHorz = 1321
+Horizontal.ExtraEndSamplesHorz = 601
+
+Set Trigger = Acquisition.Trigger
+' Trigger ...
+Trigger.Type = "Edge"
+Trigger.ResetTrigCounter = True
+Trigger.C1Level = 0.016
+Trigger.C1Slope = "Positive"
+Trigger.C1Coupling = "DC"
+Trigger.C2Level = -0.098
+Trigger.C2Slope = "Negative"
+Trigger.C2Coupling = "DC"
+Trigger.C3Level = -0.362
+Trigger.C3Slope = "Negative"
+Trigger.C3Coupling = "DC"
+Trigger.C4Level = 0
+Trigger.C4Slope = "Positive"
+Trigger.C4Coupling = "DC"
+Trigger.ExtLevel = 0
+Trigger.ExtSlope = "Positive"
+Trigger.ExtCoupling = "DC"
+Trigger.LineLevel = 0
+Trigger.LineSlope = "Positive"
+Trigger.FastEdgeLevel = 0
+Trigger.FastEdgeSlope = "Positive"
+Trigger.DigitalLevel = 0
+Trigger.DigitalSlope = "Positive"
+
+Set TriggerSoftwareAssistedTrigger = Trigger.SoftwareAssistedTrigger
+' SoftwareAssistedTrigger ...
+TriggerSoftwareAssistedTrigger.Enable = False
+TriggerSoftwareAssistedTrigger.HorGateStart = 0
+TriggerSoftwareAssistedTrigger.HorGateStop = 0.0000001
+TriggerSoftwareAssistedTrigger.Hysteresis = 0.5
+TriggerSoftwareAssistedTrigger.Mode = "Auto"
+
+Set TriggerLegacyRemote = Trigger.LegacyRemote
+' LegacyRemote ...
+
+Set TriggerEdge = Trigger.Edge
+' Edge ...
+TriggerEdge.Source = "C1"
+TriggerEdge.Level = 0.016
+TriggerEdge.Slope = "Positive"
+TriggerEdge.Coupling = "DC"
+TriggerEdge.HoldoffType = "Off"
+TriggerEdge.HoldoffTime = 0.000000001
+TriggerEdge.HoldoffEvents = 1
+TriggerEdge.OptimizeForHF = False
+
+Set Maths = XStreamDSO.Math
+' Math ...
+Maths.HelpMarkers = "Simple"
+
+Set F1 = Maths.F1
+' F1 ...
+F1.View = False
+F1.UseGrid = "NotOnGrid"
+F1.UseLandscape = "MainLandscape"
+F1.Persisted = False
+F1.PersistenceSaturation = 78
+F1.PersistenceMonoChrome = False
+F1.Persistence3d = False
+F1.ShowLastTrace = False
+F1.PersistDotJoined = False
+F1.PersistenceTime = "20s"
+F1.Persist3DQuality = "Solid"
+F1.AxisXRotation = 45
+F1.AxisYRotation = 20
+F1.LabelsText = ""
+F1.LabelsPosition = ""
+F1.ViewLabels = False
+F1.IncludedInMZgroup = True
+F1.MathMode = "Graphing"
+F1.Operator1 = "Correlation"
+F1.Operator2 = "Zoom"
+F1.MeasureOp = "Amplitude"
+F1.GraphOp = "Track"
+F1.Source1 = "C1"
+F1.Source2 = "C2"
+F1.Source3 = "C3"
+
+Set F1Zoom = F1.Zoom
+' Zoom ...
+F1Zoom.CenterSelectedSegment = 1
+F1Zoom.HorPos = 0
+F1Zoom.HorZoom = 1
+F1Zoom.VariableHorZoom = False
+F1Zoom.VariableVerZoom = False
+F1Zoom.VerPos = 0
+F1Zoom.VerZoom = 1
+
+Set F1Operator1Setup = F1.Operator1Setup
+' Operator1Setup ...
+F1Operator1Setup.MultiValued = False
+F1Operator1Setup.LevelForPeriodType = "Percent"
+F1Operator1Setup.LevelForPeriodAbsolute = 0
+F1Operator1Setup.LevelForPeriodRelative = 50
+
+Set F1Operator2Setup = F1.Operator2Setup
+' Operator2Setup ...
+F1Operator2Setup.AutoFindScale = True
+F1Operator2Setup.VerScale = 0.002
+F1Operator2Setup.Center = 0.02124
+F1Operator2Setup.ConnectBy = "Interpolate"
+
+Set F2 = Maths.F2
+' F2 ...
+F2.View = False
+F2.UseGrid = "NotOnGrid"
+F2.UseLandscape = "MainLandscape"
+F2.Persisted = False
+F2.PersistenceSaturation = 78
+F2.PersistenceMonoChrome = False
+F2.Persistence3d = False
+F2.ShowLastTrace = False
+F2.PersistDotJoined = False
+F2.PersistenceTime = "20s"
+F2.Persist3DQuality = "Solid"
+F2.AxisXRotation = 45
+F2.AxisYRotation = 20
+F2.LabelsText = ""
+F2.LabelsPosition = ""
+F2.ViewLabels = False
+F2.IncludedInMZgroup = False
+F2.MathMode = "OneOperator"
+F2.Operator1 = "Invert"
+F2.Operator2 = "Zoom"
+F2.MeasureOp = "Fall"
+F2.GraphOp = "Histogram"
+F2.Source1 = "C1"
+F2.Source2 = "C2"
+F2.Source3 = "C3"
+
+Set F2Zoom = F2.Zoom
+' Zoom ...
+F2Zoom.CenterSelectedSegment = 1
+F2Zoom.HorPos = 0
+F2Zoom.HorZoom = 1
+F2Zoom.VariableHorZoom = False
+F2Zoom.VariableVerZoom = False
+F2Zoom.VerPos = 0.0233125
+F2Zoom.VerZoom = 1
+
+Set F2Operator1Setup = F2.Operator1Setup
+' Operator1Setup ...
+
+Set F2Operator2Setup = F2.Operator2Setup
+' Operator2Setup ...
+
+Set F3 = Maths.F3
+' F3 ...
+F3.View = False
+F3.UseGrid = "NotOnGrid"
+F3.UseLandscape = "MainLandscape"
+F3.Persisted = False
+F3.PersistenceSaturation = 78
+F3.PersistenceMonoChrome = False
+F3.Persistence3d = False
+F3.ShowLastTrace = False
+F3.PersistDotJoined = False
+F3.PersistenceTime = "20s"
+F3.Persist3DQuality = "Solid"
+F3.AxisXRotation = 45
+F3.AxisYRotation = 20
+F3.LabelsText = ""
+F3.LabelsPosition = ""
+F3.ViewLabels = False
+F3.IncludedInMZgroup = False
+F3.MathMode = "Graphing"
+F3.Operator1 = "Zoom"
+F3.Operator2 = "Zoom"
+F3.MeasureOp = "Area"
+F3.GraphOp = "Histogram"
+F3.Source1 = "C1"
+F3.Source2 = "C2"
+F3.Source3 = "C3"
+
+Set F3Zoom = F3.Zoom
+' Zoom ...
+F3Zoom.CenterSelectedSegment = 1
+F3Zoom.HorPos = 0.1772
+F3Zoom.HorZoom = 1
+F3Zoom.VariableHorZoom = False
+F3Zoom.VariableVerZoom = False
+F3Zoom.VerPos = 0
+F3Zoom.VerZoom = 1
+
+Set F3Operator1Setup = F3.Operator1Setup
+' Operator1Setup ...
+F3Operator1Setup.Cyclic = False
+F3Operator1Setup.CursorDisplay = "Off"
+
+Set F3Operator2Setup = F3.Operator2Setup
+' Operator2Setup ...
+F3Operator2Setup.Values = 10000
+F3Operator2Setup.Bins = 200
+F3Operator2Setup.HorScale = 0.000000001
+F3Operator2Setup.Center = 0.00000000562
+F3Operator2Setup.VerScaleType = "Linear"
+F3Operator2Setup.AutoFindScale = False
+F3Operator2Setup.AutoRange = False
+F3Operator2Setup.EdgeFilter = "Any"
+
+Set F4 = Maths.F4
+' F4 ...
+F4.View = False
+F4.UseGrid = "NotOnGrid"
+F4.UseLandscape = "MainLandscape"
+F4.Persisted = False
+F4.PersistenceSaturation = 78
+F4.PersistenceMonoChrome = False
+F4.Persistence3d = False
+F4.ShowLastTrace = False
+F4.PersistDotJoined = False
+F4.PersistenceTime = "20s"
+F4.Persist3DQuality = "Solid"
+F4.AxisXRotation = 45
+F4.AxisYRotation = 20
+F4.LabelsText = ""
+F4.LabelsPosition = ""
+F4.ViewLabels = False
+F4.IncludedInMZgroup = False
+F4.MathMode = "Graphing"
+F4.Operator1 = "Zoom"
+F4.Operator2 = "Zoom"
+F4.MeasureOp = "Amplitude"
+F4.GraphOp = "Histogram"
+F4.Source1 = "C1"
+F4.Source2 = "C1"
+F4.Source3 = "C3"
+
+Set F4Zoom = F4.Zoom
+' Zoom ...
+F4Zoom.CenterSelectedSegment = 1
+F4Zoom.HorPos = 0
+F4Zoom.HorZoom = 1
+F4Zoom.VariableHorZoom = False
+F4Zoom.VariableVerZoom = False
+F4Zoom.VerPos = 0
+F4Zoom.VerZoom = 1
+
+Set F4Operator1Setup = F4.Operator1Setup
+' Operator1Setup ...
+F4Operator1Setup.MultiValued = False
+F4Operator1Setup.LevelForPeriodType = "Percent"
+F4Operator1Setup.LevelForPeriodAbsolute = 0
+F4Operator1Setup.LevelForPeriodRelative = 50
+
+Set F4Operator2Setup = F4.Operator2Setup
+' Operator2Setup ...
+F4Operator2Setup.Values = 1000
+F4Operator2Setup.Bins = 1000
+F4Operator2Setup.HorScale = 0.002
+F4Operator2Setup.Center = 0.04736
+F4Operator2Setup.VerScaleType = "Linear"
+F4Operator2Setup.AutoFindScale = True
+F4Operator2Setup.AutoRange = False
+F4Operator2Setup.EdgeFilter = "Any"
+
+Set F5 = Maths.F5
+' F5 ...
+F5.View = False
+F5.UseGrid = "NotOnGrid"
+F5.UseLandscape = ""
+F5.Persisted = False
+F5.PersistenceSaturation = 78
+F5.PersistenceMonoChrome = False
+F5.Persistence3d = False
+F5.ShowLastTrace = False
+F5.PersistDotJoined = False
+F5.PersistenceTime = "20s"
+F5.Persist3DQuality = "Solid"
+F5.AxisXRotation = 45
+F5.AxisYRotation = 20
+F5.LabelsText = ""
+F5.LabelsPosition = ""
+F5.ViewLabels = False
+F5.IncludedInMZgroup = False
+F5.MathMode = "OneOperator"
+F5.Operator1 = "Zoom"
+F5.Operator2 = "Zoom"
+F5.MeasureOp = "Amplitude"
+F5.GraphOp = "Histogram"
+F5.Source1 = "C1"
+F5.Source2 = "C2"
+F5.Source3 = "C3"
+
+Set F5Zoom = F5.Zoom
+' Zoom ...
+F5Zoom.CenterSelectedSegment = 1
+F5Zoom.HorPos = 0
+F5Zoom.HorZoom = 1
+F5Zoom.VariableHorZoom = False
+F5Zoom.VariableVerZoom = False
+F5Zoom.VerPos = 0
+F5Zoom.VerZoom = 1
+
+Set F5Operator1Setup = F5.Operator1Setup
+' Operator1Setup ...
+
+Set F5Operator2Setup = F5.Operator2Setup
+' Operator2Setup ...
+
+Set F6 = Maths.F6
+' F6 ...
+F6.View = False
+F6.UseGrid = "NotOnGrid"
+F6.UseLandscape = ""
+F6.Persisted = False
+F6.PersistenceSaturation = 78
+F6.PersistenceMonoChrome = False
+F6.Persistence3d = False
+F6.ShowLastTrace = False
+F6.PersistDotJoined = False
+F6.PersistenceTime = "20s"
+F6.Persist3DQuality = "Solid"
+F6.AxisXRotation = 45
+F6.AxisYRotation = 20
+F6.LabelsText = ""
+F6.LabelsPosition = ""
+F6.ViewLabels = False
+F6.IncludedInMZgroup = False
+F6.MathMode = "OneOperator"
+F6.Operator1 = "Zoom"
+F6.Operator2 = "Zoom"
+F6.MeasureOp = "Amplitude"
+F6.GraphOp = "Histogram"
+F6.Source1 = "C2"
+F6.Source2 = "C2"
+F6.Source3 = "C3"
+
+Set F6Zoom = F6.Zoom
+' Zoom ...
+F6Zoom.CenterSelectedSegment = 1
+F6Zoom.HorPos = 0
+F6Zoom.HorZoom = 1
+F6Zoom.VariableHorZoom = False
+F6Zoom.VariableVerZoom = False
+F6Zoom.VerPos = 0
+F6Zoom.VerZoom = 1
+
+Set F6Operator1Setup = F6.Operator1Setup
+' Operator1Setup ...
+
+Set F6Operator2Setup = F6.Operator2Setup
+' Operator2Setup ...
+
+Set F7 = Maths.F7
+' F7 ...
+F7.View = False
+F7.UseGrid = "NotOnGrid"
+F7.UseLandscape = ""
+F7.Persisted = False
+F7.PersistenceSaturation = 78
+F7.PersistenceMonoChrome = False
+F7.Persistence3d = False
+F7.ShowLastTrace = False
+F7.PersistDotJoined = False
+F7.PersistenceTime = "20s"
+F7.Persist3DQuality = "Solid"
+F7.AxisXRotation = 45
+F7.AxisYRotation = 20
+F7.LabelsText = ""
+F7.LabelsPosition = ""
+F7.ViewLabels = False
+F7.IncludedInMZgroup = False
+F7.MathMode = "OneOperator"
+F7.Operator1 = "Zoom"
+F7.Operator2 = "Zoom"
+F7.MeasureOp = "Amplitude"
+F7.GraphOp = "Histogram"
+F7.Source1 = "C3"
+F7.Source2 = "C2"
+F7.Source3 = "C3"
+
+Set F7Zoom = F7.Zoom
+' Zoom ...
+F7Zoom.CenterSelectedSegment = 1
+F7Zoom.HorPos = 0
+F7Zoom.HorZoom = 1
+F7Zoom.VariableHorZoom = False
+F7Zoom.VariableVerZoom = False
+F7Zoom.VerPos = 0
+F7Zoom.VerZoom = 1
+
+Set F7Operator1Setup = F7.Operator1Setup
+' Operator1Setup ...
+
+Set F7Operator2Setup = F7.Operator2Setup
+' Operator2Setup ...
+
+Set F8 = Maths.F8
+' F8 ...
+F8.View = False
+F8.UseGrid = "NotOnGrid"
+F8.UseLandscape = ""
+F8.Persisted = False
+F8.PersistenceSaturation = 78
+F8.PersistenceMonoChrome = False
+F8.Persistence3d = False
+F8.ShowLastTrace = False
+F8.PersistDotJoined = False
+F8.PersistenceTime = "20s"
+F8.Persist3DQuality = "Solid"
+F8.AxisXRotation = 45
+F8.AxisYRotation = 20
+F8.LabelsText = ""
+F8.LabelsPosition = ""
+F8.ViewLabels = False
+F8.IncludedInMZgroup = False
+F8.MathMode = "OneOperator"
+F8.Operator1 = "Zoom"
+F8.Operator2 = "Zoom"
+F8.MeasureOp = "Amplitude"
+F8.GraphOp = "Histogram"
+F8.Source1 = "C4"
+F8.Source2 = "C2"
+F8.Source3 = "C3"
+
+Set F8Zoom = F8.Zoom
+' Zoom ...
+F8Zoom.CenterSelectedSegment = 1
+F8Zoom.HorPos = 0
+F8Zoom.HorZoom = 1
+F8Zoom.VariableHorZoom = False
+F8Zoom.VariableVerZoom = False
+F8Zoom.VerPos = 0
+F8Zoom.VerZoom = 1
+
+Set F8Operator1Setup = F8.Operator1Setup
+' Operator1Setup ...
+
+Set F8Operator2Setup = F8.Operator2Setup
+' Operator2Setup ...
+
+Set F9 = Maths.F9
+' F9 ...
+F9.View = False
+F9.UseGrid = "NotOnGrid"
+F9.UseLandscape = ""
+F9.Persisted = False
+F9.PersistenceSaturation = 78
+F9.PersistenceMonoChrome = False
+F9.Persistence3d = False
+F9.ShowLastTrace = False
+F9.PersistDotJoined = False
+F9.PersistenceTime = "20s"
+F9.Persist3DQuality = "Solid"
+F9.AxisXRotation = 45
+F9.AxisYRotation = 20
+F9.LabelsText = ""
+F9.LabelsPosition = ""
+F9.ViewLabels = False
+F9.IncludedInMZgroup = False
+F9.MathMode = "OneOperator"
+F9.Operator1 = "Zoom"
+F9.Operator2 = "Zoom"
+F9.MeasureOp = "Amplitude"
+F9.GraphOp = "Histogram"
+F9.Source1 = "C1"
+F9.Source2 = "C2"
+F9.Source3 = "C3"
+
+Set F9Zoom = F9.Zoom
+' Zoom ...
+F9Zoom.CenterSelectedSegment = 1
+F9Zoom.HorPos = 0
+F9Zoom.HorZoom = 1
+F9Zoom.VariableHorZoom = False
+F9Zoom.VariableVerZoom = False
+F9Zoom.VerPos = 0
+F9Zoom.VerZoom = 1
+
+Set F9Operator1Setup = F9.Operator1Setup
+' Operator1Setup ...
+
+Set F9Operator2Setup = F9.Operator2Setup
+' Operator2Setup ...
+
+Set F10 = Maths.F10
+' F10 ...
+F10.View = False
+F10.UseGrid = "NotOnGrid"
+F10.UseLandscape = ""
+F10.Persisted = False
+F10.PersistenceSaturation = 78
+F10.PersistenceMonoChrome = False
+F10.Persistence3d = False
+F10.ShowLastTrace = False
+F10.PersistDotJoined = False
+F10.PersistenceTime = "20s"
+F10.Persist3DQuality = "Solid"
+F10.AxisXRotation = 45
+F10.AxisYRotation = 20
+F10.LabelsText = ""
+F10.LabelsPosition = ""
+F10.ViewLabels = False
+F10.IncludedInMZgroup = False
+F10.MathMode = "OneOperator"
+F10.Operator1 = "Zoom"
+F10.Operator2 = "Zoom"
+F10.MeasureOp = "Amplitude"
+F10.GraphOp = "Histogram"
+F10.Source1 = "C2"
+F10.Source2 = "C2"
+F10.Source3 = "C3"
+
+Set F10Zoom = F10.Zoom
+' Zoom ...
+F10Zoom.CenterSelectedSegment = 1
+F10Zoom.HorPos = 0
+F10Zoom.HorZoom = 1
+F10Zoom.VariableHorZoom = False
+F10Zoom.VariableVerZoom = False
+F10Zoom.VerPos = 0
+F10Zoom.VerZoom = 1
+
+Set F10Operator1Setup = F10.Operator1Setup
+' Operator1Setup ...
+
+Set F10Operator2Setup = F10.Operator2Setup
+' Operator2Setup ...
+
+Set F11 = Maths.F11
+' F11 ...
+F11.View = False
+F11.UseGrid = "NotOnGrid"
+F11.UseLandscape = ""
+F11.Persisted = False
+F11.PersistenceSaturation = 78
+F11.PersistenceMonoChrome = False
+F11.Persistence3d = False
+F11.ShowLastTrace = False
+F11.PersistDotJoined = False
+F11.PersistenceTime = "20s"
+F11.Persist3DQuality = "Solid"
+F11.AxisXRotation = 45
+F11.AxisYRotation = 20
+F11.LabelsText = ""
+F11.LabelsPosition = ""
+F11.ViewLabels = False
+F11.IncludedInMZgroup = False
+F11.MathMode = "OneOperator"
+F11.Operator1 = "Zoom"
+F11.Operator2 = "Zoom"
+F11.MeasureOp = "Amplitude"
+F11.GraphOp = "Histogram"
+F11.Source1 = "C3"
+F11.Source2 = "C2"
+F11.Source3 = "C3"
+
+Set F11Zoom = F11.Zoom
+' Zoom ...
+F11Zoom.CenterSelectedSegment = 1
+F11Zoom.HorPos = 0
+F11Zoom.HorZoom = 1
+F11Zoom.VariableHorZoom = False
+F11Zoom.VariableVerZoom = False
+F11Zoom.VerPos = 0
+F11Zoom.VerZoom = 1
+
+Set F11Operator1Setup = F11.Operator1Setup
+' Operator1Setup ...
+
+Set F11Operator2Setup = F11.Operator2Setup
+' Operator2Setup ...
+
+Set F12 = Maths.F12
+' F12 ...
+F12.View = False
+F12.UseGrid = "NotOnGrid"
+F12.UseLandscape = ""
+F12.Persisted = False
+F12.PersistenceSaturation = 78
+F12.PersistenceMonoChrome = False
+F12.Persistence3d = False
+F12.ShowLastTrace = False
+F12.PersistDotJoined = False
+F12.PersistenceTime = "20s"
+F12.Persist3DQuality = "Solid"
+F12.AxisXRotation = 45
+F12.AxisYRotation = 20
+F12.LabelsText = ""
+F12.LabelsPosition = ""
+F12.ViewLabels = False
+F12.IncludedInMZgroup = False
+F12.MathMode = "OneOperator"
+F12.Operator1 = "Zoom"
+F12.Operator2 = "Zoom"
+F12.MeasureOp = "Amplitude"
+F12.GraphOp = "Histogram"
+F12.Source1 = "C4"
+F12.Source2 = "C2"
+F12.Source3 = "C3"
+
+Set F12Zoom = F12.Zoom
+' Zoom ...
+F12Zoom.CenterSelectedSegment = 1
+F12Zoom.HorPos = 0
+F12Zoom.HorZoom = 1
+F12Zoom.VariableHorZoom = False
+F12Zoom.VariableVerZoom = False
+F12Zoom.VerPos = 0
+F12Zoom.VerZoom = 1
+
+Set F12Operator1Setup = F12.Operator1Setup
+' Operator1Setup ...
+
+Set F12Operator2Setup = F12.Operator2Setup
+' Operator2Setup ...
+
+Set XY = Maths.XY
+' XY ...
+XY.UseLandscape = ""
+XY.Persisted = False
+XY.PersistenceSaturation = 78
+XY.PersistenceMonoChrome = False
+XY.Persistence3d = False
+XY.ShowLastTrace = False
+XY.PersistDotJoined = False
+XY.PersistenceTime = "20s"
+XY.Persist3DQuality = "Solid"
+XY.AxisXRotation = 45
+XY.AxisYRotation = 20
+XY.LabelsText = ""
+XY.LabelsPosition = ""
+XY.ViewLabels = False
+XY.InputX = "F3"
+XY.InputY = "F2"
+
+Set Zoom = XStreamDSO.Zoom
+' Zoom ...
+Zoom.MultiZoomOn = True
+Zoom.VariableHorZoom = False
+
+Set Z1 = Zoom.Z1
+' Z1 ...
+Z1.View = False
+Z1.UseGrid = "NotOnGrid"
+Z1.UseLandscape = "MainLandscape"
+Z1.Persisted = False
+Z1.PersistenceSaturation = 78
+Z1.PersistenceMonoChrome = False
+Z1.Persistence3d = False
+Z1.ShowLastTrace = False
+Z1.PersistDotJoined = False
+Z1.PersistenceTime = "20s"
+Z1.Persist3DQuality = "Solid"
+Z1.AxisXRotation = 45
+Z1.AxisYRotation = 20
+Z1.LabelsText = ""
+Z1.LabelsPosition = ""
+Z1.ViewLabels = False
+Z1.IncludedInMZgroup = True
+Z1.Source = "C1"
+
+Set Z1Zoom = Z1.Zoom
+' Zoom ...
+Z1Zoom.CenterSelectedSegment = 1
+Z1Zoom.HorPos = 0.181564245810056
+Z1Zoom.HorZoom = 2
+Z1Zoom.VariableHorZoom = False
+Z1Zoom.VariableVerZoom = False
+Z1Zoom.VerPos = -1.40032948929159E-02
+Z1Zoom.VerZoom = 2
+
+Set Z2 = Zoom.Z2
+' Z2 ...
+Z2.View = False
+Z2.UseGrid = "NotOnGrid"
+Z2.UseLandscape = ""
+Z2.Persisted = False
+Z2.PersistenceSaturation = 78
+Z2.PersistenceMonoChrome = False
+Z2.Persistence3d = False
+Z2.ShowLastTrace = False
+Z2.PersistDotJoined = False
+Z2.PersistenceTime = "20s"
+Z2.Persist3DQuality = "Solid"
+Z2.AxisXRotation = 45
+Z2.AxisYRotation = 20
+Z2.LabelsText = ""
+Z2.LabelsPosition = ""
+Z2.ViewLabels = False
+Z2.IncludedInMZgroup = False
+Z2.Source = "C1"
+
+Set Z2Zoom = Z2.Zoom
+' Zoom ...
+Z2Zoom.CenterSelectedSegment = 1
+Z2Zoom.HorPos = 0
+Z2Zoom.HorZoom = 1
+Z2Zoom.VariableHorZoom = False
+Z2Zoom.VariableVerZoom = False
+Z2Zoom.VerPos = 0
+Z2Zoom.VerZoom = 1
+
+Set Z3 = Zoom.Z3
+' Z3 ...
+Z3.View = False
+Z3.UseGrid = "NotOnGrid"
+Z3.UseLandscape = ""
+Z3.Persisted = False
+Z3.PersistenceSaturation = 78
+Z3.PersistenceMonoChrome = False
+Z3.Persistence3d = False
+Z3.ShowLastTrace = False
+Z3.PersistDotJoined = False
+Z3.PersistenceTime = "20s"
+Z3.Persist3DQuality = "Solid"
+Z3.AxisXRotation = 45
+Z3.AxisYRotation = 20
+Z3.LabelsText = ""
+Z3.LabelsPosition = ""
+Z3.ViewLabels = False
+Z3.IncludedInMZgroup = False
+Z3.Source = "C3"
+
+Set Z3Zoom = Z3.Zoom
+' Zoom ...
+Z3Zoom.CenterSelectedSegment = 1
+Z3Zoom.HorPos = 0
+Z3Zoom.HorZoom = 1
+Z3Zoom.VariableHorZoom = False
+Z3Zoom.VariableVerZoom = False
+Z3Zoom.VerPos = 0
+Z3Zoom.VerZoom = 1
+
+Set Z4 = Zoom.Z4
+' Z4 ...
+Z4.View = False
+Z4.UseGrid = "NotOnGrid"
+Z4.UseLandscape = ""
+Z4.Persisted = False
+Z4.PersistenceSaturation = 78
+Z4.PersistenceMonoChrome = False
+Z4.Persistence3d = False
+Z4.ShowLastTrace = False
+Z4.PersistDotJoined = False
+Z4.PersistenceTime = "20s"
+Z4.Persist3DQuality = "Solid"
+Z4.AxisXRotation = 45
+Z4.AxisYRotation = 20
+Z4.LabelsText = ""
+Z4.LabelsPosition = ""
+Z4.ViewLabels = False
+Z4.IncludedInMZgroup = False
+Z4.Source = "C4"
+
+Set Z4Zoom = Z4.Zoom
+' Zoom ...
+Z4Zoom.CenterSelectedSegment = 1
+Z4Zoom.HorPos = 0
+Z4Zoom.HorZoom = 1
+Z4Zoom.VariableHorZoom = False
+Z4Zoom.VariableVerZoom = False
+Z4Zoom.VerPos = 0
+Z4Zoom.VerZoom = 1
+
+Set Z5 = Zoom.Z5
+' Z5 ...
+Z5.View = False
+Z5.UseGrid = "NotOnGrid"
+Z5.UseLandscape = ""
+Z5.Persisted = False
+Z5.PersistenceSaturation = 78
+Z5.PersistenceMonoChrome = False
+Z5.Persistence3d = False
+Z5.ShowLastTrace = False
+Z5.PersistDotJoined = False
+Z5.PersistenceTime = "20s"
+Z5.Persist3DQuality = "Solid"
+Z5.AxisXRotation = 45
+Z5.AxisYRotation = 20
+Z5.LabelsText = ""
+Z5.LabelsPosition = ""
+Z5.ViewLabels = False
+Z5.IncludedInMZgroup = False
+Z5.Source = "C1"
+
+Set Z5Zoom = Z5.Zoom
+' Zoom ...
+Z5Zoom.CenterSelectedSegment = 1
+Z5Zoom.HorPos = 0
+Z5Zoom.HorZoom = 1
+Z5Zoom.VariableHorZoom = False
+Z5Zoom.VariableVerZoom = False
+Z5Zoom.VerPos = 0
+Z5Zoom.VerZoom = 1
+
+Set Z6 = Zoom.Z6
+' Z6 ...
+Z6.View = False
+Z6.UseGrid = "NotOnGrid"
+Z6.UseLandscape = ""
+Z6.Persisted = False
+Z6.PersistenceSaturation = 78
+Z6.PersistenceMonoChrome = False
+Z6.Persistence3d = False
+Z6.ShowLastTrace = False
+Z6.PersistDotJoined = False
+Z6.PersistenceTime = "20s"
+Z6.Persist3DQuality = "Solid"
+Z6.AxisXRotation = 45
+Z6.AxisYRotation = 20
+Z6.LabelsText = ""
+Z6.LabelsPosition = ""
+Z6.ViewLabels = False
+Z6.IncludedInMZgroup = False
+Z6.Source = "C2"
+
+Set Z6Zoom = Z6.Zoom
+' Zoom ...
+Z6Zoom.CenterSelectedSegment = 1
+Z6Zoom.HorPos = 0
+Z6Zoom.HorZoom = 1
+Z6Zoom.VariableHorZoom = False
+Z6Zoom.VariableVerZoom = False
+Z6Zoom.VerPos = 0
+Z6Zoom.VerZoom = 1
+
+Set Z7 = Zoom.Z7
+' Z7 ...
+Z7.View = False
+Z7.UseGrid = "NotOnGrid"
+Z7.UseLandscape = ""
+Z7.Persisted = False
+Z7.PersistenceSaturation = 78
+Z7.PersistenceMonoChrome = False
+Z7.Persistence3d = False
+Z7.ShowLastTrace = False
+Z7.PersistDotJoined = False
+Z7.PersistenceTime = "20s"
+Z7.Persist3DQuality = "Solid"
+Z7.AxisXRotation = 45
+Z7.AxisYRotation = 20
+Z7.LabelsText = ""
+Z7.LabelsPosition = ""
+Z7.ViewLabels = False
+Z7.IncludedInMZgroup = False
+Z7.Source = "C3"
+
+Set Z7Zoom = Z7.Zoom
+' Zoom ...
+Z7Zoom.CenterSelectedSegment = 1
+Z7Zoom.HorPos = 0
+Z7Zoom.HorZoom = 1
+Z7Zoom.VariableHorZoom = False
+Z7Zoom.VariableVerZoom = False
+Z7Zoom.VerPos = 0
+Z7Zoom.VerZoom = 1
+
+Set Z8 = Zoom.Z8
+' Z8 ...
+Z8.View = False
+Z8.UseGrid = "NotOnGrid"
+Z8.UseLandscape = ""
+Z8.Persisted = False
+Z8.PersistenceSaturation = 78
+Z8.PersistenceMonoChrome = False
+Z8.Persistence3d = False
+Z8.ShowLastTrace = False
+Z8.PersistDotJoined = False
+Z8.PersistenceTime = "20s"
+Z8.Persist3DQuality = "Solid"
+Z8.AxisXRotation = 45
+Z8.AxisYRotation = 20
+Z8.LabelsText = ""
+Z8.LabelsPosition = ""
+Z8.ViewLabels = False
+Z8.IncludedInMZgroup = False
+Z8.Source = "C4"
+
+Set Z8Zoom = Z8.Zoom
+' Zoom ...
+Z8Zoom.CenterSelectedSegment = 1
+Z8Zoom.HorPos = 0
+Z8Zoom.HorZoom = 1
+Z8Zoom.VariableHorZoom = False
+Z8Zoom.VariableVerZoom = False
+Z8Zoom.VerPos = 0
+Z8Zoom.VerZoom = 1
+
+Set Z9 = Zoom.Z9
+' Z9 ...
+Z9.View = False
+Z9.UseGrid = "NotOnGrid"
+Z9.UseLandscape = ""
+Z9.Persisted = False
+Z9.PersistenceSaturation = 78
+Z9.PersistenceMonoChrome = False
+Z9.Persistence3d = False
+Z9.ShowLastTrace = False
+Z9.PersistDotJoined = False
+Z9.PersistenceTime = "20s"
+Z9.Persist3DQuality = "Solid"
+Z9.AxisXRotation = 45
+Z9.AxisYRotation = 20
+Z9.LabelsText = ""
+Z9.LabelsPosition = ""
+Z9.ViewLabels = False
+Z9.IncludedInMZgroup = False
+Z9.Source = "C1"
+
+Set Z9Zoom = Z9.Zoom
+' Zoom ...
+Z9Zoom.CenterSelectedSegment = 1
+Z9Zoom.HorPos = 0
+Z9Zoom.HorZoom = 1
+Z9Zoom.VariableHorZoom = False
+Z9Zoom.VariableVerZoom = False
+Z9Zoom.VerPos = 0
+Z9Zoom.VerZoom = 1
+
+Set Z10 = Zoom.Z10
+' Z10 ...
+Z10.View = False
+Z10.UseGrid = "NotOnGrid"
+Z10.UseLandscape = ""
+Z10.Persisted = False
+Z10.PersistenceSaturation = 78
+Z10.PersistenceMonoChrome = False
+Z10.Persistence3d = False
+Z10.ShowLastTrace = False
+Z10.PersistDotJoined = False
+Z10.PersistenceTime = "20s"
+Z10.Persist3DQuality = "Solid"
+Z10.AxisXRotation = 45
+Z10.AxisYRotation = 20
+Z10.LabelsText = ""
+Z10.LabelsPosition = ""
+Z10.ViewLabels = False
+Z10.IncludedInMZgroup = False
+Z10.Source = "C2"
+
+Set Z10Zoom = Z10.Zoom
+' Zoom ...
+Z10Zoom.CenterSelectedSegment = 1
+Z10Zoom.HorPos = 0
+Z10Zoom.HorZoom = 1
+Z10Zoom.VariableHorZoom = False
+Z10Zoom.VariableVerZoom = False
+Z10Zoom.VerPos = 0
+Z10Zoom.VerZoom = 1
+
+Set Z11 = Zoom.Z11
+' Z11 ...
+Z11.View = False
+Z11.UseGrid = "NotOnGrid"
+Z11.UseLandscape = ""
+Z11.Persisted = False
+Z11.PersistenceSaturation = 78
+Z11.PersistenceMonoChrome = False
+Z11.Persistence3d = False
+Z11.ShowLastTrace = False
+Z11.PersistDotJoined = False
+Z11.PersistenceTime = "20s"
+Z11.Persist3DQuality = "Solid"
+Z11.AxisXRotation = 45
+Z11.AxisYRotation = 20
+Z11.LabelsText = ""
+Z11.LabelsPosition = ""
+Z11.ViewLabels = False
+Z11.IncludedInMZgroup = False
+Z11.Source = "C3"
+
+Set Z11Zoom = Z11.Zoom
+' Zoom ...
+Z11Zoom.CenterSelectedSegment = 1
+Z11Zoom.HorPos = 0
+Z11Zoom.HorZoom = 1
+Z11Zoom.VariableHorZoom = False
+Z11Zoom.VariableVerZoom = False
+Z11Zoom.VerPos = 0
+Z11Zoom.VerZoom = 1
+
+Set Z12 = Zoom.Z12
+' Z12 ...
+Z12.View = False
+Z12.UseGrid = "NotOnGrid"
+Z12.UseLandscape = ""
+Z12.Persisted = False
+Z12.PersistenceSaturation = 78
+Z12.PersistenceMonoChrome = False
+Z12.Persistence3d = False
+Z12.ShowLastTrace = False
+Z12.PersistDotJoined = False
+Z12.PersistenceTime = "20s"
+Z12.Persist3DQuality = "Solid"
+Z12.AxisXRotation = 45
+Z12.AxisYRotation = 20
+Z12.LabelsText = ""
+Z12.LabelsPosition = ""
+Z12.ViewLabels = False
+Z12.IncludedInMZgroup = False
+Z12.Source = "C4"
+
+Set Z12Zoom = Z12.Zoom
+' Zoom ...
+Z12Zoom.CenterSelectedSegment = 1
+Z12Zoom.HorPos = 0
+Z12Zoom.HorZoom = 1
+Z12Zoom.VariableHorZoom = False
+Z12Zoom.VariableVerZoom = False
+Z12Zoom.VerPos = 0
+Z12Zoom.VerZoom = 1
+
+Set Memory = XStreamDSO.Memory
+' Memory ...
+Memory.AutoScrollOn = False
+
+Set M1 = Memory.M1
+' M1 ...
+M1.View = False
+M1.UseGrid = "NotOnGrid"
+M1.UseLandscape = ""
+M1.Persisted = False
+M1.PersistenceSaturation = 78
+M1.PersistenceMonoChrome = False
+M1.Persistence3d = False
+M1.ShowLastTrace = False
+M1.PersistDotJoined = False
+M1.PersistenceTime = "20s"
+M1.Persist3DQuality = "Solid"
+M1.AxisXRotation = 45
+M1.AxisYRotation = 20
+M1.LabelsText = ""
+M1.LabelsPosition = ""
+M1.ViewLabels = False
+M1.IncludedInMZgroup = False
+M1.Source1 = "C1"
+
+Set M1Zoom = M1.Zoom
+' Zoom ...
+M1Zoom.CenterSelectedSegment = 1
+M1Zoom.HorPos = 0
+M1Zoom.HorZoom = 1
+M1Zoom.VariableHorZoom = False
+M1Zoom.VariableVerZoom = False
+M1Zoom.VerPos = 0
+M1Zoom.VerZoom = 1
+
+Set M2 = Memory.M2
+' M2 ...
+M2.View = False
+M2.UseGrid = "NotOnGrid"
+M2.UseLandscape = ""
+M2.Persisted = False
+M2.PersistenceSaturation = 78
+M2.PersistenceMonoChrome = False
+M2.Persistence3d = False
+M2.ShowLastTrace = False
+M2.PersistDotJoined = False
+M2.PersistenceTime = "20s"
+M2.Persist3DQuality = "Solid"
+M2.AxisXRotation = 45
+M2.AxisYRotation = 20
+M2.LabelsText = ""
+M2.LabelsPosition = ""
+M2.ViewLabels = False
+M2.IncludedInMZgroup = False
+M2.Source1 = "C2"
+
+Set M2Zoom = M2.Zoom
+' Zoom ...
+M2Zoom.CenterSelectedSegment = 1
+M2Zoom.HorPos = 0
+M2Zoom.HorZoom = 1
+M2Zoom.VariableHorZoom = False
+M2Zoom.VariableVerZoom = False
+M2Zoom.VerPos = 0
+M2Zoom.VerZoom = 1
+
+Set M3 = Memory.M3
+' M3 ...
+M3.View = False
+M3.UseGrid = "NotOnGrid"
+M3.UseLandscape = ""
+M3.Persisted = False
+M3.PersistenceSaturation = 78
+M3.PersistenceMonoChrome = False
+M3.Persistence3d = False
+M3.ShowLastTrace = False
+M3.PersistDotJoined = False
+M3.PersistenceTime = "20s"
+M3.Persist3DQuality = "Solid"
+M3.AxisXRotation = 45
+M3.AxisYRotation = 20
+M3.LabelsText = ""
+M3.LabelsPosition = ""
+M3.ViewLabels = False
+M3.IncludedInMZgroup = False
+M3.Source1 = "C3"
+
+Set M3Zoom = M3.Zoom
+' Zoom ...
+M3Zoom.CenterSelectedSegment = 1
+M3Zoom.HorPos = 0
+M3Zoom.HorZoom = 1
+M3Zoom.VariableHorZoom = False
+M3Zoom.VariableVerZoom = False
+M3Zoom.VerPos = 0
+M3Zoom.VerZoom = 1
+
+Set M4 = Memory.M4
+' M4 ...
+M4.View = False
+M4.UseGrid = "NotOnGrid"
+M4.UseLandscape = ""
+M4.Persisted = False
+M4.PersistenceSaturation = 78
+M4.PersistenceMonoChrome = False
+M4.Persistence3d = False
+M4.ShowLastTrace = False
+M4.PersistDotJoined = False
+M4.PersistenceTime = "20s"
+M4.Persist3DQuality = "Solid"
+M4.AxisXRotation = 45
+M4.AxisYRotation = 20
+M4.LabelsText = ""
+M4.LabelsPosition = ""
+M4.ViewLabels = False
+M4.IncludedInMZgroup = False
+M4.Source1 = "C4"
+
+Set M4Zoom = M4.Zoom
+' Zoom ...
+M4Zoom.CenterSelectedSegment = 1
+M4Zoom.HorPos = 0
+M4Zoom.HorZoom = 1
+M4Zoom.VariableHorZoom = False
+M4Zoom.VariableVerZoom = False
+M4Zoom.VerPos = 0
+M4Zoom.VerZoom = 1
+
+Set M5 = Memory.M5
+' M5 ...
+M5.View = False
+M5.UseGrid = "NotOnGrid"
+M5.UseLandscape = ""
+M5.Persisted = False
+M5.PersistenceSaturation = 78
+M5.PersistenceMonoChrome = False
+M5.Persistence3d = False
+M5.ShowLastTrace = False
+M5.PersistDotJoined = False
+M5.PersistenceTime = "20s"
+M5.Persist3DQuality = "Solid"
+M5.AxisXRotation = 45
+M5.AxisYRotation = 20
+M5.LabelsText = ""
+M5.LabelsPosition = ""
+M5.ViewLabels = False
+M5.IncludedInMZgroup = False
+M5.Source1 = "F1"
+
+Set M5Zoom = M5.Zoom
+' Zoom ...
+M5Zoom.CenterSelectedSegment = 1
+M5Zoom.HorPos = 0
+M5Zoom.HorZoom = 1
+M5Zoom.VariableHorZoom = False
+M5Zoom.VariableVerZoom = False
+M5Zoom.VerPos = 0
+M5Zoom.VerZoom = 1
+
+Set M6 = Memory.M6
+' M6 ...
+M6.View = False
+M6.UseGrid = "NotOnGrid"
+M6.UseLandscape = ""
+M6.Persisted = False
+M6.PersistenceSaturation = 78
+M6.PersistenceMonoChrome = False
+M6.Persistence3d = False
+M6.ShowLastTrace = False
+M6.PersistDotJoined = False
+M6.PersistenceTime = "20s"
+M6.Persist3DQuality = "Solid"
+M6.AxisXRotation = 45
+M6.AxisYRotation = 20
+M6.LabelsText = ""
+M6.LabelsPosition = ""
+M6.ViewLabels = False
+M6.IncludedInMZgroup = False
+M6.Source1 = "F2"
+
+Set M6Zoom = M6.Zoom
+' Zoom ...
+M6Zoom.CenterSelectedSegment = 1
+M6Zoom.HorPos = 0
+M6Zoom.HorZoom = 1
+M6Zoom.VariableHorZoom = False
+M6Zoom.VariableVerZoom = False
+M6Zoom.VerPos = 0
+M6Zoom.VerZoom = 1
+
+Set M7 = Memory.M7
+' M7 ...
+M7.View = False
+M7.UseGrid = "NotOnGrid"
+M7.UseLandscape = ""
+M7.Persisted = False
+M7.PersistenceSaturation = 78
+M7.PersistenceMonoChrome = False
+M7.Persistence3d = False
+M7.ShowLastTrace = False
+M7.PersistDotJoined = False
+M7.PersistenceTime = "20s"
+M7.Persist3DQuality = "Solid"
+M7.AxisXRotation = 45
+M7.AxisYRotation = 20
+M7.LabelsText = ""
+M7.LabelsPosition = ""
+M7.ViewLabels = False
+M7.IncludedInMZgroup = False
+M7.Source1 = "F3"
+
+Set M7Zoom = M7.Zoom
+' Zoom ...
+M7Zoom.CenterSelectedSegment = 1
+M7Zoom.HorPos = 0
+M7Zoom.HorZoom = 1
+M7Zoom.VariableHorZoom = False
+M7Zoom.VariableVerZoom = False
+M7Zoom.VerPos = 0
+M7Zoom.VerZoom = 1
+
+Set M8 = Memory.M8
+' M8 ...
+M8.View = False
+M8.UseGrid = "NotOnGrid"
+M8.UseLandscape = ""
+M8.Persisted = False
+M8.PersistenceSaturation = 78
+M8.PersistenceMonoChrome = False
+M8.Persistence3d = False
+M8.ShowLastTrace = False
+M8.PersistDotJoined = False
+M8.PersistenceTime = "20s"
+M8.Persist3DQuality = "Solid"
+M8.AxisXRotation = 45
+M8.AxisYRotation = 20
+M8.LabelsText = ""
+M8.LabelsPosition = ""
+M8.ViewLabels = False
+M8.IncludedInMZgroup = False
+M8.Source1 = "F4"
+
+Set M8Zoom = M8.Zoom
+' Zoom ...
+M8Zoom.CenterSelectedSegment = 1
+M8Zoom.HorPos = 0
+M8Zoom.HorZoom = 1
+M8Zoom.VariableHorZoom = False
+M8Zoom.VariableVerZoom = False
+M8Zoom.VerPos = 0
+M8Zoom.VerZoom = 1
+
+Set M9 = Memory.M9
+' M9 ...
+M9.View = False
+M9.UseGrid = "NotOnGrid"
+M9.UseLandscape = ""
+M9.Persisted = False
+M9.PersistenceSaturation = 78
+M9.PersistenceMonoChrome = False
+M9.Persistence3d = False
+M9.ShowLastTrace = False
+M9.PersistDotJoined = False
+M9.PersistenceTime = "20s"
+M9.Persist3DQuality = "Solid"
+M9.AxisXRotation = 45
+M9.AxisYRotation = 20
+M9.LabelsText = ""
+M9.LabelsPosition = ""
+M9.ViewLabels = False
+M9.IncludedInMZgroup = False
+M9.Source1 = "F5"
+
+Set M9Zoom = M9.Zoom
+' Zoom ...
+M9Zoom.CenterSelectedSegment = 1
+M9Zoom.HorPos = 0
+M9Zoom.HorZoom = 1
+M9Zoom.VariableHorZoom = False
+M9Zoom.VariableVerZoom = False
+M9Zoom.VerPos = 0
+M9Zoom.VerZoom = 1
+
+Set M10 = Memory.M10
+' M10 ...
+M10.View = False
+M10.UseGrid = "NotOnGrid"
+M10.UseLandscape = ""
+M10.Persisted = False
+M10.PersistenceSaturation = 78
+M10.PersistenceMonoChrome = False
+M10.Persistence3d = False
+M10.ShowLastTrace = False
+M10.PersistDotJoined = False
+M10.PersistenceTime = "20s"
+M10.Persist3DQuality = "Solid"
+M10.AxisXRotation = 45
+M10.AxisYRotation = 20
+M10.LabelsText = ""
+M10.LabelsPosition = ""
+M10.ViewLabels = False
+M10.IncludedInMZgroup = False
+M10.Source1 = "F6"
+
+Set M10Zoom = M10.Zoom
+' Zoom ...
+M10Zoom.CenterSelectedSegment = 1
+M10Zoom.HorPos = 0
+M10Zoom.HorZoom = 1
+M10Zoom.VariableHorZoom = False
+M10Zoom.VariableVerZoom = False
+M10Zoom.VerPos = 0
+M10Zoom.VerZoom = 1
+
+Set M11 = Memory.M11
+' M11 ...
+M11.View = False
+M11.UseGrid = "NotOnGrid"
+M11.UseLandscape = ""
+M11.Persisted = False
+M11.PersistenceSaturation = 78
+M11.PersistenceMonoChrome = False
+M11.Persistence3d = False
+M11.ShowLastTrace = False
+M11.PersistDotJoined = False
+M11.PersistenceTime = "20s"
+M11.Persist3DQuality = "Solid"
+M11.AxisXRotation = 45
+M11.AxisYRotation = 20
+M11.LabelsText = ""
+M11.LabelsPosition = ""
+M11.ViewLabels = False
+M11.IncludedInMZgroup = False
+M11.Source1 = "F7"
+
+Set M11Zoom = M11.Zoom
+' Zoom ...
+M11Zoom.CenterSelectedSegment = 1
+M11Zoom.HorPos = 0
+M11Zoom.HorZoom = 1
+M11Zoom.VariableHorZoom = False
+M11Zoom.VariableVerZoom = False
+M11Zoom.VerPos = 0
+M11Zoom.VerZoom = 1
+
+Set M12 = Memory.M12
+' M12 ...
+M12.View = False
+M12.UseGrid = "NotOnGrid"
+M12.UseLandscape = ""
+M12.Persisted = False
+M12.PersistenceSaturation = 78
+M12.PersistenceMonoChrome = False
+M12.Persistence3d = False
+M12.ShowLastTrace = False
+M12.PersistDotJoined = False
+M12.PersistenceTime = "20s"
+M12.Persist3DQuality = "Solid"
+M12.AxisXRotation = 45
+M12.AxisYRotation = 20
+M12.LabelsText = ""
+M12.LabelsPosition = ""
+M12.ViewLabels = False
+M12.IncludedInMZgroup = False
+M12.Source1 = "F8"
+
+Set M12Zoom = M12.Zoom
+' Zoom ...
+M12Zoom.CenterSelectedSegment = 1
+M12Zoom.HorPos = 0
+M12Zoom.HorZoom = 1
+M12Zoom.VariableHorZoom = False
+M12Zoom.VariableVerZoom = False
+M12Zoom.VerPos = 0
+M12Zoom.VerZoom = 1
+
+Set Measure = XStreamDSO.Measure
+' Measure ...
+Measure.StatsOn = False
+Measure.HistoOn = False
+Measure.StdSource = "C1"
+Measure.HelpMarkers = "Detailed"
+Measure.MeasureSet = "StdHorizontal"
+Measure.ShowMeasure = True
+Measure.StdGateStart = 0
+Measure.StdGateStop = 10
+Measure.StdPercentLevel = 50
+
+Set PassFail = XStreamDSO.PassFail
+' PassFail ...
+PassFail.Testing = False
+PassFail.EnableActions = False
+PassFail.PredefinedConditions = "AllTrue"
+PassFail.ActionOn = "Fail"
+PassFail.Stop = False
+PassFail.Alarm = False
+PassFail.SaveToLabNotebook = False
+PassFail.PrintScreen = False
+PassFail.Pulse = False
+PassFail.Save = False
+PassFail.StopTesting = False
+PassFail.StopAfter = 10000
+PassFail.StartAfter = 0
+PassFail.SummaryView = False
+
+Set Q1 = PassFail.Q1
+' Q1 ...
+Q1.View = False
+Q1.ConditionEngine = "ParameterCompare"
+Q1.PSource1 = "P1"
+Q1.PSource2 = "P1"
+Q1.WSource1 = "C2"
+Q1.WSource2 = "C1"
+Q1.StartAfter = 0
+Q1.FastTrace = False
+
+Set Q1Operator = Q1.Operator
+' Operator ...
+Q1Operator.CompareValues = "All"
+Q1Operator.Condition = "Less"
+Q1Operator.Limit = 0
+Q1Operator.DeltaPct = 1
+Q1Operator.Delta = 0.000000000001
+
+Set Q2 = PassFail.Q2
+' Q2 ...
+Q2.View = False
+Q2.ConditionEngine = "ParameterCompare"
+Q2.PSource1 = "P2"
+Q2.PSource2 = "P1"
+Q2.WSource1 = "C2"
+Q2.WSource2 = "C2"
+Q2.StartAfter = 0
+Q2.FastTrace = False
+
+Set Q2Operator = Q2.Operator
+' Operator ...
+Q2Operator.CompareValues = "All"
+Q2Operator.Condition = "Less"
+Q2Operator.Limit = 0
+Q2Operator.DeltaPct = 1
+Q2Operator.Delta = 0.000000000001
+
+Set Q3 = PassFail.Q3
+' Q3 ...
+Q3.View = False
+Q3.ConditionEngine = "ParameterCompare"
+Q3.PSource1 = "P3"
+Q3.PSource2 = "P1"
+Q3.WSource1 = "C2"
+Q3.WSource2 = "C3"
+Q3.StartAfter = 0
+Q3.FastTrace = False
+
+Set Q3Operator = Q3.Operator
+' Operator ...
+Q3Operator.CompareValues = "All"
+Q3Operator.Condition = "Less"
+Q3Operator.Limit = 0
+Q3Operator.DeltaPct = 1
+Q3Operator.Delta = 0.000000000001
+
+Set Q4 = PassFail.Q4
+' Q4 ...
+Q4.View = False
+Q4.ConditionEngine = "ParameterCompare"
+Q4.PSource1 = "P4"
+Q4.PSource2 = "P1"
+Q4.WSource1 = "C2"
+Q4.WSource2 = "C4"
+Q4.StartAfter = 0
+Q4.FastTrace = False
+
+Set Q4Operator = Q4.Operator
+' Operator ...
+Q4Operator.CompareValues = "All"
+Q4Operator.Condition = "Less"
+Q4Operator.Limit = 0
+Q4Operator.DeltaPct = 1
+Q4Operator.Delta = 0.000000000001
+
+Set Q5 = PassFail.Q5
+' Q5 ...
+Q5.View = False
+Q5.ConditionEngine = "ParameterCompare"
+Q5.PSource1 = "P5"
+Q5.PSource2 = "P1"
+Q5.WSource1 = "C2"
+Q5.WSource2 = "F1"
+Q5.StartAfter = 0
+Q5.FastTrace = False
+
+Set Q5Operator = Q5.Operator
+' Operator ...
+Q5Operator.CompareValues = "All"
+Q5Operator.Condition = "Less"
+Q5Operator.Limit = 0
+Q5Operator.DeltaPct = 1
+Q5Operator.Delta = 0.000000000001
+
+Set Q6 = PassFail.Q6
+' Q6 ...
+Q6.View = False
+Q6.ConditionEngine = "ParameterCompare"
+Q6.PSource1 = "P6"
+Q6.PSource2 = "P1"
+Q6.WSource1 = "C2"
+Q6.WSource2 = "F2"
+Q6.StartAfter = 0
+Q6.FastTrace = False
+
+Set Q6Operator = Q6.Operator
+' Operator ...
+Q6Operator.CompareValues = "All"
+Q6Operator.Condition = "Less"
+Q6Operator.Limit = 0
+Q6Operator.DeltaPct = 1
+Q6Operator.Delta = 0.000000000001
+
+Set Q7 = PassFail.Q7
+' Q7 ...
+Q7.View = False
+Q7.ConditionEngine = "ParameterCompare"
+Q7.PSource1 = "P7"
+Q7.PSource2 = "P1"
+Q7.WSource1 = "C2"
+Q7.WSource2 = "F3"
+Q7.StartAfter = 0
+Q7.FastTrace = False
+
+Set Q7Operator = Q7.Operator
+' Operator ...
+Q7Operator.CompareValues = "All"
+Q7Operator.Condition = "Less"
+Q7Operator.Limit = 0
+Q7Operator.DeltaPct = 1
+Q7Operator.Delta = 0.000000000001
+
+Set Q8 = PassFail.Q8
+' Q8 ...
+Q8.View = False
+Q8.ConditionEngine = "ParameterCompare"
+Q8.PSource1 = "P8"
+Q8.PSource2 = "P1"
+Q8.WSource1 = "C2"
+Q8.WSource2 = "F4"
+Q8.StartAfter = 0
+Q8.FastTrace = False
+
+Set Q8Operator = Q8.Operator
+' Operator ...
+Q8Operator.CompareValues = "All"
+Q8Operator.Condition = "Less"
+Q8Operator.Limit = 0
+Q8Operator.DeltaPct = 1
+Q8Operator.Delta = 0.000000000001
+
+Set Q9 = PassFail.Q9
+' Q9 ...
+Q9.View = False
+Q9.ConditionEngine = "ParameterCompare"
+Q9.PSource1 = "P9"
+Q9.PSource2 = "P1"
+Q9.WSource1 = "C2"
+Q9.WSource2 = "F5"
+Q9.StartAfter = 0
+Q9.FastTrace = False
+
+Set Q9Operator = Q9.Operator
+' Operator ...
+Q9Operator.CompareValues = "All"
+Q9Operator.Condition = "Less"
+Q9Operator.Limit = 0
+Q9Operator.DeltaPct = 1
+Q9Operator.Delta = 0.000000000001
+
+Set Q10 = PassFail.Q10
+' Q10 ...
+Q10.View = False
+Q10.ConditionEngine = "ParameterCompare"
+Q10.PSource1 = "P10"
+Q10.PSource2 = "P1"
+Q10.WSource1 = "C2"
+Q10.WSource2 = "F6"
+Q10.StartAfter = 0
+Q10.FastTrace = False
+
+Set Q10Operator = Q10.Operator
+' Operator ...
+Q10Operator.CompareValues = "All"
+Q10Operator.Condition = "Less"
+Q10Operator.Limit = 0
+Q10Operator.DeltaPct = 1
+Q10Operator.Delta = 0.000000000001
+
+Set Q11 = PassFail.Q11
+' Q11 ...
+Q11.View = False
+Q11.ConditionEngine = "ParameterCompare"
+Q11.PSource1 = "P11"
+Q11.PSource2 = "P1"
+Q11.WSource1 = "C2"
+Q11.WSource2 = "F7"
+Q11.StartAfter = 0
+Q11.FastTrace = False
+
+Set Q11Operator = Q11.Operator
+' Operator ...
+Q11Operator.CompareValues = "All"
+Q11Operator.Condition = "Less"
+Q11Operator.Limit = 0
+Q11Operator.DeltaPct = 1
+Q11Operator.Delta = 0.000000000001
+
+Set Q12 = PassFail.Q12
+' Q12 ...
+Q12.View = False
+Q12.ConditionEngine = "ParameterCompare"
+Q12.PSource1 = "P12"
+Q12.PSource2 = "P1"
+Q12.WSource1 = "C2"
+Q12.WSource2 = "F8"
+Q12.StartAfter = 0
+Q12.FastTrace = False
+
+Set Q12Operator = Q12.Operator
+' Operator ...
+Q12Operator.CompareValues = "All"
+Q12Operator.Condition = "Less"
+Q12Operator.Limit = 0
+Q12Operator.DeltaPct = 1
+Q12Operator.Delta = 0.000000000001
+
+Set Cursors = XStreamDSO.Cursors
+' Cursors ...
+Cursors.View = False
+Cursors.Type = "BothRel"
+Cursors.XAxis = "notracesvisible"
+Cursors.Readout = "Absolute"
+Cursors.Track = False
+Cursors.XPos1 = 0.0000000641269
+Cursors.XPos2 = 0.00000010795
+Cursors.YPos1 = -1.28
+Cursors.YPos2 = 0.34
+Cursors.DimensionSlicesPanel = ".,-9.2e-008,1.08e-007|S.,6.41269e-008,1.0795e-007,SELECTED|V.,-1.25e-007,1.25e-007|V.HISTO,-1.25e-007,1.25e-007|S.HISTO,-3.566e-008,1.25e-007|.HISTO,-1.25e-007,1.25e-007"
+
+Set Help = XStreamDSO.Help
+' Help ...
+
+Set SaveRecall = XStreamDSO.SaveRecall
+' SaveRecall ...
+
+Set SaveRecallWaveform = SaveRecall.Waveform
+' Waveform ...
+SaveRecallWaveform.SaveTo = "File"
+SaveRecallWaveform.BinarySubFormat = "Word"
+SaveRecallWaveform.SaveSource = "F1"
+SaveRecallWaveform.SaveDestination = "M2"
+SaveRecallWaveform.RecallSource = "M1"
+SaveRecallWaveform.RecallDestination = "M1"
+
+Set SaveRecallTable = SaveRecall.Table
+' Table ...
+SaveRecallTable.SaveSource = "AllDisplayed"
+
+Set SaveRecallSetup = SaveRecall.Setup
+' Setup ...
+
+Set SaveRecallUtilities = SaveRecall.Utilities
+' Utilities ...
+
+Set Utility = XStreamDSO.Utility
+' Utility ...
+
+Set UtilityRemote = Utility.Remote
+' Remote ...
+UtilityRemote.LXILogo = "<image>"
+
+Set UtilityDateTimeSetup = Utility.DateTimeSetup
+' DateTimeSetup ...
+
+Set UtilityOptions = Utility.Options
+' Options ...
+
+Set UtilityService = Utility.Service
+' Service ...
+UtilityService.HidePassLogs = False
+
+Set Preferences = XStreamDSO.Preferences
+' Preferences ...
+Preferences.Performance = "Display"
+
+Set PreferencesEMail = Preferences.EMail
+' EMail ...
+
+Set HardCopy = XStreamDSO.HardCopy
+' HardCopy ...
+
+Set WebEditor = XStreamDSO.WebEditor
+' Processing Web ...
+WebEditor.RemoveAll
+
+
+
+
+
+RecallSetupLocker.Unlock
+On Error GoTo 0
+
+' Place any custom VBScript code after this point
+'
+

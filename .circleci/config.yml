@@ -5,4 +5,6 @@ jobs:
        - image: koppor/texlive
      steps:
        - checkout
-       - run: latexmk CanDetector/master.tex
+       - run: 
+         command: latexmk master.tex
+         working_directory: CanDetector

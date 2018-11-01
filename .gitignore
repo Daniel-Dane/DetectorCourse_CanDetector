@@ -1,9 +1,10 @@
-master.aux
-master.log
-master.out
-master.toc
-master.bbl
-master.blg
-master.synctex.gz
+*.aux
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
+auto
+*.synctex.gz
 **/.DS_Store
 .*~

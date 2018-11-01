@@ -6,5 +6,5 @@ jobs:
      steps:
        - checkout
        - run: 
-         command: latexmk master.tex
-         working_directory: CanDetector
+           command: latexmk master.tex
+           working_directory: CanDetector

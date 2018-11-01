@@ -1,0 +1,66 @@
+% Info about the document name and ownership
+\title{Reseach Course on Detector technology - Semiconductor detector}
+\author{group 1}
+\date{\today}
+
+
+% Define the document type and special pacages
+%--------------------------------------------------------%
+\documentclass[12pt]{article}
+
+\usepackage{listings}
+\usepackage{color}
+\usepackage[pdftex]{graphicx}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Python,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\setlength{\parskip}{\baselineskip}%
+\setlength{\parindent}{0pt}%
+%-----------------------------------------------------------%
+
+
+
+\begin{document}
+\maketitle
+
+\section{Description of the experiment}
+
+We worked on a silicon detector that consisted of p-type substrate, and an n-type dopant layer on top. The device was exposed to a soft X-ray source and operated under a bias that ensured depletion of the entire chip. Depletion means that there are no intrinsic charge carrier left on the device, so all the signal measured will come from photoexcitation + noise from the electronics.
+
+The silicon chip was provided without any connection between the top and bottom electrodes. To make these connections, the chip was sent to a clean room where golden (aluminnum?) wires were ultrasonically bonded to the top of the chip and the side electrode contacts.
+
+Once the wire bonding was done, the sensor was placed inside a dark room workstation and its basic performances were evaluated. First, a calibration run measures the parasitic capacitance between the two contacts of the sensor. Next, a voltage bias scan is performed, and the current (?) is measured until we reach a plateau that corresponds to the depletion voltage. Then, the leakage current was estimated at depletion voltage...I think
+
+
+The sensor's output was connected to a pre-amplifier according to this circuit (\ref{circuit}). The amplifier was supplied with two voltage biases of + and -12V from a DC workbench power supply. for both power sources in the suplpy, one of the electrode was connected to the devie, and the other was set to the supply ground. The aluminum foiling of the cage/box was also grounded.
+
+
+To calibrate the response of the response of the pre-amplifier, we needed to feed the circuit with a square pulse source signal and measure the rise/fall time of the output signal, as well as the RMS of the baseline noise when when no pulses are injected. These measurements where done using a range on capacitances at the output, which had capacitances much greater than the parasitic capacitance measured on the silicon chip alone.
+
+More about the above: The wave supplies a fixed amount of electrons to the pre-amp. The RMS noise 
+
+Amplitude of the result is 70 percent of the calibration amplitude due to different impedance matching.
+42mv became 32mV after termination (termination = channel at 50 Ohm impedance).
+
+
+
+\end{document}

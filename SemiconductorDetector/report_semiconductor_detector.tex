@@ -56,7 +56,13 @@ The sensor's output was connected to a pre-amplifier according to this circuit (
 
 To calibrate the response of the response of the pre-amplifier, we needed to feed the circuit with a square pulse source signal and measure the rise/fall time of the output signal, as well as the RMS of the baseline noise when when no pulses are injected. These measurements where done using a range on capacitances at the output, which had capacitances much greater than the parasitic capacitance measured on the silicon chip alone.
 
-More about the above: The wave supplies a fixed amount of electrons to the pre-amp. The RMS noise 
+More about the above: The wave supplies a fixed amount of electrons to the pre-amp. That amount can be converted from voltage to charge using the formula:
+
+\begin{equation}
+  Q = C\cdot V
+\end{equation}
+
+The capacitance $C$ is going to be the capacitance added to the circuit, in the case of the RMS noise. The charge of the output signal can also be converted into a charge value, but then the capacitance to use must be the sum of the Calib.in capacitance (0.4 pF) and the capacitance that is being added to the circuit.
 
 Amplitude of the result is 70 percent of the calibration amplitude due to different impedance matching.
 42mv became 32mV after termination (termination = channel at 50 Ohm impedance).

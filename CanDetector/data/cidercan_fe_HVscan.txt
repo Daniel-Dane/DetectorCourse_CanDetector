@@ -1,4 +1,4 @@
-[Coarse gain]	[Voltage kV]	[Gaussian mean]	[Gaussina FWHM]	[FWHM/mean]
+#[Coarse gain]	[Voltage kV]	[Gaussian mean]	[Gaussina FWHM]	[FWHM/mean]
 100	1.420	66.79	16.3864	0.2453
 100	1.470	91.16	18.0676	0.1982
 100	1.523	127.96	21.3448	0.1668
@@ -21,4 +21,3 @@
 2	2.201	357.67	46.7698	0.13076
 2	2.254	544.50	56.7600	0.104242
 2	2.303	796.12	13.0455	0.01638
-

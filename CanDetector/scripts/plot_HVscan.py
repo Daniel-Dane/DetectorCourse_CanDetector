@@ -125,6 +125,8 @@ def plotSpec(name, h, r_min=0, r_max=0):
     plt.savefig(pp, format='pdf')
     pp.close()
 
+    return (f.GetParameter(1), f.GetParameter(2), fwhm, f.GetParError(1), f.GetParError(2)*2.*math.sqrt(2*math.log(2)), name.split("_")[1])
+
 
 def mca_to_hist(filename):
     roi_on = False
@@ -164,34 +166,96 @@ def mca_to_hist(filename):
 def main(argv):
     args = parseArguments(argv)
 
-    data = genfromtxt(args.file)  # By default, any consecutive whitespaces
-                                  # act as delimiter.
-
-    d_volt = data[:, 1]
-    d_volt_unc = [2 for x in d_volt]
-    d_mean = data[:, 2]
-    d_mean_unc = data[:, 4]
-    d_fwhm = data[:, 3]
-    d_fwhm_unc = [0.2*x for x in d_fwhm]
-
     am_confs = ["100_1136", "100_1191", "100_1244", "100_1297", "100_1351", "100_1399", "10_1665", "10_1712", "10_1758", "20_1559", "20_1603", "20_1666", "2_1900", "2_1951", "2_2001", "40_1397", "40_1455", "40_1502", "40_1559", "4_1757", "4_1808", "4_1858", "4_1899"]
 
+    fit_pars = {}
     for v in am_confs:
         name = "../data/mca/am_"+v+".mca"
         (h, r_min, r_max) = mca_to_hist(name)
-        plotSpec(name.replace(".mca", ".pdf"), h, r_min, r_max)
+        fit_pars[int(v.split("_")[1])] = plotSpec(name.replace(".mca", ".pdf"), h, r_min, r_max)
+
+    gain_style = {100: 'blue', 
+                  10: 'red', 
+                  20: 'pink', 
+                  2: 'purple', 
+                  40: 'orange', 
+                  4: 'green'}
+
+    d_y = {}
+    d_y_unc = {}
+    d_volt = {}
+
+    for gain in gain_style:
+        print("gain: {:}".format(gain))
+        d_volt[gain] = []
+        d_y_unc[gain] = []
+        d_y[gain] = []
+        print(d_y[gain])
+
+    for key, value in fit_pars.items():
+        # mean, std, fwhm, mean_err, fwhm_err
+        gain = int(value[5])
+        print("gain: {:}".format(value[5]))
+        d_y[gain].append(value[2]/value[0])
+        rel_unc_mean = value[3]/value[0]
+        d_volt[gain].append(key)
+
+        rel_unc_fwhm = value[4]/value[2]
+        rel_unc_fwhm = math.sqrt(math.pow(rel_unc_fwhm, 2) + math.pow(0.1, 2))
+        d_y_unc[gain].append(math.sqrt(math.pow(rel_unc_mean, 2)+
+                                       math.pow(rel_unc_fwhm, 2))*value[2]/value[0])
+
+    pp = PdfPages("test.pdf")
+    font0 = FontProperties()
+    font = font0.copy()
+    font.set_style('italic')
+    font.set_weight('bold')
+    font.set_size('x-large')
+    font_wip = font0.copy()
+    font_wip.set_style('italic')
+    font_wip.set_weight('medium')
+
+    plt.figure(figsize=(15, 8), dpi=300)
+    plt.xlabel('xtick', fontsize=5)
+    plt.ylabel('ytick', fontsize=5)
+    gs = gridspec.GridSpec(1, 1)
+
+    gs1 = gridspec.GridSpecFromSubplotSpec(1, 1, subplot_spec=gs[0],
+                                           width_ratios=[1],
+                                           height_ratios=[1],
+                                           wspace=0.1,
+                                           hspace=0.2)
+
+    ax1 = plt.subplot(gs1[:, :])
+    axes = [ax1]
+
+    for ax in axes:
+
+        # name axes and set maximum of y-axis to accomodate
+        # all histograms inside histstack
+        ax.set_ylabel("FWHM/Mean")
+        ax.set_xlabel("Voltage [V]")
+        ax.set_title("Americium")
+
+        for key, value in gain_style.items():
+            # mean, std, fwhm, mean_err, fwhm_err
+            ax.errorbar(d_volt[key], d_y[key], d_y_unc[key], marker='o', color=gain_style[key], linestyle='None')
 
 
-    d_y = []
-    d_y_unc = []
+        # make ATLAS fonts in plot
+        ax.text(0.2, 0.9, '1-Group',
+                verticalalignment='bottom', horizontalalignment='left',
+                fontproperties=font, transform=ax.transAxes)
+        ax.text(0.2, 0.87, 'Data',
+                verticalalignment='bottom', horizontalalignment='left',
+                fontproperties=font_wip, transform=ax.transAxes)
 
-    for idx in range(len(d_volt)):
-        d_y.append(d_fwhm[idx]/d_mean[idx])
-        rel_unc_mean = d_mean_unc[idx]/d_mean[idx]
-        rel_unc_fwhm = d_fwhm_unc[idx]/d_fwhm[idx]
-        d_y_unc.append(math.sqrt(math.pow(rel_unc_mean, 2)+
-                                 math.pow(rel_unc_fwhm, 2))*d_y[idx])
+        ax.legend(fontsize='small')
+        ax.grid()
 
+    plt.show()
+    plt.savefig(pp, format='pdf')
+    pp.close()
 
 
 

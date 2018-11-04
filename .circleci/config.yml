@@ -6,7 +6,7 @@ jobs:
      steps:
        - checkout
        - run: 
-           command: pdflatex master.tex
+           command: make
            working_directory: CanDetector
        - store_artifacts:
            path: CanDetector/master.pdf

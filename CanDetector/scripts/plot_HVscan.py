@@ -45,9 +45,9 @@ log = logging.getLogger('plotHVscan')
 
 def parseArguments(argv=None):
     parser = argparse.ArgumentParser()
-    parser.add_argument("--file", type=str,
-                        help="file with CSV data separated by whitespace",
-                        required=True)
+    #parser.add_argument("--file", type=str,
+    #                    help="file with CSV data separated by whitespace",
+    #                    required=True)
     args = parser.parse_args()
 
     return args
@@ -171,8 +171,9 @@ def main(argv):
     fit_pars = {}
     for v in am_confs:
         name = "../data/mca/am_"+v+".mca"
+        path = "../graphics/am_"+v+".pdf"
         (h, r_min, r_max) = mca_to_hist(name)
-        fit_pars[int(v.split("_")[1])] = plotSpec(name.replace(".mca", ".pdf"), h, r_min, r_max)
+        fit_pars[int(v.split("_")[1])] = plotSpec(path, h, r_min, r_max)
 
     gain_style = {100: 'blue', 
                   10: 'red', 
@@ -186,16 +187,13 @@ def main(argv):
     d_volt = {}
 
     for gain in gain_style:
-        print("gain: {:}".format(gain))
         d_volt[gain] = []
         d_y_unc[gain] = []
         d_y[gain] = []
-        print(d_y[gain])
 
     for key, value in fit_pars.items():
         # mean, std, fwhm, mean_err, fwhm_err
         gain = int(value[5])
-        print("gain: {:}".format(value[5]))
         d_y[gain].append(value[2]/value[0])
         rel_unc_mean = value[3]/value[0]
         d_volt[gain].append(key)
@@ -205,7 +203,7 @@ def main(argv):
         d_y_unc[gain].append(math.sqrt(math.pow(rel_unc_mean, 2)+
                                        math.pow(rel_unc_fwhm, 2))*value[2]/value[0])
 
-    pp = PdfPages("test.pdf")
+    pp = PdfPages("../graphics/americium_scan.pdf")
     font0 = FontProperties()
     font = font0.copy()
     font.set_style('italic')

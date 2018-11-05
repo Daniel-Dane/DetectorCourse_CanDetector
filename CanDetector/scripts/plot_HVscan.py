@@ -233,6 +233,12 @@ def plot_confs(confs, title, abbrev):
             # mean, std, fwhm, mean_err, fwhm_err
             ax.errorbar(d_volt[key], d_y[key], d_y_unc[key], marker='o', color=gain_style[key], linestyle='None')
 
+        # define a legend
+        l = []
+        for key in sorted(gain_style.keys(), reverse=True):
+             l.append("Gain: {:}".format(key))
+        ax.legend(l, numpoints=1)
+
 
         # make ATLAS fonts in plot
         ax.text(0.2, 0.9, '1-Group',

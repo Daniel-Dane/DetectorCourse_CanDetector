@@ -45,9 +45,7 @@ log = logging.getLogger('plotHVscan')
 
 def parseArguments(argv=None):
     parser = argparse.ArgumentParser()
-    #parser.add_argument("--file", type=str,
-    #                    help="file with CSV data separated by whitespace",
-    #                    required=True)
+    parser.add_argument('-s', '--sample', nargs='+', help='Choose `fe` and/or `am`', default=['am', 'fe'])
     args = parser.parse_args()
 
     return args
@@ -162,24 +160,20 @@ def mca_to_hist(filename):
 
     return (h, r_min, r_max)
 
-
-def main(argv):
-    args = parseArguments(argv)
-
-    am_confs = ["100_1136", "100_1191", "100_1244", "100_1297", "100_1351", "100_1399", "10_1665", "10_1712", "10_1758", "20_1559", "20_1603", "20_1666", "2_1900", "2_1951", "2_2001", "40_1397", "40_1455", "40_1502", "40_1559", "4_1757", "4_1808", "4_1858", "4_1899"]
+def plot_confs(confs, title, abbrev):
 
     fit_pars = {}
-    for v in am_confs:
-        name = "../data/mca/am_"+v+".mca"
-        path = "../graphics/am_"+v+".pdf"
+    for v in confs:
+        name = "../data/mca/"+abbrev+"_"+v+".mca"
+        path = "../graphics/"+abbrev+"_"+v+".pdf"
         (h, r_min, r_max) = mca_to_hist(name)
         fit_pars[int(v.split("_")[1])] = plotSpec(path, h, r_min, r_max)
 
-    gain_style = {100: 'blue', 
-                  10: 'red', 
-                  20: 'pink', 
-                  2: 'purple', 
-                  40: 'orange', 
+    gain_style = {100: 'blue',
+                  10: 'red',
+                  20: 'pink',
+                  2: 'purple',
+                  40: 'orange',
                   4: 'green'}
 
     d_y = {}
@@ -203,7 +197,7 @@ def main(argv):
         d_y_unc[gain].append(math.sqrt(math.pow(rel_unc_mean, 2)+
                                        math.pow(rel_unc_fwhm, 2))*value[2]/value[0])
 
-    pp = PdfPages("../graphics/americium_scan.pdf")
+    pp = PdfPages("../graphics/"+title.lower()+"_scan.pdf")
     font0 = FontProperties()
     font = font0.copy()
     font.set_style('italic')
@@ -233,7 +227,7 @@ def main(argv):
         # all histograms inside histstack
         ax.set_ylabel("FWHM/Mean")
         ax.set_xlabel("Voltage [V]")
-        ax.set_title("Americium")
+        ax.set_title(title)
 
         for key, value in gain_style.items():
             # mean, std, fwhm, mean_err, fwhm_err
@@ -255,6 +249,19 @@ def main(argv):
     plt.savefig(pp, format='pdf')
     pp.close()
 
+
+
+def main(argv):
+    args = parseArguments(argv)
+
+    am_confs = ["100_1136", "100_1191", "100_1244", "100_1297", "100_1351", "100_1399", "10_1665", "10_1712", "10_1758", "20_1559", "20_1603", "20_1666", "2_1900", "2_1951", "2_2001", "40_1397", "40_1455", "40_1502", "40_1559", "4_1757", "4_1808", "4_1858", "4_1899"]
+
+    fe_confs = ["100_1420", "100_1470", "100_1523", "100_1572", "100_1617", "100_1717", "10_1978", "10_2000", "10_2042", "10_2080", "20_1901", "20_1978", "2_2201", "2_2254", "2_2303", "40_1717", "40_1801", "40_1853", "40_1901", "4_2080", "4_2124", "4_2201"]
+
+    if 'am' in args.sample:
+        plot_confs(am_confs, "Americium", "am")
+    if 'fe' in args.sample:
+        plot_confs(fe_confs, "Iron", "fe")
 
 
 if __name__ == "__main__":

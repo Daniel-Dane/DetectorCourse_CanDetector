@@ -15,6 +15,164 @@ from matplotlib.backends.backend_pdf import PdfPages
 impedance_factor = 0.7
 rc_factor_10_90  = 2.197
 
+def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_filename):
+    # Read data fron the calibration curve dataset
+    calibration_diode = np.loadtxt(calibration_filename,skiprows=1)
+    C           = calibration_diode[:,0]
+    e_C         = np.zeros([len(C)])
+    noise_rms   = calibration_diode[:,1]
+    d_noise_rms = calibration_diode[:,2]
+    fall_time   = calibration_diode[:,3]
+    d_fall_time = calibration_diode[:,4]
+    amplitude   = calibration_diode[:,5]
+    d_amplitude = calibration_diode[:,6]
+
+    font0 = FontProperties()
+    font = font0.copy()
+    font.set_style('italic')
+    font.set_weight('bold')
+    font.set_size('x-large')
+
+    # Plot of the Noise RMS vs capacitance
+    fig, ax = plt.subplots()
+    ax.set_xlabel('C [pF]')
+    ax.set_xlim(0.0, 120)
+    ax.set_ylabel('Noise RMS [\mu V]')
+    ax.errorbar(C, noise_rms, d_noise_rms, marker='o', color='b', linestyle='None', label='Data')
+    ax.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
+                fontproperties=font, transform=ax.transAxes)
+    ax.legend(loc='upper left',numpoints=1)
+    plt.grid()
+    #plt.show()
+    fig.savefig('../graphics/noise_vs_capacitance.pdf')
+    plt.close(fig)
+    plt.clf()
+
+    # Plot of thw Amplitude vs the capacitance
+    fig1, ax1 = plt.subplots()
+    ax1.set_xlabel('C [pF]')
+    ax1.set_xlim(0.0, 120)
+    ax1.set_ylabel('Amplitude [mV]')
+    ax1.errorbar(C, amplitude, d_amplitude, marker='o', color='b', linestyle='None', label='Data')
+    ax1.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
+                fontproperties=font, transform=ax.transAxes)
+    ax1.legend(loc='upper right', numpoints=1)
+    plt.grid()
+    #plt.show()
+    fig1.savefig('../graphics/amplitude_vs_capacitance.pdf')
+    plt.close(fig1)
+    plt.clf()
+
+    # Plot of the ENC vs capacitance
+    """
+    fig1, ax1 = plt.subplots()
+    ax1.set_xlabel('C [pF]')
+    ax1.set_xlim(0.0, 120)
+    ax1.set_ylabel('Amplitude [mV]')
+    ax1.errorbar(C, amplitude/noise_rms, d_amplitude/d_noise_rms, marker='o', color='b', linestyle='None', label='Data')
+    ax1.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
+                fontproperties=font, transform=ax.transAxes)
+    ax1.legend(loc='upper right')
+    plt.grid()
+    #plt.show()
+    fig1.savefig('../graphics/ENC_vs_capacitance.pdf')
+    plt.close(fig1)
+    plt.clf()
+    """
+
+    IV = np.loadtxt(IV_filename,skiprows=1)
+    V   = IV[:,0]
+    pc1 = IV[:,1]
+    tc1 = IV[:,2]
+    pc2 = IV[:,3]
+    tc2 = IV[:,4]
+    pc3 = IV[:,5]
+    tc3 = IV[:,6]
+    pc4 = IV[:,7]
+    tc4 = IV[:,8] 
+
+    # Plot of the IV current
+    fig3, ax3 = plt.subplots(2, sharex= True)
+    ax3[1].set_xlabel('Voltage [v]')
+    ax3[0].set_ylabel('Pad current [A]')
+    ax3[1].set_ylabel('Total current [A]')
+    ax3[0].set_ylim(0.0, -4.2E-8)
+    ax3[1].set_ylim(0.0, -4.2E-8)
+    ax3[0].set_xlim(0.0, -160)
+    ax3[1].set_xlim(0.0, -160)
+    ax3[0].scatter(V, pc1, marker='o', color='r', label='Pad 1')
+    ax3[0].scatter(V, pc2, marker='o', color='b', label='Pad 2')
+    ax3[0].scatter(V, pc3, marker='o', color='g', label='Pad 3')
+    ax3[0].scatter(V, pc4, marker='o', color='k', label='Pad 4')
+    ax3[1].scatter(V, tc1, marker='o', color='r', label='Total 1')
+    ax3[1].scatter(V, tc2, marker='o', color='b', label='Total 2')
+    ax3[1].scatter(V, tc3, marker='o', color='g', label='Total 3')
+    ax3[1].scatter(V, tc4, marker='o', color='k', label='Total 4')
+    ax3[0].legend(loc='upper left', numpoints=1)
+    ax3[1].legend(loc='upper left', numpoints=1)
+    ax3[0].grid()
+    ax3[1].grid()
+    #plt.show()
+    fig3.savefig('../graphics/IV_V_vs_A.pdf')
+    plt.close(fig3)
+    plt.clf()
+
+    CV_openneedle = np.loadtxt(CV_filename_openneedle,skiprows=1)
+    V_openneedle  = CV_openneedle[:,0]
+    C1_openneedle = CV_openneedle[:,1]
+    D1_openneedle = CV_openneedle[:,2]
+    C2_openneedle = CV_openneedle[:,3]
+    D2_openneedle = CV_openneedle[:,4]
+    C3_openneedle = CV_openneedle[:,5]
+    D3_openneedle = CV_openneedle[:,6]
+    C4_openneedle = CV_openneedle[:,7]
+    D4_openneedle = CV_openneedle[:,8] 
+
+    CV = np.loadtxt(CV_filename,skiprows=1)
+    V  = CV[:,0]
+    C1 = CV[:,1]
+    D1 = CV[:,2]
+    C2 = CV[:,3]
+    D2 = CV[:,4]
+    C3 = CV[:,5]
+    D3 = CV[:,6]
+    C4 = CV[:,7]
+    D4 = CV[:,8] 
+
+    fig3, ax3 = plt.subplots(1)
+    ax3.set_xlabel('Voltage [v]')
+    ax3.set_ylabel('Capacitance [A]')
+    ax3.set_ylim(1E-12, 1E-9)
+    ax3.set_xlim(0.0, -160)
+    ax3.set_xlim(0.0, -160)
+    ax3.semilogy(V, C1_openneedle, marker='o', color='b', label='Open needle pad 1')
+    ax3.semilogy(V, C1, marker='o', color='g', label='Diode pad 1')
+    ax3.semilogy(V, C1 - C1_openneedle, marker='o', color='r', label='Diode - open needle pad 1')
+    ax3.legend(loc='upper right', numpoints=1)
+    ax3.grid()
+    #plt.show()
+    fig3.savefig('../graphics/V_vs_C.pdf')
+    plt.close(fig3)
+    plt.clf()
+
+    fig4, ax4 = plt.subplots(1)
+    ax4.set_xlabel('Voltage [v]')
+    ax4.set_ylabel('Capacitance [A]')
+    ax4.set_ylim(1E-12, 1E-8)
+    ax4.set_xlim(0.0, -160)
+    ax4.set_xlim(0.0, -160)
+    ax4.semilogy(V, C1_openneedle + C2_openneedle + C3_openneedle + C4_openneedle, marker='o', color='b', label='Open needle pad 1+2+3+4')
+    ax4.semilogy(V, C1 + C2 + C3 + C4 , marker='o', color='g', label='Diode pad 1+2+3+4')
+    ax4.semilogy(V, C1 - C1_openneedle + C2 - C2_openneedle + C3 - C3_openneedle + C4 - C4_openneedle, marker='o', color='r', label='Diode - open needle pad 1+2+3+4')
+    ax4.legend(loc='upper right', numpoints=1)
+    ax4.grid()
+    #plt.show()
+    fig4.savefig('../graphics/V_vs_C_total.pdf')
+    plt.close(fig4)
+    plt.clf()
+
+    return
+
 def Calibration(calibration_filename, plot_Calibration_curve):
     # Read data fron the calibration curve dataset
     calibration_diode = np.loadtxt(calibration_filename,skiprows=1)
@@ -31,11 +189,6 @@ def Calibration(calibration_filename, plot_Calibration_curve):
 
     # Construct the  curve
     calib_curve = TGraphErrors(len(C), array('d',C.tolist()), array('d', fall_time.tolist()), array('d', e_C.tolist()), array('d',d_fall_time.tolist()) )
-    calib_curve.SetMarkerColor(kBlack)
-    calib_curve.SetMarkerSize(1)
-    calib_curve.SetMarkerStyle(20)
-    calib_curve.GetXaxis().SetTitle('C [pF]')
-    calib_curve.GetYaxis().SetTitle('Rise time [ns]')
 
     # Construct the fit with a 2nd order polynomial
     fit_curve = TF1('fit_curve','[0]*x*x + [1]*x + [2]',0.,110.)
@@ -46,13 +199,6 @@ def Calibration(calibration_filename, plot_Calibration_curve):
 
     # FIt the calibration curve
     calib_curve.Fit(fit_curve,'R')
-
-    # Plot the curve and the fit with ROOT
-    #c = TCanvas('c', 'c', 10, 10, 600, 600)
-    #calib_curve.Draw('APE')
-    #fit_curve.Draw('SAME')
-    #c.Update()
-    #c.SaveAs('calib.pdf')
 
     # Extract the results fron the fit
     par0   = fit_curve.GetParameter(0)
@@ -84,7 +230,7 @@ def Calibration(calibration_filename, plot_Calibration_curve):
         #plt.set_title('Diode calibration curve')
         ax.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
                     fontproperties=font, transform=ax.transAxes)
-        ax.legend(loc='upper left')
+        ax.legend(loc='upper left', numpoints=1)
         plt.grid()
         #plt.show()
         fig.savefig('../graphics/calibration_diode.pdf')
@@ -113,13 +259,6 @@ def SignalCurves(datasets, path):
     for data in decay_data:
         j += 1
         curve = TGraph(len(data[:,0]), array('d', data[:,0]), array('d', data[:,1]) )
-        #curve.SetMarkerColor(kBlack)
-        #curve.SetMarkerSize(0.5)
-        #curve.SetMarkerStyle(20)
-        #curve.SetTitle('')
-        #curve.GetXaxis().SetTitle('Time')
-        #curve.GetYaxis().SetTitle('Amplitude')
-        #curve.GetXaxis().SetRangeUser(-0.15, 0.15)
         decay_curve.append(curve)
 
         # The limits for the rise time fits need to be hard coded, since not all the 
@@ -194,7 +333,7 @@ def SignalCurves(datasets, path):
                     fontproperties=font_par, transform=ax.transAxes)
         ax.text(0.05,0.6, 'Rise time = {0:.3f} +/- {1:.3f} [ns]'.format(rise_time[j]*(1E+9),rise_time_error[j]*(1E+9) ) , verticalalignment='bottom', horizontalalignment='left',
                     fontproperties=font_par, transform=ax.transAxes)
-        ax.legend(loc='upper left')
+        ax.legend(loc='upper left',numpoints=1)
         plt.grid()
         plt.savefig(pdfP, format='pdf')
         #plt.savefig('data_{:}.png'.format(str(j)))
@@ -277,11 +416,6 @@ def ExtractCapacitance(rise_time, rise_time_error, par0, e_par0, par1, e_par1, p
     gStyle.SetOptStat(1111)
     gStyle.SetOptFit(1111)
     C_hist.Fit(g, 'R')
-    #c5 = TCanvas('c5', 'c5', 10, 10, 600, 600)
-    #C_hist.GetXaxis().SetTitle('C [pF]')
-    #C_hist.Draw('HIST')
-    #g.Draw('SAME')
-    #c5.Update()
 
     xx = np.linspace(C + 0.2*C, C -0.2*C, 1000)
     yy = [g.Eval(x) for x in xx]
@@ -306,43 +440,29 @@ def ExtractCapacitance(rise_time, rise_time_error, par0, e_par0, par1, e_par1, p
     ax.text(0.7,0.65, 'C std = {0:.3f} [pF]'.format(g.GetParameter(2)), verticalalignment='bottom', horizontalalignment='left',
                     fontproperties=font_par, transform=ax.transAxes)
 
-    ax.legend(loc='upper right')
+    ax.legend(loc='upper right',numpoints=1)
     plt.grid()
-    #plt.show()
     fig.savefig('../graphics/stat_error_on_C_pseudoexperiments.pdf')
-    #plt.show()
     plt.close(fig)
     plt.clf()
-
-    """
-    c6 = TCanvas('c6', 'c6', 10, 10, 600, 600)
-    par0_hist.GetXaxis().SetTitle('par0')
-    par0_hist.Draw('HIST')
-    c6.Update()
-
-    c7 = TCanvas('c7', 'c7', 10, 10, 600, 600)
-    par1_hist.GetXaxis().SetTitle('par1')
-    par1_hist.Draw('HIST')
-    c7.Update()
-
-    c8 = TCanvas('c8', 'c8', 10, 10, 600, 600)
-    par2_hist.GetXaxis().SetTitle('par2')
-    par2_hist.Draw('HIST')
-    c8.Update()
-
-    c9 = TCanvas('c9', 'c9', 10, 10, 600, 600)
-    risetime_hist.GetXaxis().SetTitle('rise time')
-    risetime_hist.Draw('HIST')
-    c9.Update()
-    """
 
     e_C = g.GetParameter(2)
 
     return C, e_C
 
 if __name__ == "__main__":
+
+    ######################################
+    # Plot other curves measured 
+    ######################################
+
+    OtherPlots('../data/diodetest/diode_calibration.txt', '../data/diodetest/sample_name_IV_31_10_2018_14_17.txt', '../data/diodetest/diode2_CV_31_10_2018_14_23OpenNeedle.txt', '../data/diodetest/diode2_CV_31_10_2018_14_23.txt')
+    
+    ######################################
+    # Find the capacitance of the diode from
+    # the calibration curve
+    ######################################
     # Find the parameters from the Calibration curve
-    #sys.append("../data/diodetest")
     par0, e_par0, par1, e_par1, par2, e_par2 = Calibration('../data/diodetest/diode_calibration.txt', 1)
 
     path = '../data/measurements/'
@@ -351,7 +471,6 @@ if __name__ == "__main__":
             'C1_goodones00004.txt', 'C1_goodones00005.txt', 'C1_goodones00006.txt', 'C1_goodones00007.txt',
             'C1_goodones00008.txt', 'C1_goodones00009.txt', 'C1_goodones00010.txt', 'C1_goodones00011.txt']
     rise_time, rise_time_error, noise_std_holesystem = SignalCurves(datasets, path)
-
 
     # Find the capacitance from the rise time and estimate the error
     C, e_C = ExtractCapacitance(rise_time, rise_time_error, par0, e_par0, par1, e_par1, par2, e_par2)
@@ -362,4 +481,3 @@ if __name__ == "__main__":
     print "##########################"
 
     raw_input("Press enter to finish")
-

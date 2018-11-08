@@ -54,7 +54,7 @@ def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_fil
     ax1.set_xlim(0.0, 120)
     ax1.set_ylabel('Amplitude [mV]')
     ax1.errorbar(C, amplitude, d_amplitude, marker='o', color='b', linestyle='None', label='Data')
-    ax1.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
+    ax1.text(0.5,0.8, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
                 fontproperties=font, transform=ax.transAxes)
     ax1.legend(loc='upper right', numpoints=1)
     plt.grid()
@@ -336,7 +336,7 @@ def SignalCurves(datasets, path):
         ax.legend(loc='upper left',numpoints=1)
         plt.grid()
         plt.savefig(pdfP, format='pdf')
-        #plt.savefig('data_{:}.png'.format(str(j)))
+        plt.savefig('../graphics/data_{:}.png'.format(str(j)))
         pdfP.close()
         plt.close(fig)
         plt.clf()

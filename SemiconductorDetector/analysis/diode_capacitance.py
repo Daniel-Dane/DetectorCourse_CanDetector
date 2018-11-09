@@ -91,7 +91,14 @@ def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_fil
     pc4 = IV[:,7]
     tc4 = IV[:,8] 
 
-    # Plot of the IV current
+    pc_all = np.array([pc1,pc2,pc3,pc4])
+    tc_all = np.array([tc1,tc2,tc3,tc4])
+    pc_mean = np.mean(pc_all, axis = 0)
+    pc_std  = np.std(pc_all, axis = 0)
+    tc_mean = np.mean(tc_all, axis = 0)
+    tc_std  = np.std(tc_all, axis = 0) 
+
+    # Plot of the IV curve
     fig3, ax3 = plt.subplots(2, sharex= True)
     ax3[1].set_xlabel('Voltage [v]')
     ax3[0].set_ylabel('Pad current [A]')
@@ -100,15 +107,8 @@ def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_fil
     ax3[1].set_ylim(0.0, -4.2E-8)
     ax3[0].set_xlim(0.0, -160)
     ax3[1].set_xlim(0.0, -160)
-    ax3[0].scatter(V, pc1, marker='o', color='r', label='Pad 1')
-    ax3[0].scatter(V, pc2, marker='o', color='b', label='Pad 2')
-    ax3[0].scatter(V, pc3, marker='o', color='g', label='Pad 3')
-    ax3[0].scatter(V, pc4, marker='o', color='k', label='Pad 4')
-    ax3[1].scatter(V, tc1, marker='o', color='r', label='Total 1')
-    ax3[1].scatter(V, tc2, marker='o', color='b', label='Total 2')
-    ax3[1].scatter(V, tc3, marker='o', color='g', label='Total 3')
-    ax3[1].scatter(V, tc4, marker='o', color='k', label='Total 4')
-    ax3[0].legend(loc='upper left', numpoints=1)
+    ax3[0].errorbar(V, pc_mean, pc_std, marker='o', color='k', label='Pad current')
+    ax3[1].errorbar(V, tc_mean, tc_std, marker='o', color='k', label='Total current')
     ax3[1].legend(loc='upper left', numpoints=1)
     ax3[0].grid()
     ax3[1].grid()
@@ -139,15 +139,27 @@ def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_fil
     C4 = CV[:,7]
     D4 = CV[:,8] 
 
+    # Plot of the CV curve
+    C_openneedle_all = np.array([C1_openneedle, C2_openneedle, C3_openneedle, C4_openneedle])
+    C_all = np.array([C1, C2, C3, C4])
+    C_final_all = C_all - C_openneedle_all
+    C_openneedle_mean = np.mean(C_openneedle_all, axis = 0)
+    C_openneedle_std  = np.std(C_openneedle_all, axis = 0) 
+    C_mean = np.mean(C_all, axis = 0)
+    C_std  = np.std(C_all, axis = 0)
+    C_final_mean = np.mean(C_final_all, axis = 0)
+    C_final_std  = np.std(C_final_all, axis = 0)
+
     fig3, ax3 = plt.subplots(1)
     ax3.set_xlabel('Voltage [v]')
     ax3.set_ylabel('Capacitance [A]')
     ax3.set_ylim(1E-12, 1E-9)
     ax3.set_xlim(0.0, -160)
     ax3.set_xlim(0.0, -160)
-    ax3.semilogy(V, C1_openneedle, marker='o', color='b', label='Open needle pad 1')
-    ax3.semilogy(V, C1, marker='o', color='g', label='Diode pad 1')
-    ax3.semilogy(V, C1 - C1_openneedle, marker='o', color='r', label='Diode - open needle pad 1')
+    ax3.set_yscale("log", nonposy='clip')
+    ax3.errorbar(V, C_openneedle_mean, C_openneedle_std, marker='o', color='b', label='Open needle ')
+    ax3.errorbar(V, C_mean, C_std, marker='o', color='g', label='Diode')
+    ax3.errorbar(V, C_final_mean, C_final_std,  marker='o', color='r', label='Diode - open needle pad 1')
     ax3.legend(loc='upper right', numpoints=1)
     ax3.grid()
     #plt.show()
@@ -155,21 +167,7 @@ def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_fil
     plt.close(fig3)
     plt.clf()
 
-    fig4, ax4 = plt.subplots(1)
-    ax4.set_xlabel('Voltage [v]')
-    ax4.set_ylabel('Capacitance [A]')
-    ax4.set_ylim(1E-12, 1E-8)
-    ax4.set_xlim(0.0, -160)
-    ax4.set_xlim(0.0, -160)
-    ax4.semilogy(V, C1_openneedle + C2_openneedle + C3_openneedle + C4_openneedle, marker='o', color='b', label='Open needle pad 1+2+3+4')
-    ax4.semilogy(V, C1 + C2 + C3 + C4 , marker='o', color='g', label='Diode pad 1+2+3+4')
-    ax4.semilogy(V, C1 - C1_openneedle + C2 - C2_openneedle + C3 - C3_openneedle + C4 - C4_openneedle, marker='o', color='r', label='Diode - open needle pad 1+2+3+4')
-    ax4.legend(loc='upper right', numpoints=1)
-    ax4.grid()
-    #plt.show()
-    fig4.savefig('../graphics/V_vs_C_total.pdf')
-    plt.close(fig4)
-    plt.clf()
+
 
     return
 
@@ -463,6 +461,7 @@ if __name__ == "__main__":
     # the calibration curve
     ######################################
     # Find the parameters from the Calibration curve
+
     par0, e_par0, par1, e_par1, par2, e_par2 = Calibration('../data/diodetest/diode_calibration.txt', 1)
 
     path = '../data/measurements/'

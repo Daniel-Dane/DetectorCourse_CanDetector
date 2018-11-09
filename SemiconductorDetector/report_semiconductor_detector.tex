@@ -59,7 +59,7 @@ Finally the Strontium-90 source was attached with tape to the lid of the box con
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=0.8\textwidth]{./graphics/SiliconDiodeCircuit}
+  \includegraphics[width=0.5\textwidth]{./graphics/SiliconDiodeCircuit}
   \caption{Silicon detector circuit with low-pass filter, pre-amplifier and silicon diode.}
   \label{fig:SiliconDiodeCircuit}
 \end{figure}
@@ -77,36 +77,54 @@ Finally the Strontium-90 source was attached with tape to the lid of the box con
 
 \section{Study of Silicon detector}
 
-Before integrating the silicon detector inside the rest of the circuit, a few measurements were undertaken to undertand its properties: the depletion voltage and the capacitance at depletion. The IV curve measures the leakage current as a function of voltage and it is useful for measuring the deplation voltage. As it is visible from Figure \ref{fig:IVcurve}, the depletion voltage for this particular silicon diode is of $\approx 50$ V.
+Before integrating the silicon detector inside the rest of the circuit, a few measurements were undertaken to understand its properties: the depletion voltage and the capacitance at depletion. All curves were measured $4$ times, in order to have an estimate of the uncertainty of each measurement.
 
-\begin{figure}[htb]
+The IV curve measures the leakage current as a function of voltage and it is useful for measuring the deplation voltage. As it is visible from Figure \ref{fig:IVcurve}, the depletion voltage for this particular silicon diode is of $\approx 50$ V. The current going through the diode at full depletion is of around $-15$ nA. The errorbars are found by taking the standard deviarion between the four measurements performed for each point.
+
+\begin{figure}[h!]
   \centering
   \includegraphics[width=0.8\textwidth]{./graphics/IV_V_vs_A.pdf}
   \caption{IV curve for the silicon detector of p-type. The upper plot shows the current per pad for the $4$ different pads, while the lower plot shows the total current }
   \label{fig:IVcurve}
 \end{figure}
 
+The CV curve measures the capacitance of the diode as a function of the voltage and can be seen in Figure \ref{fig:VC_curve_single} for the diode used in this experiment. Before measuring the capacitance of the silicon diode though, we measured the capacitance of the measuring instrument, called "Open needle" in Figure \ref{fig:VC_curve_single}. We then measured the diode capacitance and finally we subtracted the instrument capacitance, to have the actual measurement in red in Figure \ref{fig:VC_curve_single}. Again each measurement was performed $4$ times and the plotted results are the mean of the experiments, while the errorbars are found by calculating the standard derivation of the measurements. In this case, the standard deviation is very small and the errorbars are hence smaller than the data points. The capacitance of the diode at full depletion voltage (above $50$ V) is measured to $11.20 \pm 0.02$ pF, see Figure \ref{fig:VC_curve_single}.
+
 \begin{figure}[t!]
   \centering
-  \includegraphics[width=1.2\textwidth]{./graphics/V_vs_C}
+  \includegraphics[width=0.8\textwidth]{./graphics/V_vs_C}
   \caption{Parasitic capacitance of the instrument (blue), capacitance of the system plus the silicon diode and capacitance of the diode as a function of voltage.}
   \label{fig:VC_curve_single}
 \end{figure}
 
 \section{Pre-amplifier calibration}
 
-\begin{figure}[htb]
-  \centering
-  \includegraphics[width=0.8\textwidth]{./graphics/noise_vs_capacitance}
-  \caption{Noise RMS vs capacitance measurement}
-  \label{fig:Noise_vs_Capacitance}
-\end{figure}
+The response of the pre-amplifier was studied with a calibration signal consisting of a square pulse over the calibration load capacitance, which was between $1$ and $100$ pF. 
+Before injecting the square pulse, the noise of the circuit with the different capacitors was measured as the RMS of the noise oscillations. The measurements were recorded and plotted on Figure \ref{fig:Noise_vs_Capacitance}. As it is clearly visible, the noise RMS increases as a function of the input load capacitance.
+%
+% Write about ENC here
+%
+
+After feeding the square pulse through the preamplifier, the amplitude and the rise time of the pulse were noted and plotted in Figure \ref{fig:Amplitude_vs_Capacitance} and Figure \ref{fig:RiseTime_vs_Capacitance} respectively. The amplitude decreases as a function of load capacitance, while the rise time increasese, which means that the pulse reacts slowlier and looses some of its power as a functio of capacitance. The rise time was measured by finding the time interval between the $10\%$ and $90\%$ of the rising pulse. 
+Additionaly, the measurements with higher capacitances are affected more by the noise, as it is visible by the errorbar size for C = $100$ pF for example. The rise time measurement was fitted to a $2$nd degree polynomial and the resulting paramters are shown in Figure \ref{fig:RiseTime_vs_Capacitance} 
 
 \begin{figure}[htb]
+ \centering
+  \begin{subfigure}[t]{0.45\textwidth}
   \centering
-  \includegraphics[width=0.8\textwidth]{./graphics/amplitude_vs_capacitance}
+  \includegraphics[width=1.2\textwidth]{./graphics/noise_vs_capacitance}
+  \caption{Noise RMS vs capacitance measurement}
+  \label{fig:Noise_vs_Capacitance}
+\end{subfigure}
+\hfill
+\begin{subfigure}[t]{0.45\textwidth}
+  \centering
+  \includegraphics[width=1.2\textwidth]{./graphics/amplitude_vs_capacitance}
   \caption{Amplitude vs capacitance measurement}
   \label{fig:Amplitude_vs_Capacitance}
+\end{subfigure}
+\caption{Calibration measurements for the pre-amplifier.}
+\label{fig:calib_others}
 \end{figure}
 
 % This figure should be for the ENC curve - when I figure out how to calculate it
@@ -120,11 +138,23 @@ Before integrating the silicon detector inside the rest of the circuit, a few me
 \begin{figure}[htb]
   \centering
   \includegraphics[width=0.8\textwidth]{./graphics/calibration_diode}
-  \caption{Calibration of the rise time as a function of capacitance}
+  \caption{Calibration of the rise time as a function of capacitance} %%% Add chi2 and errors on the pol2 parameters
   \label{fig:RiseTime_vs_Capacitance}
 \end{figure}
 
-\section{Results}
+\section{Results and Discussion}
+
+After soldering the silicon diode to the rest of the circuit with the pre-amplifier (see Figure \ref{fig:SiliconDiodeCircuit}), we closed the Strontium-90 source and the diode in a box, shielded it with aluminium foil and we connected the pre-amplifier to the $\pm 12$ V source and we applied $\approx 50$ V to diode to fully deplete it. When one of the product decays of the radioactive source hit the diode, it induced a signal, which was observed on the oscilloscope. A few of these signals were saved and are visible in Figure \ref{fig:rise_time_measurement} and \ref{fig:rise_time_measurement_2}. Several measurements were extracted from these data. First of all the noise RMS was measured by taking the standard deviation of all the measured points before the pulse (until Time = $-0.5\mu$ s, which is a cut-off that is valid for all the datasets). The mean noise RMS and its uncertainty are $1.0 \pm 0.1$ mV.
+The rising pulse is then fitted to find the rise time using the equation:
+\begin{equation}
+  V = V_{0} (1 - \exp^{-t/\tau}) + V_{noise}
+\end{equation}
+where $V_{0}$ is the starting amplitude, $V_{noise}$ is the background amplitude and $\tau$ is the rising time. The rising time from the fit and the rising time from the calibration of the pre-amplifier are though not exactly the same rising time, as the first one is measured for the entire rising slope and the second one is measured only between $10\%$ and $90\%$ of the slope. In order to relate the two to each other, this relation exists:
+\begin{equation}
+t_{r} = \ln(9) \cdot \tau = 2.197 \cdot \tau
+\end{equation}
+where $t_{r}$ is the time interval between $10\%$ and $90\%$, while $\tau = RC$. 
+The mean rise time found with the fits is of $/tau = 38.9 \pm 9.7$ ns and if we multiply this by $2.197$ to get the time interval we get $t_{r} = 85.5 \pm 21.3$ ns.
 
 \begin{figure}[t!]
   \centering
@@ -192,7 +222,7 @@ Before integrating the silicon detector inside the rest of the circuit, a few me
     \includegraphics[width=1.2\textwidth]{./graphics/data_11.png}
   \end{subfigure}
 \caption{Measurement of the rise time from the Strontium-90 decay}
-\label{fig:rise_time_measurement}
+\label{fig:rise_time_measurement_2}
 \end{figure}
 
 \begin{figure}[htb]
@@ -202,7 +232,6 @@ Before integrating the silicon detector inside the rest of the circuit, a few me
   \label{fig:stat_error_on_C}
 \end{figure}
 
-\section{Discussion}
 \section{Conclusion}
 
 

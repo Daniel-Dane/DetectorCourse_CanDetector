@@ -32,6 +32,9 @@ def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_fil
     font.set_style('italic')
     font.set_weight('bold')
     font.set_size('x-large')
+    font_par = font0.copy()
+    font_par.set_style('italic')
+    font_par.set_weight('medium')
 
     # Plot of the Noise RMS vs capacitance
     fig, ax = plt.subplots()
@@ -109,7 +112,14 @@ def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_fil
     ax3[1].set_xlim(0.0, -160)
     ax3[0].errorbar(V, pc_mean, pc_std, marker='o', color='k', label='Pad current')
     ax3[1].errorbar(V, tc_mean, tc_std, marker='o', color='k', label='Total current')
+    ax3[0].text(0.5,0.8, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
+                fontproperties=font, transform=ax.transAxes)
+    ax3[1].text(0.5,0.8, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
+                fontproperties=font, transform=ax.transAxes)
+    ax3[1].annotate('Depletion voltage', xy=((V[6] - V[5])/2 + V[5], tc_mean[6]), xytext=(-75, -2.8E-8), verticalalignment='bottom', horizontalalignment='left',
+                fontproperties=font_par, transform=ax.transAxes,arrowprops=dict(arrowstyle="->",facecolor='black'))
     ax3[1].legend(loc='upper left', numpoints=1)
+    ax3[0].legend(loc='upper left', numpoints=1)
     ax3[0].grid()
     ax3[1].grid()
     #plt.show()
@@ -160,6 +170,12 @@ def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_fil
     ax3.errorbar(V, C_openneedle_mean, C_openneedle_std, marker='o', color='b', label='Open needle ')
     ax3.errorbar(V, C_mean, C_std, marker='o', color='g', label='Diode')
     ax3.errorbar(V, C_final_mean, C_final_std,  marker='o', color='r', label='Diode - open needle pad 1')
+    ax3.text(0.1,0.8, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
+                fontproperties=font, transform=ax.transAxes)
+    #ax3.text(0.4,0.6, 'C = {0:.2f} +/- {1:.2f} pF'.format(C_final_mean[7]*1E12, C_final_std[7]*1E12), verticalalignment='bottom', horizontalalignment='left',
+    #            fontproperties=font_par, transform=ax.transAxes)
+    ax3.annotate('C = {0:.2f} +/- {1:.2f} pF'.format(C_final_mean[7]*1E12, C_final_std[7]*1E12), xy=(V[7], C_final_mean[7]), xytext=(-75, 1.1E-10), verticalalignment='bottom', horizontalalignment='left',
+                fontproperties=font_par, transform=ax.transAxes,arrowprops=dict(arrowstyle="->",facecolor='black'))
     ax3.legend(loc='upper right', numpoints=1)
     ax3.grid()
     #plt.show()
@@ -256,6 +272,9 @@ def SignalCurves(datasets, path):
     j = -1
     for data in decay_data:
         j += 1
+
+        data[:,1] = data[:,1]
+
         curve = TGraph(len(data[:,0]), array('d', data[:,0]), array('d', data[:,1]) )
         decay_curve.append(curve)
 
@@ -287,7 +306,7 @@ def SignalCurves(datasets, path):
         noise_fit.append(n_fit)
         #noise_std_holesystem.append(n_fit.GetParError(0))
         noise_mean_holesystem.append(n_fit.GetParameter(0))
-        noise_std_holesystem.append(np.std(data[data[:,0] < -0.1E-6,1]))
+        noise_std_holesystem.append(np.std(data[data[:,0] < -0.5E-6,1]))
         print len(data[data[:,0] < -0.1E-6])
         print np.std(data[data[:,0] < -0.1E-6,1])
 
@@ -322,7 +341,7 @@ def SignalCurves(datasets, path):
         ax.set_ylabel('Amplitude [V]')
         ax.plot(data[:,0], data[:,1], marker='o', color='k', label='Data', linestyle='None')
         #ax.plot(xx_noise, yy_noise, color='g', label='Noise Fit')
-        ax.plot(xx_rise, yy_rise, color = 'r', label='Rise time fit')
+        ax.plot(xx_rise, yy_rise, color = 'r', label='Rise time fit', linewidth=3)
         ax.text(0.45,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
                     fontproperties=font, transform=ax.transAxes)
         #ax.text(0.05,0.7, 'Noise mean = {0:.3f} [\mu V] '.format(noise_mean_holesystem[j]*1000000.), verticalalignment='bottom', horizontalalignment='left',
@@ -475,8 +494,17 @@ if __name__ == "__main__":
     C, e_C = ExtractCapacitance(rise_time, rise_time_error, par0, e_par0, par1, e_par1, par2, e_par2)
 
     print "##########################"
+    print "Mean rise time: {:} s ".format(np.mean(rise_time))
+    print "Std rise time: {:} s".format(np.std(rise_time))
+    print "##########################"
+    print "##########################"
     print "Capacitance: {:} pF".format(C)
     print "Stat error on capacitance: {:} pF".format(e_C)
     print "##########################"
-
+    print "##########################"
+    print "Mean Noise RMS from diode + circuit: {:} V".format(np.mean(noise_std_holesystem))
+    print "Std Noise RMS from diode + circuit: {:} V".format(np.std(noise_std_holesystem))
+    print "##########################"
+    
+    
     raw_input("Press enter to finish")

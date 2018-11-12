@@ -75,6 +75,22 @@ Finally the Strontium-90 source was attached with tape to the lid of the box con
 %Amplitude of the result is 70 percent of the calibration amplitude due to different impedance matching.
 %42mv became 32mV after termination (termination = channel at 50 Ohm impedance).
 
+\section{Equivlent Noise Charge}
+The \textit{Equivalent Noise Charge}, or ENC, is the amount of charge one would have to inject into the preamp in order to match the recorded noise level of the output. In other words, we want to figure out, for a given capacitance, what the RMS noise signal would look like if it were an unamplified input signal.
+
+\begin{equation}
+ENC = \frac{V_{rms}\cdot C_{calibration}}{G}
+\end{equation}
+
+The gain is given by the ratio of output-to-input voltage:
+
+\begin{equation}
+ENC = \frac{V_{rms}}{V_{out}}\cdot\left(C_{calibration}\cdot V_{in}\right)
+\end{equation}
+
+During the calibration test, the input voltage is fixed to 20mV, so the only thing that varies in this expression should be the capacitance
+
+
 \section{Study of Silicon detector}
 
 Before integrating the silicon detector inside the rest of the circuit, a few measurements were undertaken to understand its properties: the depletion voltage and the capacitance at depletion. All curves were measured $4$ times, in order to have an estimate of the uncertainty of each measurement.

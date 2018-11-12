@@ -15,8 +15,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 impedance_factor = 0.7
 rc_factor_10_90  = 2.197
 
-def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_filename):
-    # Read data fron the calibration curve dataset
+def LoadCalibrationFile(calibration_filename):
     calibration_diode = np.loadtxt(calibration_filename,skiprows=1)
     C           = calibration_diode[:,0]
     e_C         = np.zeros([len(C)])
@@ -26,6 +25,12 @@ def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_fil
     d_fall_time = calibration_diode[:,4]
     amplitude   = calibration_diode[:,5]
     d_amplitude = calibration_diode[:,6]
+    return C, e_C, noise_rms, d_noise_rms, fall_time, d_fall_time, amplitude, d_amplitude
+
+
+def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_filename):
+    # Read data fron the calibration curve dataset
+    C, e_C, noise_rms, d_noise_rms, fall_time, d_fall_time, amplitude, d_amplitude = LoadCalibrationFile(calibration_filename)
 
     font0 = FontProperties()
     font = font0.copy()
@@ -65,23 +70,6 @@ def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_fil
     fig1.savefig('../graphics/amplitude_vs_capacitance.pdf')
     plt.close(fig1)
     plt.clf()
-
-    # Plot of the ENC vs capacitance
-    """
-    fig1, ax1 = plt.subplots()
-    ax1.set_xlabel('C [pF]')
-    ax1.set_xlim(0.0, 120)
-    ax1.set_ylabel('Amplitude [mV]')
-    ax1.errorbar(C, amplitude/noise_rms, d_amplitude/d_noise_rms, marker='o', color='b', linestyle='None', label='Data')
-    ax1.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
-                fontproperties=font, transform=ax.transAxes)
-    ax1.legend(loc='upper right')
-    plt.grid()
-    #plt.show()
-    fig1.savefig('../graphics/ENC_vs_capacitance.pdf')
-    plt.close(fig1)
-    plt.clf()
-    """
 
     IV = np.loadtxt(IV_filename,skiprows=1)
     V   = IV[:,0]
@@ -183,21 +171,11 @@ def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_fil
     plt.close(fig3)
     plt.clf()
 
-
-
     return
 
-def Calibration(calibration_filename, plot_Calibration_curve):
+def CalibrationRiseTime(calibration_filename):
     # Read data fron the calibration curve dataset
-    calibration_diode = np.loadtxt(calibration_filename,skiprows=1)
-    C           = calibration_diode[:,0]
-    e_C         = np.zeros([len(C)])
-    noise_rms   = calibration_diode[:,1]
-    d_noise_rms = calibration_diode[:,2]
-    fall_time   = calibration_diode[:,3]
-    d_fall_time = calibration_diode[:,4]
-    amplitude   = calibration_diode[:,5]
-    d_amplitude = calibration_diode[:,6]
+    C, e_C, noise_rms, d_noise_rms, fall_time, d_fall_time, amplitude, d_amplitude = LoadCalibrationFile(calibration_filename)
 
     gStyle.SetOptStat(1111)
 
@@ -228,30 +206,90 @@ def Calibration(calibration_filename, plot_Calibration_curve):
     l = 'fit pol2 $p_0$: {:.3g} $p_1$: {:.3g} $p_2$: {:.2f}'.format(*par)
 
     # Plot the calibration curve with matplotlib
-    if plot_Calibration_curve:
-        font0 = FontProperties()
-        font = font0.copy()
-        font.set_style('italic')
-        font.set_weight('bold')
-        font.set_size('x-large')
+    font0 = FontProperties()
+    font = font0.copy()
+    font.set_style('italic')
+    font.set_weight('bold')
+    font.set_size('x-large')
 
-        fig, ax = plt.subplots()
-        ax.set_xlabel('C [pF]')
-        ax.set_xlim(0.0, 120)
-        ax.set_ylabel('Rise time [ns]')
-        ax.errorbar(C, fall_time, d_fall_time, marker='o', color='k', linestyle='None', label='Data')
-        ax.plot(xx, yy, label=l, color='r')
-        #plt.set_title('Diode calibration curve')
-        ax.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
-                    fontproperties=font, transform=ax.transAxes)
-        ax.legend(loc='upper left', numpoints=1)
-        plt.grid()
-        #plt.show()
-        fig.savefig('../graphics/calibration_diode.pdf')
-        plt.close(fig)
-        plt.clf()
+    fig, ax = plt.subplots()
+    ax.set_xlabel('C [pF]')
+    ax.set_xlim(0.0, 120)
+    ax.set_ylabel('Rise time [ns]')
+    ax.errorbar(C, fall_time, d_fall_time, marker='o', color='k', linestyle='None', label='Data')
+    ax.plot(xx, yy, label=l, color='r')
+    #plt.set_title('Diode calibration curve')
+    ax.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
+                fontproperties=font, transform=ax.transAxes)
+    ax.legend(loc='upper left', numpoints=1)
+    plt.grid()
+    #plt.show()
+    fig.savefig('../graphics/calibration_diode.pdf')
+    plt.close(fig)
+    plt.clf()
 
     return par0, e_par0, par1, e_par1, par2, e_par2
+
+def CalibrationENC(calibration_filename):
+    # Read data fron the calibration curve dataset
+    C, e_C, noise_rms, d_noise_rms, fall_time, d_fall_time, amplitude, d_amplitude = LoadCalibrationFile(calibration_filename)
+
+    noise_rms = noise_rms / 1000. # convert form \muV to mV
+    d_noise_rms = d_noise_rms / 1000.
+
+    ENC = (noise_rms/amplitude) * (C * 20.0) * pow(10,-15) / (1.602 * pow(10,-19) ) #pF * mV = 10^-12 * 10^-3 = 10^-15 C / 10^-19 C = 10^4 electrons
+    d_ENC = np.zeros([len(ENC)])
+    for i in range(len(ENC)):
+        d_ENC[i] = sqrt( d_noise_rms[i]*d_noise_rms[i]*(C[i] * 20.0/amplitude[i])*(C[i] * 20.0/amplitude[i])  +  d_amplitude[i]*d_amplitude[i]*((noise_rms[i]/(amplitude[i]*amplitude[i])) * (C[i] * 20.0))*((noise_rms[i]/(amplitude[i]*amplitude[i])) * (C[i] * 20.0))    )
+    
+    d_ENC = d_ENC * pow(10,-15) / (1.602 * pow(10,-19) ) # conversted to # of electrons
+
+    calib_curve = TGraphErrors(len(ENC), array('d', C[:-1].tolist()), array('d', ENC.tolist()), array('d', e_C.tolist()), array('d', d_ENC) )
+
+    # Construct the fit with a 1st and 2nd order polynomial
+    fit_curve = TF1('fit_curve','[1]*x + [0]',0.,110.)
+    fit_curve2 = TF1('fit_curve2','[0]*x*x + [1]*x + [2]',0.,110.)
+
+    # Fit the calibration curve
+    calib_curve.Fit(fit_curve,'R')
+    calib_curve.Fit(fit_curve2, 'R')
+
+    lin_par0   = fit_curve.GetParameter(0)
+    lin_e_par0 = fit_curve.GetParError(0)
+    lin_par1   = fit_curve.GetParameter(1)
+    lin_e_par1 = fit_curve.GetParError(1)
+
+    xx = np.linspace(0., 105, 1000)
+    yy = [fit_curve.Eval(x) for x in xx]
+    yy2 = [fit_curve2.Eval(x) for x in xx]
+
+    par = [lin_par0, lin_par1]
+    l = 'fit pol2 $p_0$: {:.3g} $p_1$: {:.3g}'.format(*par)
+
+
+    # Plot the calibration curve with matplotlib
+    font0 = FontProperties()
+    font = font0.copy()
+    font.set_style('italic')
+    font.set_weight('bold')
+    font.set_size('x-large')
+
+    fig, ax = plt.subplots()
+    ax.set_xlabel('C [pF]')
+    ax.set_ylabel('ENC [# of electrons]')
+    ax.errorbar(C, ENC, d_ENC, marker='o', color='k', linestyle='None', label='Data')
+    ax.plot(xx, yy, color='r', label=l)
+    ax.plot(xx, yy2, color='g', label='Fit2')
+    ax.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
+                fontproperties=font, transform=ax.transAxes)
+    ax.legend(loc='upper left', numpoints=1)
+    plt.grid()
+    #plt.show()
+    fig.savefig('../graphics/calibrationENC_diode.pdf')
+    plt.close(fig)
+    plt.clf()
+
+    return lin_par0, lin_e_par0, lin_par1, lin_e_par1
 
 # Extract the noise and the rise time from the data collected
 def SignalCurves(datasets, path):
@@ -467,6 +505,14 @@ def ExtractCapacitance(rise_time, rise_time_error, par0, e_par0, par1, e_par1, p
 
     return C, e_C
 
+def ExtractENC(C, e_C, lin_par0, lin_e_par0, lin_par1, lin_e_par1):
+    # Insert the ENC in the linear equation
+    ENC = lin_par0 + lin_par1 * C
+    # Use error propagation to find the error on the ENC
+    e_ENC = sqrt( (lin_e_par0*lin_e_par0)*(1.0)  +  (lin_e_par1*lin_e_par1)*(C*C)  +  (e_C*e_C)*(lin_par1*lin_par1) )
+
+    return ENC, e_ENC
+
 if __name__ == "__main__":
 
     ######################################
@@ -479,9 +525,10 @@ if __name__ == "__main__":
     # Find the capacitance of the diode from
     # the calibration curve
     ######################################
-    # Find the parameters from the Calibration curve
-
-    par0, e_par0, par1, e_par1, par2, e_par2 = Calibration('../data/diodetest/diode_calibration.txt', 1)
+    # Find the parameters from the Calibration curve for the rise time and ENC
+    lin_par0, lin_e_par0, lin_par1, lin_e_par1 = CalibrationENC('../data/diodetest/diode_calibration.txt')
+    
+    par0, e_par0, par1, e_par1, par2, e_par2   = CalibrationRiseTime('../data/diodetest/diode_calibration.txt')
 
     path = '../data/measurements/'
     # Read in the data from the Strontiom decay and fit the decay curve to an exponential to get the decay time
@@ -491,20 +538,24 @@ if __name__ == "__main__":
     rise_time, rise_time_error, noise_std_holesystem = SignalCurves(datasets, path)
 
     # Find the capacitance from the rise time and estimate the error
-    C, e_C = ExtractCapacitance(rise_time, rise_time_error, par0, e_par0, par1, e_par1, par2, e_par2)
+    C, e_C     = ExtractCapacitance(rise_time, rise_time_error, par0, e_par0, par1, e_par1, par2, e_par2)
+    ENC, e_ENC = ExtractENC(C, e_C, lin_par0, lin_e_par0, lin_par1, lin_e_par1) 
 
     print "##########################"
-    print "Mean rise time: {:} s ".format(np.mean(rise_time))
-    print "Std rise time: {:} s".format(np.std(rise_time))
+    print "Mean rise time\t: {:} s ".format(np.mean(rise_time))
+    print "Std rise time\t: {:} s".format(np.std(rise_time))
     print "##########################"
     print "##########################"
-    print "Capacitance: {:} pF".format(C)
-    print "Stat error on capacitance: {:} pF".format(e_C)
+    print "Capacitance \t\t\t: {:} pF".format(C)
+    print "Stat error on capacitance\t: {:} pF".format(e_C)
     print "##########################"
     print "##########################"
-    print "Mean Noise RMS from diode + circuit: {:} V".format(np.mean(noise_std_holesystem))
-    print "Std Noise RMS from diode + circuit: {:} V".format(np.std(noise_std_holesystem))
+    print "Mean Noise RMS from diode + circuit\t: {:} V".format(np.mean(noise_std_holesystem))
+    print "Std Noise RMS from diode + circuit\t: {:} V".format(np.std(noise_std_holesystem))
     print "##########################"
-    
+    print "##########################"
+    print "Mean ENC in diode \t: {:} # of electrons".format(ENC)
+    print "Std ENC in diode \t: {:} # of electrons".format(e_ENC)
+    print "##########################"
     
     raw_input("Press enter to finish")

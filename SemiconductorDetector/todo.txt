@@ -1,0 +1,23 @@
+Outline of the lab report
+------------------------------
+
+
+A. Introduction:
+
+   - Background on the semiconductor junction and use as a photodetector
+   - Brief overview of the experiment: Assemble and characterize the performance of a silicon sensor
+
+B. Methods:
+
+   i) Sensor assembly (brief mention of the wire bonding process)
+
+   ii) Sensor-Only characterization (small theory about semiconductors, capacitance + IV curves plot)
+
+   iii) Preamplifier system (Description of the circuit + plots of the calibration, definition of parameters like ENC and rise time)
+
+C. Determination of the sensor + preamplifier capacitance
+
+D. Discussion (general statements about silicon-based detector advantages/disadvantages)
+
+That's it...I think?
+

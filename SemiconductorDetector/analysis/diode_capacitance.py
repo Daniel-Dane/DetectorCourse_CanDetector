@@ -45,7 +45,7 @@ def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_fil
     fig, ax = plt.subplots()
     ax.set_xlabel('C [pF]')
     ax.set_xlim(0.0, 120)
-    ax.set_ylabel('Noise RMS [\mu V]')
+    ax.set_ylabel(r'Noise RMS [$\mu$V]')
     ax.errorbar(C, noise_rms, d_noise_rms, marker='o', color='b', linestyle='None', label='Data')
     ax.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
                 fontproperties=font, transform=ax.transAxes)
@@ -301,6 +301,8 @@ def SignalCurves(datasets, path):
     noise_std_holesystem   = []
     noise_mean_holesystem  = []
     noise_fit              = []
+    amplitude              = []
+    amplitude_error        = []
 
     for i in datasets:
         q = np.loadtxt(path + i, skiprows=6, delimiter=',')
@@ -344,9 +346,14 @@ def SignalCurves(datasets, path):
         noise_fit.append(n_fit)
         #noise_std_holesystem.append(n_fit.GetParError(0))
         noise_mean_holesystem.append(n_fit.GetParameter(0))
-        noise_std_holesystem.append(np.std(data[data[:,0] < -0.5E-6,1]))
-        print len(data[data[:,0] < -0.1E-6])
-        print np.std(data[data[:,0] < -0.1E-6,1])
+        noise_std_holesystem.append(np.std(data[data[:,0] < -0.2E-6,1]))
+
+        xx_afer_rise       = data[data[:,0] > limits_up[j],0]
+        data_after_rise    = data[data[:,0] > limits_up[j],1]
+        mean_max_amplitude = np.mean(data_after_rise[0:1000])
+        std_max_amplitude  = np.std(data_after_rise[0:1000])  
+        amplitude.append(mean_max_amplitude)
+        amplitude_error.append(std_max_amplitude)
 
         def RiseFunct(x, par0, par1, par2):
             return par0*(1.0 - exp(-x/par1)) + par2
@@ -355,10 +362,10 @@ def SignalCurves(datasets, path):
         def NoiseFunct(x, parN):
             return np.ones(len(x)) * parN
 
-        xx_noise = np.linspace(-2.5E-6, -0.1E-6, 1000)
+        xx_noise = data[data[:,0] < -0.2E-6,0]
         xx_rise = np.linspace(limits_down[j], limits_up[j], 1000)
         yy_rise  = [r_fit.Eval(x) for x in xx_rise]
-        yy_noise = [n_fit.Eval(x) for x in xx_noise]
+        yy_noise = data[data[:,0] < -0.2E-6,1]
 
 
         pdfP = PdfPages('../graphics/data_{:}.pdf'.format(str(j)))
@@ -377,16 +384,17 @@ def SignalCurves(datasets, path):
         ax.set_xlim(-0.7E-6, 0.5E-6)
         ax.set_ylim(-0.005, 0.05)
         ax.set_ylabel('Amplitude [V]')
-        ax.plot(data[:,0], data[:,1], marker='o', color='k', label='Data', linestyle='None')
-        #ax.plot(xx_noise, yy_noise, color='g', label='Noise Fit')
+        ax.scatter(data[:,0], data[:,1], marker='o', color='k', label='Data')
         ax.plot(xx_rise, yy_rise, color = 'r', label='Rise time fit', linewidth=3)
-        ax.text(0.45,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
+        ax.scatter(xx_afer_rise[0:1000], data_after_rise[0:1000], marker='o',color='g', label='Max amplitude data')
+        ax.scatter(xx_noise, yy_noise, marker='o',color='b', label='Noise data')
+        ax.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
                     fontproperties=font, transform=ax.transAxes)
-        #ax.text(0.05,0.7, 'Noise mean = {0:.3f} [\mu V] '.format(noise_mean_holesystem[j]*1000000.), verticalalignment='bottom', horizontalalignment='left',
-        #            fontproperties=font_par, transform=ax.transAxes)
-        ax.text(0.05,0.65, 'Noise rms = {0:.3f} [\mu V]'.format(noise_std_holesystem[j]*1000000.), verticalalignment='bottom', horizontalalignment='left',
+        ax.text(0.05,0.6, r'Noise rms = {0:.3f} [$\mu$V]'.format(noise_std_holesystem[j]*1000000.), verticalalignment='bottom', horizontalalignment='left',
                     fontproperties=font_par, transform=ax.transAxes)
-        ax.text(0.05,0.6, 'Rise time = {0:.3f} +/- {1:.3f} [ns]'.format(rise_time[j]*(1E+9),rise_time_error[j]*(1E+9) ) , verticalalignment='bottom', horizontalalignment='left',
+        ax.text(0.05,0.55, 'Rise time = {0:.3f} +/- {1:.3f} [ns]'.format(rise_time[j]*(1E+9),rise_time_error[j]*(1E+9) ) , verticalalignment='bottom', horizontalalignment='left',
+                    fontproperties=font_par, transform=ax.transAxes)
+        ax.text(0.05,0.5, 'Amplitude = {0:.3f} +/- {1:.3f} [mV]'.format(amplitude[j]*(1E+3),amplitude_error[j]*(1E+3) ) , verticalalignment='bottom', horizontalalignment='left',
                     fontproperties=font_par, transform=ax.transAxes)
         ax.legend(loc='upper left',numpoints=1)
         plt.grid()
@@ -398,7 +406,7 @@ def SignalCurves(datasets, path):
 
     # Make to time constant
     #rise_time = [rise_time[i]*2.197 for i in range(len(rise_time))]
-    return rise_time, rise_time_error, noise_std_holesystem
+    return rise_time, rise_time_error, noise_std_holesystem, amplitude, amplitude_error
 
 def ExtractCapacitance(rise_time, rise_time_error, par0, e_par0, par1, e_par1, par2, e_par2):
     # Make to time constant
@@ -535,8 +543,8 @@ if __name__ == "__main__":
     datasets = ['C1_goodones00000.txt', 'C1_goodones00001.txt', 'C1_goodones00002.txt', 'C1_goodones00003.txt',
             'C1_goodones00004.txt', 'C1_goodones00005.txt', 'C1_goodones00006.txt', 'C1_goodones00007.txt',
             'C1_goodones00008.txt', 'C1_goodones00009.txt', 'C1_goodones00010.txt', 'C1_goodones00011.txt']
-    rise_time, rise_time_error, noise_std_holesystem = SignalCurves(datasets, path)
-
+    rise_time, rise_time_error, noise_std_holesystem, amplitude, amplitude_error = SignalCurves(datasets, path)
+    
     # Find the capacitance from the rise time and estimate the error
     C, e_C     = ExtractCapacitance(rise_time, rise_time_error, par0, e_par0, par1, e_par1, par2, e_par2)
     ENC, e_ENC = ExtractENC(C, e_C, lin_par0, lin_e_par0, lin_par1, lin_e_par1) 
@@ -556,6 +564,10 @@ if __name__ == "__main__":
     print "##########################"
     print "Mean ENC in diode \t: {:} # of electrons".format(ENC)
     print "Std ENC in diode \t: {:} # of electrons".format(e_ENC)
+    print "##########################"
+    print "##########################"
+    print "Amplitudes [V] \t: ", np.array(amplitude) * 1E+3
+    print "Amplitudes std [V] \t: ", np.array(amplitude_error) *1E+3
     print "##########################"
     
     raw_input("Press enter to finish")

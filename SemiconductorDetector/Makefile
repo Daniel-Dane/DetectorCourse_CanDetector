@@ -21,7 +21,7 @@
 # Check which TeX Live installation you have with the command pdflatex --version
 TEXLIVE  = 2016
 LATEX    = latex
-PDFLATEX = pdflatex
+PDFLATEX = texfot pdflatex
 # BIBTEX   = bibtex
 BIBTEX = biber
 DVIPS    = dvips

@@ -1,24 +1,6 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Oct  31 08:19:00 2018
-
-@author: dnielsen, fthiele, rignazzi, etty
-"""
-
-import numpy as np
-import sys
-#import matplotlib.pyplot as plt
-#from matplotlib.colors import LogNorm
-
-#from os import path
-#sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
-
-np.random.seed(42)
-
 # milimeters
 std_caliper = 0.05 #?
-std_micrometerscrew = 0.01 # micrometer screw gauge
+std_micrometerscrew = 0.005 # micrometer screw gauge
 
 cider_diameter        = np.array( [66.04, 65.50, 65.70, 65.90, 65.98] )
 cider_wall            = np.array( [0.105] ) # micrometerscrew
@@ -37,7 +19,5 @@ brasstube_diameter = np.array( [1.0] )
 anodewire_coppertube_diameter = np.array( [0.025] )
 
 # to get mean and std for a variable
-# cideR_diameter.mean()
-# cider_diameter.std(ddof=1)
-
-
+#coppertube_inner_diameter.mean()
+#coppertube_inner_diameter.std(ddof=1)

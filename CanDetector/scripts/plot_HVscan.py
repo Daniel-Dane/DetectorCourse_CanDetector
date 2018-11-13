@@ -8,7 +8,6 @@ from numpy import genfromtxt
 from rootpy.plotting import Hist
 from ROOT import TF1, kRed
 from matplotlib import gridspec
-from matplotlib.font_manager import FontProperties
 import matplotlib
 matplotlib.use('Agg')
 
@@ -18,6 +17,8 @@ all of below need to be loaded after `matplotlib` and `matplotlib.use('Agg')`
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 import rootpy.plotting.root2matplotlib as rplt
+
+from common import mca_to_hist, font, font_wip
 
 #######################################################################
 # Package information
@@ -53,14 +54,6 @@ def parseArguments(argv=None):
 
 def plotSpec(name, h, r_min=0, r_max=0):
     pp = PdfPages(name)
-    font0 = FontProperties()
-    font = font0.copy()
-    font.set_style('italic')
-    font.set_weight('bold')
-    font.set_size('x-large')
-    font_wip = font0.copy()
-    font_wip.set_style('italic')
-    font_wip.set_weight('medium')
 
     plt.figure(figsize=(15, 8), dpi=300)
     plt.xlabel('xtick', fontsize=5)
@@ -125,48 +118,14 @@ def plotSpec(name, h, r_min=0, r_max=0):
 
     return (f.GetParameter(1), f.GetParameter(2), fwhm, f.GetParError(1), f.GetParError(2)*2.*math.sqrt(2*math.log(2)), name.split("_")[1])
 
-
-def mca_to_hist(filename):
-    roi_on = False
-    data_on = False
-    data_line = 1
-    bins = 1024
-    r_min = 0
-    r_max = 0
-
-    h = Hist(1024, 0, 1024)
-
-    for line in open(filename, 'r'):
-        if roi_on:
-            val = line.split()
-            r_min = val[0]
-            r_max = val[1]
-            roi_on = False
-
-        if data_on:
-            if line.find("END") > -1:
-                data_on = False
-                continue
-            h.SetBinContent(data_line, float(line.split()[0]))
-            data_line += 1
-
-        if line.find("ROI") > -1:
-            roi_on = True
-
-        if line.find("DATA") > -1:
-            data_on = True
-
-    print("region of interest: {:} to {:}".format(r_min, r_max))
-
-    return (h, r_min, r_max)
-
 def plot_confs(confs, title, abbrev):
 
     fit_pars = {}
     for v in confs:
         name = "../data/mca/"+abbrev+"_"+v+".mca"
         path = "../graphics/"+abbrev+"_"+v+".pdf"
-        (h, r_min, r_max) = mca_to_hist(name)
+        (h, r_min, r_max, time) = mca_to_hist(name)
+        print(v.split("_"))
         fit_pars[int(v.split("_")[1])] = plotSpec(path, h, r_min, r_max)
 
     gain_style = {100: 'blue',
@@ -191,6 +150,7 @@ def plot_confs(confs, title, abbrev):
         d_y[gain].append(value[2]/value[0])
         rel_unc_mean = value[3]/value[0]
         d_volt[gain].append(key)
+        print("volt",key," mean",value[0]," FWHM",value[2])
 
         rel_unc_fwhm = value[4]/value[2]
         rel_unc_fwhm = math.sqrt(math.pow(rel_unc_fwhm, 2) + math.pow(0.1, 2))
@@ -198,14 +158,7 @@ def plot_confs(confs, title, abbrev):
                                        math.pow(rel_unc_fwhm, 2))*value[2]/value[0])
 
     pp = PdfPages("../graphics/"+title.lower()+"_scan.pdf")
-    font0 = FontProperties()
-    font = font0.copy()
-    font.set_style('italic')
-    font.set_weight('bold')
-    font.set_size('x-large')
-    font_wip = font0.copy()
-    font_wip.set_style('italic')
-    font_wip.set_weight('medium')
+
 
     plt.figure(figsize=(15, 8), dpi=300)
     plt.xlabel('xtick', fontsize=5)
@@ -259,6 +212,8 @@ def plot_confs(confs, title, abbrev):
 
 def main(argv):
     args = parseArguments(argv)
+    
+    print("am_40_1502 fit is not exactly right")
 
     am_confs = ["100_1136", "100_1191", "100_1244", "100_1297", "100_1351", "100_1399", "10_1665", "10_1712", "10_1758", "20_1559", "20_1603", "20_1666", "2_1900", "2_1951", "2_2001", "40_1397", "40_1455", "40_1502", "40_1559", "4_1757", "4_1808", "4_1858", "4_1899"]
 

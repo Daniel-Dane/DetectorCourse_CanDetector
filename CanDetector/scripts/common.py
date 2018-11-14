@@ -23,7 +23,7 @@ def mca_to_hist(filename, do_print = True):
 
     h = Hist(nbins, 0, nbins)
 
-    for line in open(filename, 'r', encoding="latin-1"):
+    for line in open(filename, 'r'):
         if roi_on:
             val = line.split()
             r_min = val[0]

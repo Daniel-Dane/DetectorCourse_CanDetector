@@ -15,8 +15,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 impedance_factor = 0.7
 rc_factor_10_90  = 2.197
 
-def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_filename):
-    # Read data fron the calibration curve dataset
+def LoadCalibrationFile(calibration_filename):
     calibration_diode = np.loadtxt(calibration_filename,skiprows=1)
     C           = calibration_diode[:,0]
     e_C         = np.zeros([len(C)])
@@ -26,6 +25,12 @@ def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_fil
     d_fall_time = calibration_diode[:,4]
     amplitude   = calibration_diode[:,5]
     d_amplitude = calibration_diode[:,6]
+    return C, e_C, noise_rms, d_noise_rms, fall_time, d_fall_time, amplitude, d_amplitude
+
+
+def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_filename):
+    # Read data fron the calibration curve dataset
+    C, e_C, noise_rms, d_noise_rms, fall_time, d_fall_time, amplitude, d_amplitude = LoadCalibrationFile(calibration_filename)
 
     font0 = FontProperties()
     font = font0.copy()
@@ -40,7 +45,7 @@ def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_fil
     fig, ax = plt.subplots()
     ax.set_xlabel('C [pF]')
     ax.set_xlim(0.0, 120)
-    ax.set_ylabel('Noise RMS [\mu V]')
+    ax.set_ylabel(r'Noise RMS [$\mu$V]')
     ax.errorbar(C, noise_rms, d_noise_rms, marker='o', color='b', linestyle='None', label='Data')
     ax.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
                 fontproperties=font, transform=ax.transAxes)
@@ -65,23 +70,6 @@ def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_fil
     fig1.savefig('../graphics/amplitude_vs_capacitance.pdf')
     plt.close(fig1)
     plt.clf()
-
-    # Plot of the ENC vs capacitance
-    """
-    fig1, ax1 = plt.subplots()
-    ax1.set_xlabel('C [pF]')
-    ax1.set_xlim(0.0, 120)
-    ax1.set_ylabel('Amplitude [mV]')
-    ax1.errorbar(C, amplitude/noise_rms, d_amplitude/d_noise_rms, marker='o', color='b', linestyle='None', label='Data')
-    ax1.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
-                fontproperties=font, transform=ax.transAxes)
-    ax1.legend(loc='upper right')
-    plt.grid()
-    #plt.show()
-    fig1.savefig('../graphics/ENC_vs_capacitance.pdf')
-    plt.close(fig1)
-    plt.clf()
-    """
 
     IV = np.loadtxt(IV_filename,skiprows=1)
     V   = IV[:,0]
@@ -183,21 +171,11 @@ def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_fil
     plt.close(fig3)
     plt.clf()
 
-
-
     return
 
-def Calibration(calibration_filename, plot_Calibration_curve):
+def CalibrationRiseTime(calibration_filename):
     # Read data fron the calibration curve dataset
-    calibration_diode = np.loadtxt(calibration_filename,skiprows=1)
-    C           = calibration_diode[:,0]
-    e_C         = np.zeros([len(C)])
-    noise_rms   = calibration_diode[:,1]
-    d_noise_rms = calibration_diode[:,2]
-    fall_time   = calibration_diode[:,3]
-    d_fall_time = calibration_diode[:,4]
-    amplitude   = calibration_diode[:,5]
-    d_amplitude = calibration_diode[:,6]
+    C, e_C, noise_rms, d_noise_rms, fall_time, d_fall_time, amplitude, d_amplitude = LoadCalibrationFile(calibration_filename)
 
     gStyle.SetOptStat(1111)
 
@@ -228,30 +206,90 @@ def Calibration(calibration_filename, plot_Calibration_curve):
     l = 'fit pol2 $p_0$: {:.3g} $p_1$: {:.3g} $p_2$: {:.2f}'.format(*par)
 
     # Plot the calibration curve with matplotlib
-    if plot_Calibration_curve:
-        font0 = FontProperties()
-        font = font0.copy()
-        font.set_style('italic')
-        font.set_weight('bold')
-        font.set_size('x-large')
+    font0 = FontProperties()
+    font = font0.copy()
+    font.set_style('italic')
+    font.set_weight('bold')
+    font.set_size('x-large')
 
-        fig, ax = plt.subplots()
-        ax.set_xlabel('C [pF]')
-        ax.set_xlim(0.0, 120)
-        ax.set_ylabel('Rise time [ns]')
-        ax.errorbar(C, fall_time, d_fall_time, marker='o', color='k', linestyle='None', label='Data')
-        ax.plot(xx, yy, label=l, color='r')
-        #plt.set_title('Diode calibration curve')
-        ax.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
-                    fontproperties=font, transform=ax.transAxes)
-        ax.legend(loc='upper left', numpoints=1)
-        plt.grid()
-        #plt.show()
-        fig.savefig('../graphics/calibration_diode.pdf')
-        plt.close(fig)
-        plt.clf()
+    fig, ax = plt.subplots()
+    ax.set_xlabel('C [pF]')
+    ax.set_xlim(0.0, 120)
+    ax.set_ylabel('Rise time [ns]')
+    ax.errorbar(C, fall_time, d_fall_time, marker='o', color='k', linestyle='None', label='Data')
+    ax.plot(xx, yy, label=l, color='r')
+    #plt.set_title('Diode calibration curve')
+    ax.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
+                fontproperties=font, transform=ax.transAxes)
+    ax.legend(loc='upper left', numpoints=1)
+    plt.grid()
+    #plt.show()
+    fig.savefig('../graphics/calibration_diode.pdf')
+    plt.close(fig)
+    plt.clf()
 
     return par0, e_par0, par1, e_par1, par2, e_par2
+
+def CalibrationENC(calibration_filename):
+    # Read data fron the calibration curve dataset
+    C, e_C, noise_rms, d_noise_rms, fall_time, d_fall_time, amplitude, d_amplitude = LoadCalibrationFile(calibration_filename)
+
+    noise_rms = noise_rms / 1000. # convert form \muV to mV
+    d_noise_rms = d_noise_rms / 1000.
+
+    ENC = (noise_rms/amplitude) * (C * 20.0) * pow(10,-15) / (1.602 * pow(10,-19) ) #pF * mV = 10^-12 * 10^-3 = 10^-15 C / 10^-19 C = 10^4 electrons
+    d_ENC = np.zeros([len(ENC)])
+    for i in range(len(ENC)):
+        d_ENC[i] = sqrt( d_noise_rms[i]*d_noise_rms[i]*(C[i] * 20.0/amplitude[i])*(C[i] * 20.0/amplitude[i])  +  d_amplitude[i]*d_amplitude[i]*((noise_rms[i]/(amplitude[i]*amplitude[i])) * (C[i] * 20.0))*((noise_rms[i]/(amplitude[i]*amplitude[i])) * (C[i] * 20.0))    )
+    
+    d_ENC = d_ENC * pow(10,-15) / (1.602 * pow(10,-19) ) # conversted to # of electrons
+
+    calib_curve = TGraphErrors(len(ENC), array('d', C[:-1].tolist()), array('d', ENC.tolist()), array('d', e_C.tolist()), array('d', d_ENC) )
+
+    # Construct the fit with a 1st and 2nd order polynomial
+    fit_curve = TF1('fit_curve','[1]*x + [0]',0.,110.)
+    fit_curve2 = TF1('fit_curve2','[0]*x*x + [1]*x + [2]',0.,110.)
+
+    # Fit the calibration curve
+    calib_curve.Fit(fit_curve,'R')
+    calib_curve.Fit(fit_curve2, 'R')
+
+    lin_par0   = fit_curve.GetParameter(0)
+    lin_e_par0 = fit_curve.GetParError(0)
+    lin_par1   = fit_curve.GetParameter(1)
+    lin_e_par1 = fit_curve.GetParError(1)
+
+    xx = np.linspace(0., 105, 1000)
+    yy = [fit_curve.Eval(x) for x in xx]
+    yy2 = [fit_curve2.Eval(x) for x in xx]
+
+    par = [lin_par0, lin_par1]
+    l = 'fit pol2 $p_0$: {:.3g} $p_1$: {:.3g}'.format(*par)
+
+
+    # Plot the calibration curve with matplotlib
+    font0 = FontProperties()
+    font = font0.copy()
+    font.set_style('italic')
+    font.set_weight('bold')
+    font.set_size('x-large')
+
+    fig, ax = plt.subplots()
+    ax.set_xlabel('C [pF]')
+    ax.set_ylabel('ENC [# of electrons]')
+    ax.errorbar(C, ENC, d_ENC, marker='o', color='k', linestyle='None', label='Data')
+    ax.plot(xx, yy, color='r', label=l)
+    ax.plot(xx, yy2, color='g', label='Fit2')
+    ax.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
+                fontproperties=font, transform=ax.transAxes)
+    ax.legend(loc='upper left', numpoints=1)
+    plt.grid()
+    #plt.show()
+    fig.savefig('../graphics/calibrationENC_diode.pdf')
+    plt.close(fig)
+    plt.clf()
+
+    return lin_par0, lin_e_par0, lin_par1, lin_e_par1
 
 # Extract the noise and the rise time from the data collected
 def SignalCurves(datasets, path):
@@ -263,11 +301,13 @@ def SignalCurves(datasets, path):
     noise_std_holesystem   = []
     noise_mean_holesystem  = []
     noise_fit              = []
+    amplitude              = []
+    amplitude_error        = []
 
     for i in datasets:
         q = np.loadtxt(path + i, skiprows=6, delimiter=',')
         decay_data.append(q)
-        print("MESSAGE INFO: The sample %s has been loaded "%(i))
+        print "MESSAGE INFO: The sample %s has been loaded "%(i)
 
     j = -1
     for data in decay_data:
@@ -306,7 +346,14 @@ def SignalCurves(datasets, path):
         noise_fit.append(n_fit)
         #noise_std_holesystem.append(n_fit.GetParError(0))
         noise_mean_holesystem.append(n_fit.GetParameter(0))
-        noise_std_holesystem.append(np.std(data[data[:,0] < -0.5E-6,1]))
+        noise_std_holesystem.append(np.std(data[data[:,0] < -0.2E-6,1]))
+
+        xx_afer_rise       = data[data[:,0] > limits_up[j],0]
+        data_after_rise    = data[data[:,0] > limits_up[j],1]
+        mean_max_amplitude = np.mean(data_after_rise[0:1000])
+        std_max_amplitude  = np.std(data_after_rise[0:1000])  
+        amplitude.append(mean_max_amplitude)
+        amplitude_error.append(std_max_amplitude)
 
         def RiseFunct(x, par0, par1, par2):
             return par0*(1.0 - exp(-x/par1)) + par2
@@ -315,10 +362,10 @@ def SignalCurves(datasets, path):
         def NoiseFunct(x, parN):
             return np.ones(len(x)) * parN
 
-        xx_noise = np.linspace(-2.5E-6, -0.1E-6, 1000)
+        xx_noise = data[data[:,0] < -0.2E-6,0]
         xx_rise = np.linspace(limits_down[j], limits_up[j], 1000)
         yy_rise  = [r_fit.Eval(x) for x in xx_rise]
-        yy_noise = [n_fit.Eval(x) for x in xx_noise]
+        yy_noise = data[data[:,0] < -0.2E-6,1]
 
 
         pdfP = PdfPages('../graphics/data_{:}.pdf'.format(str(j)))
@@ -337,16 +384,17 @@ def SignalCurves(datasets, path):
         ax.set_xlim(-0.7E-6, 0.5E-6)
         ax.set_ylim(-0.005, 0.05)
         ax.set_ylabel('Amplitude [V]')
-        ax.plot(data[:,0], data[:,1], marker='o', color='k', label='Data', linestyle='None')
-        #ax.plot(xx_noise, yy_noise, color='g', label='Noise Fit')
+        ax.scatter(data[:,0], data[:,1], marker='o', color='k', label='Data')
         ax.plot(xx_rise, yy_rise, color = 'r', label='Rise time fit', linewidth=3)
-        ax.text(0.45,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
+        ax.scatter(xx_afer_rise[0:1000], data_after_rise[0:1000], marker='o',color='g', label='Max amplitude data')
+        ax.scatter(xx_noise, yy_noise, marker='o',color='b', label='Noise data')
+        ax.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
                     fontproperties=font, transform=ax.transAxes)
-        #ax.text(0.05,0.7, 'Noise mean = {0:.3f} [\mu V] '.format(noise_mean_holesystem[j]*1000000.), verticalalignment='bottom', horizontalalignment='left',
-        #            fontproperties=font_par, transform=ax.transAxes)
-        ax.text(0.05,0.65, 'Noise rms = {0:.3f} [\mu V]'.format(noise_std_holesystem[j]*1000000.), verticalalignment='bottom', horizontalalignment='left',
+        ax.text(0.05,0.6, r'Noise rms = {0:.3f} [$\mu$V]'.format(noise_std_holesystem[j]*1000000.), verticalalignment='bottom', horizontalalignment='left',
                     fontproperties=font_par, transform=ax.transAxes)
-        ax.text(0.05,0.6, 'Rise time = {0:.3f} +/- {1:.3f} [ns]'.format(rise_time[j]*(1E+9),rise_time_error[j]*(1E+9) ) , verticalalignment='bottom', horizontalalignment='left',
+        ax.text(0.05,0.55, 'Rise time = {0:.3f} +/- {1:.3f} [ns]'.format(rise_time[j]*(1E+9),rise_time_error[j]*(1E+9) ) , verticalalignment='bottom', horizontalalignment='left',
+                    fontproperties=font_par, transform=ax.transAxes)
+        ax.text(0.05,0.5, 'Amplitude = {0:.3f} +/- {1:.3f} [mV]'.format(amplitude[j]*(1E+3),amplitude_error[j]*(1E+3) ) , verticalalignment='bottom', horizontalalignment='left',
                     fontproperties=font_par, transform=ax.transAxes)
         ax.legend(loc='upper left',numpoints=1)
         plt.grid()
@@ -358,7 +406,7 @@ def SignalCurves(datasets, path):
 
     # Make to time constant
     #rise_time = [rise_time[i]*2.197 for i in range(len(rise_time))]
-    return rise_time, rise_time_error, noise_std_holesystem
+    return rise_time, rise_time_error, noise_std_holesystem, amplitude, amplitude_error
 
 def ExtractCapacitance(rise_time, rise_time_error, par0, e_par0, par1, e_par1, par2, e_par2):
     # Make to time constant
@@ -377,7 +425,7 @@ def ExtractCapacitance(rise_time, rise_time_error, par0, e_par0, par1, e_par1, p
     # Find the value of the capacitance from the extracted parameters and fall time average
     def Capacitance(par0, par1, par2, rise_time):
         if (par1**2 -4.0*par0*(par2 - rise_time*pow(10,9)) < 0): 
-            print("Negative value!!!")
+            print "Negative value!!!"
             return False, 0.0
         C = (-par1 + sqrt(par1**2 -4.0*par0*(par2 - rise_time*pow(10,+9))))/(2*par0)
         return True, C
@@ -404,7 +452,7 @@ def ExtractCapacitance(rise_time, rise_time_error, par0, e_par0, par1, e_par1, p
 
     neg = 0
     for i in range(100000):
-        if (i % 1000 == 0): print("MESSAGE INFO: pseudoexperiment: ", i)
+        if (i % 1000 == 0): print "MESSAGE INFO: pseudoexperiment: ", i
         par0_tmp = r.Gaus(par0, e_par0)
         par1_tmp = r.Gaus(par1, e_par1)
         par2_tmp = r.Gaus(par2, e_par2)
@@ -424,7 +472,7 @@ def ExtractCapacitance(rise_time, rise_time_error, par0, e_par0, par1, e_par1, p
         par2_hist.Fill(par2_tmp)
         risetime_hist.Fill(rise_time_tmp)
 
-    print("MESSAGE INFO: The negative happens: ", neg)
+    print "MESSAGE INFO: The negative happens: ", neg
 
     g = TF1('fit_C_stat_uncert', 'gaus', C + 0.2*C, C -0.2*C)
     g.SetLineColor(2)
@@ -465,6 +513,14 @@ def ExtractCapacitance(rise_time, rise_time_error, par0, e_par0, par1, e_par1, p
 
     return C, e_C
 
+def ExtractENC(C, e_C, lin_par0, lin_e_par0, lin_par1, lin_e_par1):
+    # Insert the ENC in the linear equation
+    ENC = lin_par0 + lin_par1 * C
+    # Use error propagation to find the error on the ENC
+    e_ENC = sqrt( (lin_e_par0*lin_e_par0)*(1.0)  +  (lin_e_par1*lin_e_par1)*(C*C)  +  (e_C*e_C)*(lin_par1*lin_par1) )
+
+    return ENC, e_ENC
+
 if __name__ == "__main__":
 
     ######################################
@@ -477,32 +533,41 @@ if __name__ == "__main__":
     # Find the capacitance of the diode from
     # the calibration curve
     ######################################
-    # Find the parameters from the Calibration curve
-
-    par0, e_par0, par1, e_par1, par2, e_par2 = Calibration('../data/diodetest/diode_calibration.txt', 1)
+    # Find the parameters from the Calibration curve for the rise time and ENC
+    lin_par0, lin_e_par0, lin_par1, lin_e_par1 = CalibrationENC('../data/diodetest/diode_calibration.txt')
+    
+    par0, e_par0, par1, e_par1, par2, e_par2   = CalibrationRiseTime('../data/diodetest/diode_calibration.txt')
 
     path = '../data/measurements/'
     # Read in the data from the Strontiom decay and fit the decay curve to an exponential to get the decay time
     datasets = ['C1_goodones00000.txt', 'C1_goodones00001.txt', 'C1_goodones00002.txt', 'C1_goodones00003.txt',
             'C1_goodones00004.txt', 'C1_goodones00005.txt', 'C1_goodones00006.txt', 'C1_goodones00007.txt',
             'C1_goodones00008.txt', 'C1_goodones00009.txt', 'C1_goodones00010.txt', 'C1_goodones00011.txt']
-    rise_time, rise_time_error, noise_std_holesystem = SignalCurves(datasets, path)
-
+    rise_time, rise_time_error, noise_std_holesystem, amplitude, amplitude_error = SignalCurves(datasets, path)
+    
     # Find the capacitance from the rise time and estimate the error
-    C, e_C = ExtractCapacitance(rise_time, rise_time_error, par0, e_par0, par1, e_par1, par2, e_par2)
+    C, e_C     = ExtractCapacitance(rise_time, rise_time_error, par0, e_par0, par1, e_par1, par2, e_par2)
+    ENC, e_ENC = ExtractENC(C, e_C, lin_par0, lin_e_par0, lin_par1, lin_e_par1) 
 
-    print("##########################")
-    print("Mean rise time: {:} s ".format(np.mean(rise_time)))
-    print("Std rise time: {:} s".format(np.std(rise_time)))
-    print("##########################")
-    print("##########################")
-    print("Capacitance: {:} pF".format(C))
-    print("Stat error on capacitance: {:} pF".format(e_C))
-    print("##########################")
-    print("##########################")
-    print("Mean Noise RMS from diode + circuit: {:} V".format(np.mean(noise_std_holesystem)))
-    print("Std Noise RMS from diode + circuit: {:} V".format(np.std(noise_std_holesystem)))
-    print("##########################")
+    print "##########################"
+    print "Mean rise time\t: {:} s ".format(np.mean(rise_time))
+    print "Std rise time\t: {:} s".format(np.std(rise_time))
+    print "##########################"
+    print "##########################"
+    print "Capacitance \t\t\t: {:} pF".format(C)
+    print "Stat error on capacitance\t: {:} pF".format(e_C)
+    print "##########################"
+    print "##########################"
+    print "Mean Noise RMS from diode + circuit\t: {:} V".format(np.mean(noise_std_holesystem))
+    print "Std Noise RMS from diode + circuit\t: {:} V".format(np.std(noise_std_holesystem))
+    print "##########################"
+    print "##########################"
+    print "Mean ENC in diode \t: {:} # of electrons".format(ENC)
+    print "Std ENC in diode \t: {:} # of electrons".format(e_ENC)
+    print "##########################"
+    print "##########################"
+    print "Amplitudes [V] \t: ", np.array(amplitude) * 1E+3
+    print "Amplitudes std [V] \t: ", np.array(amplitude_error) *1E+3
+    print "##########################"
     
-    
-    input("Press enter to finish")
+    raw_input("Press enter to finish")

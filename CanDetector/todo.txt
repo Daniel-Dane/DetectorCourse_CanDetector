@@ -1,12 +1,12 @@
 Outline of the Beer Can detector
 --------------------------------
 
-A. Introduction:
+A. Introduction: Fabian
 
    - Background on gas detector in particle physics
    - Brief overview of the objectives: Construct a can detector, calibrate it, perform spectrum analysis
 
-B. Beercan Detector construction
+B. Beercan Detector construction Rosanna
 
    - Steps taken during the design and construction of the can
    - Table listing the physical dimensions (and uncertainties) of the can
@@ -18,7 +18,7 @@ B. Beercan Detector construction
 
    - Pictures of the assembly
 
-C. Experimental Set-up and Calibration measurements
+C. Experimental Set-up and Calibration measurements Etienne
 
    - Schematics of the experimental set-up
    - Description + plots of the following measurements:
@@ -31,25 +31,25 @@ C. Experimental Set-up and Calibration measurements
 
 D. Energy Calibration of the MCA
 
-   - Short explanation: We want to measure the conversion factor between energy and MCA counts
+   - Short explanation: We want to measure the conversion factor between energy and MCA counts 
 
    - Plot Background spectrum. Mention how it was obtained. Discuss possible bkg sources
 
-   - Plot mean and sigma of histogram v. Operating voltage.
+   - Plot mean and sigma of histogram v. Operating voltage. Fabian
      Identify the operating voltage we chose for the final spectrum
 
-   - Plot MCA v. Energy using:
+   - Plot MCA v. Energy using: Daniel
      	  i) refined Fe55 main peak
 	  ii) refined Fe55 escape peak
 	  ii) refined Am241 peak
 
-E. Fe55 and Am241 Spectra analysis
+E. Fe55 and Am241 Spectra analysis  Daniel
 
    - Show Full Fe55 spectrum in energy units with fitted peaks
    - Show full Am241 spectrum in energy units with fitted peaks
    - Identify some of the extra peaks in the Am241 data
 
-F. Analysis of Systematics
+F. Analysis of Systematics Etienne
 
    - Brief explanation: Our energy resolution and charge measurement is dependent on beercan-related systematics.
    - Present the main systematics:
@@ -64,13 +64,15 @@ F. Analysis of Systematics
 	     iii) uncertinties on data = uncertainties on Gain
 	     iv) Band plot for theoretical values of M
 
-G. Special Gas Detector Results
+G. Special Gas Detector Results 
 
    - Show Background spectra (discuss differences)
    - Show spectra of Fe minus background (discuss differences)
    - Show spectra of Am minus background (discuss differences)
    -Additional discussion about how smaller detector (and smaller systematics) can affect the energy resolution in the end
 
-H. Conclusion
+G1. Beer can spectra vs copper pipe spectra
+
+H. Conclusion Rosanna
 
 We measured a bunch of stuff. We found this. End of story.

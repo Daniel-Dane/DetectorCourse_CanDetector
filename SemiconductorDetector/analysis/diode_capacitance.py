@@ -307,8 +307,6 @@ def SignalCurves(datasets, path):
         #noise_std_holesystem.append(n_fit.GetParError(0))
         noise_mean_holesystem.append(n_fit.GetParameter(0))
         noise_std_holesystem.append(np.std(data[data[:,0] < -0.5E-6,1]))
-        print(len(data[data[:,0] < -0.1E-6]))
-        print(np.std(data[data[:,0] < -0.1E-6,1]))
 
         def RiseFunct(x, par0, par1, par2):
             return par0*(1.0 - exp(-x/par1)) + par2

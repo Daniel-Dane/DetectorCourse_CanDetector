@@ -219,7 +219,7 @@ def CalibrationRiseTime(calibration_filename):
     ax.errorbar(C, fall_time, d_fall_time, marker='o', color='k', linestyle='None', label='Data')
     ax.plot(xx, yy, label=l, color='r')
     #plt.set_title('Diode calibration curve')
-    ax.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
+    ax.text(0.05,0.65, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
                 fontproperties=font, transform=ax.transAxes)
     ax.legend(loc='upper left', numpoints=1)
     plt.grid()
@@ -264,7 +264,7 @@ def CalibrationENC(calibration_filename):
     yy2 = [fit_curve2.Eval(x) for x in xx]
 
     par = [lin_par0, lin_par1]
-    l = 'fit pol2 $p_0$: {:.3g} $p_1$: {:.3g}'.format(*par)
+    l = 'fit pol1 $p_0$: {:.3g} $p_1$: {:.3g}'.format(*par)
 
 
     # Plot the calibration curve with matplotlib
@@ -279,8 +279,8 @@ def CalibrationENC(calibration_filename):
     ax.set_ylabel('ENC [# of electrons]')
     ax.errorbar(C, ENC, d_ENC, marker='o', color='k', linestyle='None', label='Data')
     ax.plot(xx, yy, color='r', label=l)
-    ax.plot(xx, yy2, color='g', label='Fit2')
-    ax.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
+    ax.plot(xx, yy2, color='g', label='fit pol2')
+    ax.text(0.05,0.65, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
                 fontproperties=font, transform=ax.transAxes)
     ax.legend(loc='upper left', numpoints=1)
     plt.grid()

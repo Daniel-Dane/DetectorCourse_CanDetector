@@ -9,28 +9,8 @@ Created on Wed Oct  31 08:19:00 2018
 import numpy as np
 import ROOT
 from array import array
-import scipy.interpolate as interpolate
-from common import mca_to_hist, show_title, show_text
-#import sys
-#import matplotlib.pyplot as plt
-#from matplotlib.colors import LogNorm
-
-#from os import path
-#sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
-
-#from rootpy.plotting import Hist
-#from ROOT import TF1, kRed
-#from matplotlib import gridspec
-#import matplotlib
-#matplotlib.use('Agg')
-
-"""
-all of below need to be loaded after `matplotlib` and `matplotlib.use('Agg')`
-"""
+from common import show_title, show_text
 import matplotlib.pyplot as plt
-#from matplotlib.backends.backend_pdf import PdfPages
-import rootpy.plotting.root2matplotlib as rplt
-
 np.random.seed(42)
 
 
@@ -60,7 +40,7 @@ FWHM = np.array([ 1.640102628564026, 1.6065840660143793, 1.551179962733933, 1.53
 # fit calibration values to find channel to volt
 gr = ROOT.TGraphErrors( len(volt), array('d',mean), array('d',volt), array('d',FWHM), array('d',verr) )
 fit1 = ROOT.TF1("fit1","pol1", 0, 1024);
-res = gr.Fit(fit1, "RS");
+res = gr.Fit(fit1, "RS")
 #res.Print()
 print("Fit prob. = {:.1f}%".format(fit1.GetProb()*100))
 
@@ -68,7 +48,7 @@ print("Fit prob. = {:.1f}%".format(fit1.GetProb()*100))
 fig = plt.figure()
 ax = plt.subplot()
 
-# plot points and fit
+# plot points and fit result
 plt.errorbar(x=mean, xerr=5*FWHM, y=volt, yerr=5*verr, fmt="none", color='r')
 x0 = mean[0]-10
 xlast = mean[-1]+10
@@ -79,7 +59,7 @@ plt.plot(x, y, 'b-')
 # spice it up and show
 show_title(ax)
 show_text("p( X², ndof ) = p( {:.2f}, {:d} ) = {:.1f}%".format(fit1.GetChisquare(), fit1.GetNDF(), fit1.GetProb()*100), ax, y=0.85)
-show_text("y = {:.2f} + {:.2f}*x".format(fit1.GetParameter(0),fit1.GetParameter(1)), ax, y=0.80)
+show_text("y = {:.3f} + {:.3f}*x".format(fit1.GetParameter(0),fit1.GetParameter(1)), ax, y=0.80)
 show_text("Note: Shown uncertainties are scaled by 5", ax, y=0.75)
 ax.set_ylabel("Voltage [V]")
 ax.set_xlabel("Channel [bit]")

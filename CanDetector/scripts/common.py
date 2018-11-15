@@ -23,7 +23,9 @@ def mca_to_hist(filename, do_print = True):
 
     h = Hist(nbins, 0, nbins)
 
-    for line in open(filename, 'r'):
+    import sys
+    enc = {} if sys.version_info[0]==2 else {"encoding":"latin-1"}
+    for line in open(filename, 'r', **enc):
         if roi_on:
             val = line.split()
             r_min = val[0]

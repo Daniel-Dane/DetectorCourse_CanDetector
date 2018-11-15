@@ -65,5 +65,5 @@ def show_title( ax, x=0.05, y=0.9, verticalalignment='bottom', horizontalalignme
     ax.text(x, y, '1-Group', verticalalignment=verticalalignment, horizontalalignment=horizontalalignment, fontproperties=fontproperties, transform=ax.transAxes)
 
 # show text on figure below title
-def show_text( text, ax, x=0.05, y=0.9, verticalalignment='bottom', horizontalalignment='left', fontproperties=font_wip ) :
-    ax.text(x, y, text, verticalalignment=verticalalignment, horizontalalignment=horizontalalignment, fontproperties=fontproperties, transform=ax.transAxes)
+def show_text( text, ax, x=0.05, y=0.9, verticalalignment='bottom', horizontalalignment='left', fontproperties=font_wip, ha="left" ) :
+    ax.text(x, y, text, verticalalignment=verticalalignment, horizontalalignment=horizontalalignment, fontproperties=fontproperties, transform=ax.transAxes, ha=ha)

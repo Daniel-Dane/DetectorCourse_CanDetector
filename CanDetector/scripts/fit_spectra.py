@@ -37,13 +37,12 @@ def get_draw_spline( fname, smoothing_strength=0.002, color_hist='k', color_spli
     x = [hist.GetBinCenter(x) for x in range(0,hist.GetNbinsX())]
     y = [hist.GetBinContent(x) for x in range(0,len(x))]
     t, c, k = interpolate.splrep(x, y, s=smoothing_strength, k=3)
-    xx = np.linspace(x[0], x[-1], 200)
+    xx = np.linspace(x[0], x[-1], 1000)
     spline = interpolate.BSpline(t, c, k, extrapolate=False)
     ax.plot(xx, spline(xx), color_spline, label=label,zorder=10, linestyle="--")
     if axins is not None:
         axins.plot(xx, spline(xx), color_spline, label=label,zorder=10, linestyle="--")
 #    plt.grid()
-    ax.legend(loc='best')
     return [hist,spline,time_hist]
 
 def subtract_bkg( h_sig, sp_sig, sp_bkg, color='k', ax=None, axins=None ) :
@@ -61,17 +60,17 @@ fig = plt.figure()
 ax = plt.subplot()
 
 # make zoomed in sub-figure
-axins = zoomed_inset_axes(ax, 3.5, loc=5)
+axins = zoomed_inset_axes(ax, 3.0, loc=5)
 
 # Get histograms and make+draw splines (normalizing to fe)
-#[h_fe,  spline_fe, time_fe]  = get_draw_spline("../data/mca/fe_4_1937_spectrum.mca",  0.02,  'b', 'b', "Fe-55",      ax, axins, False)
-#[h_am,  spline_am, _]  = get_draw_spline("../data/mca/am_4_1937_spectrum.mca",  0.02,  'r', 'r', "Am-241",     ax, axins, True, time_fe)
-#[h_bkg, spline_bkg, _] = get_draw_spline("../data/mca/bkg_4_1937_spectrum.mca", 0.002, 'g', 'g', "Background", ax, axins, True, time_fe)
+[h_fe,  spline_fe, time_fe]  = get_draw_spline("../data/mca/fe_4_1937_spectrum.mca",  0.02,  'b', 'b', "Fe-55",      ax, axins, False)
+[h_am,  spline_am, _]  = get_draw_spline("../data/mca/am_4_1937_spectrum.mca",  0.02,  'r', 'r', "Am-241",     ax, axins, True, time_fe)
+[h_bkg, spline_bkg, _] = get_draw_spline("../data/mca/bkg_4_1937_spectrum.mca", 0.002, 'g', 'g', "Background", ax, axins, True, time_fe)
 
 # Get histograms and make+draw splines (normalizing to 1)
-[h_fe,  spline_fe, time_fe]  = get_draw_spline("../data/mca/fe_4_1937_spectrum.mca",  0.02,  'b', 'b', "Fe-55",      ax, axins)
-[h_am,  spline_am, _]  = get_draw_spline("../data/mca/am_4_1937_spectrum.mca",  0.02,  'r', 'r', "Am-241",     ax, axins)
-[h_bkg, spline_bkg, _] = get_draw_spline("../data/mca/bkg_4_1937_spectrum.mca", 0.002, 'g', 'g', "Background", ax, axins)
+#[h_fe,  spline_fe, time_fe]  = get_draw_spline("../data/mca/fe_4_1937_spectrum.mca",  0.02,  'b', 'b', "Fe-55",      ax, axins)
+#[h_am,  spline_am, _]  = get_draw_spline("../data/mca/am_4_1937_spectrum.mca",  0.02,  'r', 'r', "Am-241",     ax, axins)
+#[h_bkg, spline_bkg, _] = get_draw_spline("../data/mca/bkg_4_1937_spectrum.mca", 0.002, 'g', 'g', "Background", ax, axins)
 
 # subtract backround and draw
 h_fe_new = subtract_bkg( h_fe, spline_fe, spline_bkg, "b", ax, axins )
@@ -79,17 +78,20 @@ h_am_new = subtract_bkg( h_am, spline_am, spline_bkg, "r", ax, axins )
 
 # finished zoomed in sub-figure
 axins.set_xlim(0, 149)
-#axins.set_ylim(0, 600)
-axins.set_ylim(0, 1.5)
+axins.set_ylim(0, 600)
+#axins.set_ylim(0, 1.5)
 mark_inset(ax, axins, loc1=2, loc2=4, fc="none", ec="0.5")
 
 # spice it up and show
-x=0.2
-show_title(ax,x=x)
-show_text("heyyyyyyy", ax, y=0.85,x=x)
-#ax.set_ylabel("Counts per {:.0f} seconds per 4 channels [1/s/bit]".format(time_fe))
-ax.set_ylabel("Counts per second per 4 channels [1/s/bit]")
+x=0.05
+ax.set_ylim(top=1.2*ax.get_ylim()[1])
+show_title(ax, x=x)
+show_text("Dashed lines: Bsplines of original histograms", ax, y=0.85, x=x)
+show_text("Full lines: Bsplined background subtracted", ax, y=0.80, x=x)
+ax.set_ylabel("Counts for {:.0f} seconds per 4 channels [1/s/bit]".format(time_fe))
+#ax.set_ylabel("Counts per second per 4 channels [1/s/bit]")
 ax.set_xlabel("Channel [bit]")
+ax.legend(loc='best')
 fig.show()
 
 
@@ -99,7 +101,7 @@ fig.show()
 ######################################
 
 def gauss_single(x, c0, m0, s0):
-    return c0*np.exp(-(x-m0)**2/(2*s0**2))
+    return c0/(np.sqrt(2*np.pi)*s0)*np.exp(-(x-m0)**2/(2*s0**2))
 def gauss_double(x, c0, m0, s0, c1, m1, s1):
     return c0*np.exp(-(x-m0)**2/(2*s0**2)) + c1*np.exp(-(x-m1)**2/(2*s1**2))
 def gauss_triple(x, c0, m0, s0, c1, m1, s1, c2, m2, s2):
@@ -111,6 +113,9 @@ def gauss_double_root(x, par):
 def gauss_triple_root(x, par):
     return gauss_triple(x[0], *par)
 
+def gauss_p0(x, c0, m0, s0, p0):
+    return gauss_single(x, c0, m0, s0) + p0
+
 # energy of peaks in keV
 fe_escape_energy = 2.96 # 60/76*2.958+16/76*2.956
 fe_main_energy = 5.89 # 60/76*5.89875 + 16/76*5.88765
@@ -121,6 +126,7 @@ am_main_energy = 59.5409
 ######################################
 # Fitting with ROOT (doesn't work) 
 ######################################
+
 #import ROOT
 #fitgausses = ROOT.TF1("fitgausses", "gaus+gaus(3)", 0, 1024, 6);
 ##fitgausses.SetParameters(2873.44120691, 90.35997591, 7.04385417)
@@ -163,7 +169,7 @@ am_main_energy = 59.5409
 # Fitting with scipy (works but no chisquare value)
 ######################################
 
-def fit(hist, func, startval, ax, xrange=None, dont_plot_hist=False):
+def fit(hist, func, startval, ax, xrange=None, dont_plot_hist=False, ax2=None, return_pcov=False):
     x = np.array([hist.GetBinCenter(x) for x in range(0,hist.GetNbinsX())])
     y = np.array([hist.GetBinContent(x) for x in range(0,len(x))])
     if xrange is not None:
@@ -171,52 +177,67 @@ def fit(hist, func, startval, ax, xrange=None, dont_plot_hist=False):
         x = x[(x>xrange[0])&(x<xrange[1])]
     popt, pcov = curve_fit(func, x, y, p0 = startval)
     if not dont_plot_hist:
-        rplt.hist(hist, color='r', axes=ax)
-    ax.plot(x,func(x, *popt),'b-', zorder=10)
-    return popt
+        if ax is not None:
+            rplt.hist(hist, color='r', axes=ax)
+        if ax2 is not None:
+            rplt.hist(hist, color='r', axes=ax2)
+    if ax is not None:
+        ax.plot(x,func(x, *popt),'b-')
+    if ax2 is not None:
+        ax2.plot(x,func(x, *popt),'b-')
+    print(pcov)
+    if return_pcov:
+        return [popt,pcov.diagonal()]
+    else:
+        return popt
 
 # make figure and axes
-fig = plt.figure()
-ax = plt.subplot()
+f, (ax, ax2) = plt.subplots(1, 2)
 
-#x = [h_fe_new.GetBinCenter(x) for x in range(0,h_fe_new.GetNbinsX())]
-#y = [h_fe_new.GetBinContent(x) for x in range(0,len(x))]
-##popt, pcov = curve_fit(gauss_double, x, y, p0 = [0.62503264, 46.45198925,  6.1881488 ,  9.56303187, 90.35905582, 7.04286884])
-#popt, pcov = curve_fit(gauss_triple, x, y, p0 = [12.94639985,   12.72625493,    3.11847216,  187.79332257, 46.4294929 ,    6.16076703, 2873.44121312,   90.35997589, 7.04385413])
-#fig = plt.figure()
-#ax = plt.subplot()
-#rplt.hist(h_fe_new, color='r', axes=ax)
-#plt.plot(x,gauss_triple(x, *popt))
-#fig.show()
-#c0, m0, s0, c1, fe_esc_mean, fe_esc_sigma, c2, fe_mean, fe_sigma = popt
+# plot points and fit result
+[c1, fe_esc_mean, fe_esc_sigma, c2, fe_mean, fe_sigma], fe_pcov = fit(h_fe_new, gauss_double,[187, 46.4, 6.16, 2873, 90.3, 7.04], ax, return_pcov=True)
+[c0, am_mean, am_sigma], am_pcov = fit(h_am_new, gauss_single, [1.03, 869,  38.4], None, [860,940], ax2=ax2, return_pcov=True)
+fe_esc_unc = np.sqrt(fe_pcov[1])
+fe_unc = np.sqrt(fe_pcov[4])
+am_unc = np.sqrt(am_pcov[1])
 
-c0, m0, s0, c1, fe_esc_mean, fe_esc_sigma, c2, fe_mean, fe_sigma = fit(h_fe_new, gauss_triple,[12.9, 12.7, 3.11, 187, 46.4, 6.16, 2873, 90.3, 7.04], ax)
+ax.set_xlim(0,149)
+ax2.set_xlim(801,1024)
 
-fig.show()
+ax.spines['right'].set_visible(False)
+ax2.spines['left'].set_visible(False)
+ax2.yaxis.tick_right()
+ax2.tick_params(labelleft='off')
+ax2.tick_params(labelright='on')
 
-#x = np.array([h_am_new.GetBinCenter(x) for x in range(0,h_am_new.GetNbinsX())])
-#y = np.array([h_am_new.GetBinContent(x) for x in range(0,len(x))])
-#x2 = x[(x>850)&(x<940)]
-#y2 = y[(x>850)&(x<940)]
-#popt, pcov = curve_fit(gauss_single, x2, y2, p0 = [1.03901811, 869.30521183,  38.45829851])
-#fig = plt.figure()
-#ax = plt.subplot()
-#rplt.hist(h_am_new, color='r', axes=ax)
-#plt.plot(x2,gauss_single(x2, *popt))
-#fig.show()
-#c0, am_mean, am_sigma = popt
+d = .015 # how big to make the diagonal lines in axes coordinates
+# arguments to pass plot, just so we don't keep repeating them
+kwargs = dict(transform=ax.transAxes, color='k', clip_on=False)
+ax.plot((1-d,1+d), (-d,+d), **kwargs)
+ax.plot((1-d,1+d),(1-d,1+d), **kwargs)
 
-# make figure and axes
-#fig = plt.figure()
-#ax = plt.subplot()
+kwargs.update(transform=ax2.transAxes)  # switch to the bottom axes
+ax2.plot((-d,+d), (1-d,1+d), **kwargs)
+ax2.plot((-d,+d), (-d,+d), **kwargs)
 
-c0, am_mean, am_sigma = fit(h_am_new, gauss_single, [1.03, 869,  38.4], ax, [850,940])
+# spice it up and show
+show_title(ax)
+show_text("Fe-55", ax, y=0.85)
+show_text("Am-241", ax2, y=0.85, x=0.7)
+show_text("Esc. peak:  {: 6.2f} ± {:.2f} bit".format(fe_esc_mean,fe_esc_unc), ax2, y=0.90, x=0.4, ha="right")
+show_text("Fe peak:  {: 6.2f} ± {:.2f} bit".format(fe_mean,fe_unc), ax2, y=0.85, x=0.4, ha="right")
+show_text("Am peak: {:06.2f} ± {:.2f} bit".format(am_mean,am_unc), ax2, y=0.80, x=0.4, ha="right")
+ax.set_ylabel("Counts per second per 4 channels [1/s/bit]")
+ax2.yaxis.set_label_position("right")
+ax2.yaxis.labelpad = 10
+ax2.set_ylabel("Counts per second per 4 channels [1/s/bit]")
+ax.set_xlabel("Channel [bit]")
+ax2.set_xlabel("Channel [bit]")
+f.show()
 
-fig.show()
 
 
-
-######################################
+#%%#####################################
 # Make energy-channel calibration (linear fit with ROOT)
 ######################################
 
@@ -228,7 +249,7 @@ ax = plt.subplot()
 y = [ fe_escape_energy, fe_main_energy, am_main_energy ]
 x = [ fe_esc_mean, fe_mean, am_mean ]
 yerr = [ 0, 0, 0 ]
-xerr = [ fe_esc_sigma, fe_sigma, am_sigma ]
+xerr = np.array([ fe_esc_unc, fe_unc, am_unc ])
 gr = ROOT.TGraphErrors( len(x), array('d',x), array('d',y), array('d',xerr), array('d',yerr) )
 fit1 = ROOT.TF1("fit1","pol1", min(x), max(x));
 fit1.SetParameters(-0.2232671292611002, 0.06796181642128599)
@@ -236,7 +257,7 @@ res = gr.Fit(fit1, "RS")
 print("Fit prob. = {:.1f}%".format(fit1.GetProb()*100))
 
 # plot points and fit result
-plt.errorbar(x=x, xerr=xerr, y=y, yerr=yerr, fmt="none", color='r')
+plt.errorbar(x=x, xerr=100*xerr, y=y, yerr=yerr, fmt="none", color='r',elinewidth=3, zorder=10)
 x = np.linspace(min(x), max(x), 1000)
 y = [fit1.Eval(x) for x in x]
 plt.plot(x, y, 'b-')
@@ -245,60 +266,61 @@ plt.plot(x, y, 'b-')
 show_title(ax)
 show_text("p( X², ndof ) = p( {:.2f}, {:d} ) = {:.1f}%".format(fit1.GetChisquare(), fit1.GetNDF(), fit1.GetProb()*100), ax, y=0.85)
 show_text("y = {:.3f} + {:.3f}*x".format(fit1.GetParameter(0),fit1.GetParameter(1)), ax, y=0.80)
+show_text("Note: Channel uncertainties scaled by 100", ax, y=0.75)
 ax.set_ylabel("Energy [keV]")
 ax.set_xlabel("Channel [bit]")
+ax.arrow(10,10,50,-2.7,width=0.5,head_length=15)
 fig.show()
 
 
 
-######################################
+#%%#####################################
 # Find additional peaks in Am
 ######################################
-
-# transform channel to energy, neglecting uncertainties
-#newbins = [ fit1.Eval(h_am_new.GetBinCenter(x)) for x in range(2,h_am_new.GetNbinsX()) ]
-#h_am_new = ROOT.TH1D("bla","bla", len(newbins), array('d',newbins))
 
 # make figure and axes
 fig = plt.figure()
 ax = plt.subplot()
 
-_, am1_mean, am1_sigma = fit(h_am_new, gauss_single, [1, 260, 10], ax, [245,275])
-_, am2_mean, am2_sigma = fit(h_am_new, gauss_single, [1, 320, 10], ax, [300,335], True)
-_, am3_mean, am3_sigma = fit(h_am_new, gauss_single, [1, 390, 10], ax, [370,415], True)
+am1_c, am1_mean, am1_sigma, am1_p0 = fit(h_am_new, gauss_p0, [386, 261, 8, 85], ax, [240,285])
+am2_c, am2_mean, am2_sigma, am2_p0 = fit(h_am_new, gauss_p0, [237, 318, 6, 81], ax, [300,335], True)
+am3_c, am3_mean, am3_sigma, am3_p0 = fit(h_am_new, gauss_p0, [3587, 391, 14, 60], ax, [370,415], True)
 
-def evaluncertainty(val):
-    x = array('d',[val])
-    err = array('d',[0])
-    res.GetConfidenceIntervals(1, 1, 1, x, err, 0.683, False)
-    return err[0]
-
-def energywithuncertainty(val):
+# E = p0 + p1*channel
+# does error propagation
+def energywithuncertainty(val, dval, caluncoff=False):
     a = fit1.GetParameter(1)
     b = fit1.GetParameter(0)
     da = fit1.GetParError(1)
     db = fit1.GetParError(0)
+    if caluncoff:
+        da=0
+        db=0
     e = a*val+b
-    de = np.sqrt((a*val*np.sqrt((da/a)**2+(db/b)**2))**2+db**2)
+    de = np.sqrt( (a*val)**2*((da/a)**2+(dval/val)**2) + db**2 )
     return [e, de]
 
-am1_energy = fit1.Eval(am1_mean)
-am1_energy_unc = evaluncertainty(am1_mean)
+def energyall(val, dval):
+    return [energywithuncertainty(val,dval)[0], energywithuncertainty(val,dval,True)[1], energywithuncertainty(val,0)[1]]
 
-am1_energy_sigma = fit1.Eval(am1_sigma)
-am1_energy_sigma_unc = evaluncertainty(am1_sigma)
+# we fit with a gauss on top of a flat background
+# the uncertainty on the mean is then the width divided by the square root of the number of entries
+# the normalization constant divided by the binwidth gives us exactly the number of entries
+# this elaborate exercise gives us the actual uncertainty of the mean for just the signal/gauss
+binwidth = h_am_new.GetBinWidth(1)
+am1_energy = energyall(am1_mean, am1_sigma/np.sqrt(am1_c/binwidth))
+am2_energy = energyall(am2_mean, am2_sigma/np.sqrt(am2_c/binwidth))
+am3_energy = energyall(am3_mean, am3_sigma/np.sqrt(am3_c/binwidth))
 
-am1_energy = energywithuncertainty(am1_mean)
-am2_energy = energywithuncertainty(am2_mean)
-am3_energy = energywithuncertainty(am3_mean)
-
-x=0.3
-show_title(ax,x=x)
-show_text("Channel {:.0f}: energy = {:.3f} +- {:.3f} keV".format(am1_mean,*am1_energy), ax, y=0.85, x=x)
-#show_text("Peak at channel {:.0f}:\nenergy = {:.3f} +- {:.3f} keV,\nwidth = {:.3f} +- {:.3f} keV".format(am1_mean,am1_energy,am1_energy_unc,am1_energy_sigma,am1_energy_sigma_unc), ax, y=0.75, x=x)
-show_text("Channel {:.0f}: energy = {:.3f} +- {:.3f} keV".format(am2_mean,*am2_energy), ax, y=0.80, x=x)
-show_text("Channel {:.0f}: energy = {:.3f} +- {:.3f} keV".format(am3_mean,*am3_energy), ax, y=0.75, x=x)
-
+# spice it up and show
+x=0.011
+ax.set_ylim(top=1.3*ax.get_ylim()[1])
+show_title(ax, x=x)
+show_text("Channel {:.0f}: E = {:.2f} ± {:.2f} (stat.) ± {:.2f} (cal.) ± {:.2f} (syst.) keV".format(am1_mean,*am1_energy, 0), ax, y=0.85, x=x)
+show_text("Channel {:.0f}: E = {:.2f} ± {:.2f} (stat.) ± {:.2f} (cal.) ± {:.2f} (syst.) keV".format(am2_mean,*am2_energy, 0), ax, y=0.80, x=x)
+show_text("Channel {:.0f}: E = {:.2f} ± {:.2f} (stat.) ± {:.2f} (cal.) ± {:.2f} (syst.) keV".format(am3_mean,*am3_energy, 0), ax, y=0.75, x=x)
+ax.set_ylabel("Counts for {:.0f} seconds per 4 channels [1/s/bit]".format(time_fe))
+ax.set_xlabel("Channel [bit]")
 fig.show()
 
 # if using a terminal

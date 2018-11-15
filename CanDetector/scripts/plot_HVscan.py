@@ -84,6 +84,7 @@ def plotSpec(name, h, r_min=0, r_max=0):
 
         print("constant = {:}".format(f.GetParameter(0)))
         print("mean = {:}".format(f.GetParameter(1)))
+        print("mean unc = {:}".format(f.GetParError(1)))
         print("std = {:}".format(f.GetParameter(2)))
         fwhm = f.GetParameter(2)*2.*math.sqrt(2*math.log(2))
         print("FWHM = {:}".format(fwhm))
@@ -116,7 +117,7 @@ def plotSpec(name, h, r_min=0, r_max=0):
     plt.savefig(pp, format='pdf')
     pp.close()
 
-    return (f.GetParameter(1), f.GetParameter(2), fwhm, f.GetParError(1), f.GetParError(2)*2.*math.sqrt(2*math.log(2)), name.split("_")[1])
+    return (f.GetParameter(1), f.GetParameter(2), fwhm, f.GetParError(1), f.GetParError(2)*2.*math.sqrt(2*math.log(2)), name.split("_")[1],f.GetParError(1))
 
 def plot_confs(confs, title, abbrev):
 
@@ -150,7 +151,7 @@ def plot_confs(confs, title, abbrev):
         d_y[gain].append(value[2]/value[0])
         rel_unc_mean = value[3]/value[0]
         d_volt[gain].append(key)
-        print("volt",key," mean",value[0]," FWHM",value[2])
+        print("volt",key," mean",value[0]," FWHM",value[2], " mean unc",value[6])
 
         rel_unc_fwhm = value[4]/value[2]
         rel_unc_fwhm = math.sqrt(math.pow(rel_unc_fwhm, 2) + math.pow(0.1, 2))

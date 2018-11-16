@@ -66,6 +66,7 @@ show_text("          Voltage uncertainties scaled by 10", ax, y=0.70)
 ax.set_xlabel("Voltage [V]")
 ax.set_ylabel("Channel [bit]")
 fig.show()
+plt.savefig("../graphics/voltchannelcalib.pdf", format='pdf')
 
 # if using a terminal
 #input("ready...")

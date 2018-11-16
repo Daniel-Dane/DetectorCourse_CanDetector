@@ -17,6 +17,7 @@ np.random.seed(42)
 from scipy.optimize import curve_fit
 import ROOT
 from array import array
+from inspect import signature
 
 
 
@@ -31,7 +32,7 @@ def get_draw_spline( fname, smoothing_strength=0.002, color_hist='k', color_spli
             hist.Scale(1/time_hist)
         else:
             hist.Scale(time_to_norm_to/time_hist)
-    hist.Rebin(4)
+#    hist.Rebin(4)
 #    rplt.hist(hist, stacked=False, fill=False, axes=ax)
 #    print(time_hist)
     x = [hist.GetBinCenter(x) for x in range(0,hist.GetNbinsX())]
@@ -60,7 +61,7 @@ fig = plt.figure()
 ax = plt.subplot()
 
 # make zoomed in sub-figure
-axins = zoomed_inset_axes(ax, 3.0, loc=5)
+axins = zoomed_inset_axes(ax, 5.0, loc=5)
 
 # Get histograms and make+draw splines (normalizing to fe)
 [h_fe,  spline_fe, time_fe]  = get_draw_spline("../data/mca/fe_4_1937_spectrum.mca",  0.02,  'b', 'b', "Fe-55",      ax, axins, False)
@@ -78,7 +79,7 @@ h_am_new = subtract_bkg( h_am, spline_am, spline_bkg, "r", ax, axins )
 
 # finished zoomed in sub-figure
 axins.set_xlim(0, 149)
-axins.set_ylim(0, 600)
+axins.set_ylim(0, 99)
 #axins.set_ylim(0, 1.5)
 mark_inset(ax, axins, loc1=2, loc2=4, fc="none", ec="0.5")
 
@@ -93,6 +94,7 @@ ax.set_ylabel("Counts for {:.0f} seconds per 4 channels [1/s/bit]".format(time_f
 ax.set_xlabel("Channel [bit]")
 ax.legend(loc='best')
 fig.show()
+plt.savefig("../graphics/bkgsubtraction.pdf", format='pdf')
 
 
 
@@ -106,6 +108,7 @@ def gauss_double(x, c0, m0, s0, c1, m1, s1):
     return c0*np.exp(-(x-m0)**2/(2*s0**2)) + c1*np.exp(-(x-m1)**2/(2*s1**2))
 def gauss_triple(x, c0, m0, s0, c1, m1, s1, c2, m2, s2):
     return c0*np.exp(-(x-m0)**2/(2*s0**2)) + c1*np.exp(-(x-m1)**2/(2*s1**2)) + c2*np.exp(-(x-m2)**2/(2*s2**2))
+
 def gauss_single_root(x, par):
     return gauss_single(x[0], *par)
 def gauss_double_root(x, par):
@@ -116,30 +119,122 @@ def gauss_triple_root(x, par):
 def gauss_p0(x, c0, m0, s0, p0):
     return gauss_single(x, c0, m0, s0) + p0
 
+def gauss_double_uncorr(x, N, r, m0, s0, m1, s1):
+    return N*(r/(np.sqrt(2*np.pi)*s0)*np.exp(-(x-m0)**2/(2*s0**2)) + (1-r)/(np.sqrt(2*np.pi)*s1)*np.exp(-(x-m1)**2/(2*s1**2)))
+
 # energy of peaks in keV
-fe_escape_energy = 2.96 # 60/76*2.958+16/76*2.956
-fe_main_energy = 5.89 # 60/76*5.89875 + 16/76*5.88765
+#fe_escape_energy = 2.96 # 60/76*2.958+16/76*2.956
+fe_escape_energy = 3.19
+fe_main_energy = 5.89
+fe_sec_energy = 6.49045
 am_main_energy = 59.5409
 
+fe_escape_energy_unc = 0.01
+fe_main_energy_unc = 0.00001
+fe_sec_energy_unc = 0.01 # higher uncertainty due to being two peaks
+am_main_energy_unc = 0.0001
+
 
 
 ######################################
-# Fitting with ROOT (doesn't work) 
+# Fitting with ROOT (FINALLY WORKS!) 
 ######################################
 
-#import ROOT
-#fitgausses = ROOT.TF1("fitgausses", "gaus+gaus(3)", 0, 1024, 6);
+fitWithROOT_counter = 0
+def fit_with_ROOT(hist_orig, fitobject):
+    global fitWithROOT_counter
+    fitWithROOT_counter += 1
+    hist = ROOT.TH1D("h"+str(fitWithROOT_counter), "h"+str(fitWithROOT_counter), hist_orig.GetNbinsX(), hist_orig.GetXaxis().GetXmin(), hist_orig.GetXaxis().GetXmax() )
+    for i in range(1,hist_orig.GetNbinsX()+1):
+        hist.SetBinContent(i,hist_orig.GetBinContent(i))
+        hist.SetBinError(i,np.sqrt(hist_orig.GetBinContent(i)))
+    hist.Fit(fitobject, "RS")
+    return fitobject.GetChisquare(), fitobject.GetNDF(), fitobject.GetProb()*100
+
+makeFitObject_counter = 0
+def make_fit_object(funcOrExpr, xmin, xmax):
+    global makeFitObject_counter
+    makeFitObject_counter += 1
+    if callable(funcOrExpr) :
+        f = lambda x, pars : funcOrExpr(x[0], *pars)
+        return ROOT.TF1("fit"+str(makeFitObject_counter), f, xmin, xmax, len(signature(funcOrExpr).parameters)-1)
+    else:
+        return ROOT.TF1("fit"+str(makeFitObject_counter), funcOrExpr, xmin, xmax)
+
+def draw_ROOT_fit( fitobject, func, ax, xmin=0, xmax=1024 ):
+    pars = [fitobject.GetParameter(i) for i in range(0,len(signature(func).parameters)-1)]
+    x = np.linspace(xmin, xmax, 1000)
+    ax.plot(x,func(x, *pars), 'b-')
+
+#h = ROOT.TH1D("h","h",1024, 0, 1024)
+#for i in range(0,1024):
+#    h.SetBinContent(i+1,h_am_new.GetBinContent(i+1))
+#    h.SetBinError(i+1,np.sqrt(h_am_new.GetBinContent(i+1)))
+##    if h.GetBinContent(i+1) > 0.0001 :
+#
+#fitgausses = ROOT.TF1("fitgausses", "gaus", 860, 930);
 ##fitgausses.SetParameters(2873.44120691, 90.35997591, 7.04385417)
-#fitgausses.SetParameters(187.79413975, 46.42939315, 6.16071696, 2873.44120691, 90.35997591, 7.04385417)
-#h_fe_new.Fit(fitgausses,"RLL")
-##res = h_fe_new.Fit(fitgausses,"RS")
+#fitgausses.SetParameters(90, 880, 23.9)
+##fitgausses.SetParLimits(0, 10, 10000)
+##fitgausses.SetParLimits(1, 870, 890)
+##fitgausses.SetParLimits(2, 18, 30)
+##res = h_am_new.Fit(fitgausses,"RLLSP")
+#res = h.Fit(fitgausses,"RS")
 #print("Fit prob. = {:.1f}%".format(fitgausses.GetProb()*100))
+#fitgausses.GetChisquare(), fitgausses.GetNDF(), fitgausses.GetProb()*100
 ##fig = plt.figure()
 ##ax = plt.subplot()
 ##rplt.hist(h_fe_new, color='r', axes=ax)
 ##fig.show()
 
+def fit_and_draw_ROOT(hist, func, startval, ax, xrange=None, dont_plot_hist=False, ax2=None, return_pcov=False, draw_individually=False, bounds=None):
+    if xrange is None:
+        xrange = [0, 1024]
+    fitobject = make_fit_object(func, xrange[0], xrange[1])
+    fitobject.SetParameters(*startval)
+    if bounds is not None:
+        for i in range(0, len(bounds[0])):
+            fitobject.SetParLimits(i, bounds[0][i], bounds[1][i])
+    chi2, ndof, prob = fit_with_ROOT(hist, fitobject)
+    funcrange = range(0,len(signature(func).parameters)-1)
+    pars = [fitobject.GetParameter(i) for i in funcrange]
+    errs = [fitobject.GetParError(i) for i in funcrange]
+    
+    x = np.linspace(xrange[0], xrange[1], 1000)
+    if not dont_plot_hist:
+        if ax is not None:
+            rplt.hist(hist, color='r', axes=ax)
+        if ax2 is not None:
+            rplt.hist(hist, color='r', axes=ax2)
+    if ax is not None:
+        ax.plot(x,func(x, *pars), 'b-', zorder=10)
+#        print(pars)
+    if ax2 is not None:
+        ax2.plot(x,func(x, *pars), 'b-', zorder=10)
+    if draw_individually:
+        ax.plot(x, gauss_single(x, pars[0]*pars[1], pars[2], pars[3]), 'r--')
+        ax.plot(x, gauss_single(x, pars[0]*(1-pars[1]), pars[4], pars[5]), 'g--')
+    return pars, errs, chi2, ndof, prob
 
+# make figure and axes
+fig = plt.figure()
+ax = plt.subplot()
+
+#xmin, xmax = 850, 950
+#fitgausses = make_fit_object(gauss_single, xmin, xmax)
+#fitgausses.SetParameters(90, 880, 23.9)
+##fitgausses.SetParLimits(0, 10, 10000)
+##fitgausses.SetParLimits(1, 870, 890)
+##fitgausses.SetParLimits(2, 18, 30)
+#am_chi2, am_ndf, am_prob = fit_with_ROOT(h_am_new, fitgausses)
+#draw_ROOT_fit( fitgausses, gauss_single, ax, xmin, xmax )
+
+am_pars, am_unc, am_chi2, am_ndof, am_prob = fit_and_draw_ROOT( h_am_new, gauss_single, [90, 880, 23.9], ax, [860, 950])
+
+
+fig.show()
+
+X=X
 
 ######################################
 # Fitting with RooFit (doesn't work) 
@@ -169,25 +264,29 @@ am_main_energy = 59.5409
 # Fitting with scipy (works but no chisquare value)
 ######################################
 
-def fit(hist, func, startval, ax, xrange=None, dont_plot_hist=False, ax2=None, return_pcov=False):
-    x = np.array([hist.GetBinCenter(x) for x in range(0,hist.GetNbinsX())])
-    y = np.array([hist.GetBinContent(x) for x in range(0,len(x))])
+def fit(hist, func, startval, ax, xrange=None, dont_plot_hist=False, ax2=None, return_pcov=False, draw_individually=False, bounds=(-np.inf,np.inf)):
+    x = np.array([hist.GetBinCenter(x) for x in range(1,hist.GetNbinsX())])
+    y = np.array([hist.GetBinContent(x) for x in range(1,len(x)+1)])
     if xrange is not None:
         y = y[(x>xrange[0])&(x<xrange[1])]
         x = x[(x>xrange[0])&(x<xrange[1])]
-    popt, pcov = curve_fit(func, x, y, p0 = startval)
+    popt, pcov = curve_fit(func, x, y, p0 = startval, method='trf', bounds=bounds)
     if not dont_plot_hist:
         if ax is not None:
             rplt.hist(hist, color='r', axes=ax)
         if ax2 is not None:
             rplt.hist(hist, color='r', axes=ax2)
     if ax is not None:
-        ax.plot(x,func(x, *popt),'b-')
+        ax.plot(x,func(x, *popt), 'b-')
+#        print(popt)
     if ax2 is not None:
-        ax2.plot(x,func(x, *popt),'b-')
-    print(pcov)
+        ax2.plot(x,func(x, *popt), 'b-')
+    if draw_individually:
+        ax.plot(x,gauss_single(x, popt[0]*popt[1], popt[2], popt[3]), 'r--')
+        ax.plot(x,gauss_single(x, popt[0]*(1-popt[1]), popt[4], popt[5]), 'g--')
+#    print(pcov)
     if return_pcov:
-        return [popt,pcov.diagonal()]
+        return [popt,np.sqrt(pcov.diagonal())]
     else:
         return popt
 
@@ -195,11 +294,14 @@ def fit(hist, func, startval, ax, xrange=None, dont_plot_hist=False, ax2=None, r
 f, (ax, ax2) = plt.subplots(1, 2)
 
 # plot points and fit result
-[c1, fe_esc_mean, fe_esc_sigma, c2, fe_mean, fe_sigma], fe_pcov = fit(h_fe_new, gauss_double,[187, 46.4, 6.16, 2873, 90.3, 7.04], ax, return_pcov=True)
+[c1, fe_esc_mean, fe_esc_sigma], fe_esc_pcov = fit(h_fe_new, gauss_single,[48, 46.4, 5.9], ax, [30,50], return_pcov=True)
+[N, r, fe_mean, fe_sigma, fe_sec_mean, fe_sec_sigma], fe_pcov = fit(h_fe_new, gauss_double_uncorr,[800, 0.88, 90.2, 7.04, 99.1, 4.04], ax, [70,120], return_pcov=True, draw_individually=True, bounds=([0,0.85,87,3,96,1],[15000,1,93,10,102,10]))
+#x = np.array([h_fe_new.GetBinCenter(x) for x in range(1,h_fe_new.GetNbinsX())])
+#ax.plot(x,gauss_double_uncorr(x, N, r, fe_mean, fe_sigma, fe_sec_mean, fe_sec_sigma), 'b--')
 [c0, am_mean, am_sigma], am_pcov = fit(h_am_new, gauss_single, [1.03, 869,  38.4], None, [860,940], ax2=ax2, return_pcov=True)
-fe_esc_unc = np.sqrt(fe_pcov[1])
-fe_unc = np.sqrt(fe_pcov[4])
-am_unc = np.sqrt(am_pcov[1])
+fe_esc_unc = fe_esc_pcov[1]
+fe_unc = fe_pcov[1]
+am_unc = am_pcov[1]
 
 ax.set_xlim(0,149)
 ax2.set_xlim(801,1024)
@@ -234,6 +336,7 @@ ax2.set_ylabel("Counts per second per 4 channels [1/s/bit]")
 ax.set_xlabel("Channel [bit]")
 ax2.set_xlabel("Channel [bit]")
 f.show()
+plt.savefig("../graphics/channelfits.pdf", format='pdf')
 
 
 
@@ -246,9 +349,9 @@ fig = plt.figure()
 ax = plt.subplot()
 
 # do fit
-y = [ fe_escape_energy, fe_main_energy, am_main_energy ]
+y = [ fe_escape_energy, fe_main_energy, fe_sec_energy, am_main_energy ]
 x = [ fe_esc_mean, fe_mean, am_mean ]
-yerr = [ 0, 0, 0 ]
+yerr = [ fe_escape_energy_unc, fe_main_energy_unc, fe_sec_energy_unc, am_main_energy_unc ]
 xerr = np.array([ fe_esc_unc, fe_unc, am_unc ])
 gr = ROOT.TGraphErrors( len(x), array('d',x), array('d',y), array('d',xerr), array('d',yerr) )
 fit1 = ROOT.TF1("fit1","pol1", min(x), max(x));
@@ -271,6 +374,7 @@ ax.set_ylabel("Energy [keV]")
 ax.set_xlabel("Channel [bit]")
 ax.arrow(10,10,50,-2.7,width=0.5,head_length=15)
 fig.show()
+plt.savefig("../graphics/energychannelcalib.pdf", format='pdf')
 
 
 
@@ -322,6 +426,7 @@ show_text("Channel {:.0f}: E = {:.2f} ± {:.2f} (stat.) ± {:.2f} (cal.) ± {:.2
 ax.set_ylabel("Counts for {:.0f} seconds per 4 channels [1/s/bit]".format(time_fe))
 ax.set_xlabel("Channel [bit]")
 fig.show()
+plt.savefig("../graphics/peaksearch.pdf", format='pdf')
 
 # if using a terminal
 #input("ready...")

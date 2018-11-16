@@ -85,9 +85,9 @@ def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_fil
     pc_all = np.array([pc1,pc2,pc3,pc4])
     tc_all = np.array([tc1,tc2,tc3,tc4])
     pc_mean = np.mean(pc_all, axis = 0)
-    pc_std  = np.std(pc_all, axis = 0)
+    pc_std  = np.std(pc_all, axis = 0)/sqrt(4)
     tc_mean = np.mean(tc_all, axis = 0)
-    tc_std  = np.std(tc_all, axis = 0) 
+    tc_std  = np.std(tc_all, axis = 0)/sqrt(4)
 
     # Plot of the IV curve
     fig3, ax3 = plt.subplots(2, sharex= True)
@@ -142,11 +142,11 @@ def OtherPlots(calibration_filename, IV_filename, CV_filename_openneedle, CV_fil
     C_all = np.array([C1, C2, C3, C4])
     C_final_all = C_all - C_openneedle_all
     C_openneedle_mean = np.mean(C_openneedle_all, axis = 0)
-    C_openneedle_std  = np.std(C_openneedle_all, axis = 0) 
+    C_openneedle_std  = np.std(C_openneedle_all, axis = 0) / sqrt(4)
     C_mean = np.mean(C_all, axis = 0)
-    C_std  = np.std(C_all, axis = 0)
+    C_std  = np.std(C_all, axis = 0) /sqrt(4)
     C_final_mean = np.mean(C_final_all, axis = 0)
-    C_final_std  = np.std(C_final_all, axis = 0)
+    C_final_std  = np.std(C_final_all, axis = 0) /sqrt(4)
 
     fig3, ax3 = plt.subplots(1)
     ax3.set_xlabel('Voltage [v]')

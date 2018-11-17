@@ -19,7 +19,7 @@
 \usepackage[T1]{fontenc} % proper underscores etc.
 \usepackage{subcaption} % replace subfloat with subfigure env.
 \sisetup{per-mode=fraction}
-
+\setlength{\parskip}{.8em} 
 
 \begin{document}
 % === Front matter ====================================================
@@ -47,99 +47,76 @@
 
 \section{Introduction}
 
-Semiconductor detectors, in particular silicon detectors, are often used in particle physics detectors for charged track detection, an example being the SCT detector in the ATLAS experiment at CERN. But what makes semiconductor detectors special? And why are they so widely used?
+Semiconductor detectors made of silicon are often used in particle physics. Their compact form and fast response to electronic signal makes them well suited for tracking detectors, such as the SCT detector of the ATLAS experiment at CERN.
 
-A semiconductor is a material where the energy gap between the conduction band and the valence band is of the order of magnitude of $1$ eV. When a charge is detected, an ionizing current is created where freed electrons and holes move to the conduction and valence band respectively. Depending on the number of freed electrons, one can deduct the energy of the charge detected, if the read-out electronics is properly calibrated. The detection of the energy of passing particles is very fast and precise when using semiconductor detectors under an electric field, as the electrons move fast and they move from the anode to the cathode, which helps in finding the coordinate of the particle. All of this makes semiconductor detectors very attractive for particle level detection.
+When charged particles or ionizing radiation travels through a cell of such tracking detector, an ionizing current is created out of pairs of \textit{electrons} and \textit{holes}, which are collected at opposite electrodes with the help of a voltage potential applied to the device. Based on the timing and amplitude of the resulting signal, it is possible to estimate the energy deposited in the cell, as well as the initial direction of the ionizing particle.
 
-In this experiment the production of a semiconductor detector is followed, the resulting diode is characterised and then connected to a pre-amplifier (whose read-out characteristics are previously calibrated), in order to study the response of this silicon diode to a radioactive source.
+Because of the small intensity of the original current produced in a semiconductor detector, preamplifiers and other readout electronics need to be used in conjunction with the tracking cells. This implies that proper calibration measurements must be made for the entire experimental assembly, in order for the data analysis to yield trustworthy and accurate results.
+
+This report presents the details of the production and characteriztion of a PN-junction / preamplifier circuit. The production of a silicon diode is briefly described, along with its integration onto a pre-amplifier circuit board. A characterization of the noise and parasitic capacitance of both elements (sensor + preamplifier) is presented, along with the results of measurements taken with a radioactive source, on the fully assembled detector. 
 
 %################################################################################################
 %
-% Experimental setup
+% Methods
 %
 %################################################################################################
 
-\section{Experimental setup}
+\section{Sensor preparation and characterization}
 
-We worked on a p-type silicon detector. The device was exposed to a soft X-ray source and operated under a bias that ensured depletion of the entire chip. Depletion means that there are no intrinsic charge carrier left on the device, so all the signal measured will come from photoexcitation plus noise from the electronics. The silicon chip was provided without any connection between the top and bottom electrodes. To make these connections, the chip was sent to a clean room where wires were ultrasonically bonded to the top of the chip and the side electrode contacts.
+We worked on a p-type silicon detector. The silicon chip was provided without any connections between the top and bottom electrodes. To make these connections, the chip was sent to a clean room where wires were ultrasonically bonded to the top of the chip and the side electrode contacts. Once the wire bonding was done, the sensor was placed inside a probing station and kept in a dark environment for a series of characterization measurements. Figure \ref{fig:wirebond} shows a close-up picture of the ultrasonically bonded wires, while \ref{fig:probe_station} illustrates the probe station set-up.
 
-Once the wire bonding was done, the sensor was placed inside a dark room probe and its basic performances were evaluated. First, a calibration run measures the parasitic capacitance between the two contacts (in this case needles) of the probe. Next, a voltage bias scan is performed, and the leakage current is measured with a pico amp-meter until we reach a plateau that corresponds to the depletion voltage. Finally the capacitance of the sensor is measured as a function of voltage and the parasitic capacitance is subtracted, to get the correct value of the capacitance of the silicon detector. All measurements were performed four times, in order to gain insight on the uncertainty of the measurements.
-
-\begin{figure}[htb]
+\begin{figure}[h]
   \centering
-  \includegraphics[width=0.8\textwidth]{./graphics/experimentalSetup}
-  \caption{Silicon detector experimental setup.}
-  \label{fig:ExperimentalSetup}
+  \includegraphics[width=0.8\textwidth]{./graphics/placeholder}
+  \caption{placeholder}
+  \label{fig:wirebond}
 \end{figure}
 
-Before attaching the sensor to the rest of the circuit to perform measurements, the response of the pre-amplifier was calibrated using different load capacitances between $1$ pF and $100$ pF put in parallel to the capacitance of $0.4$ pF at the calibration input. To do this, the amplifier was supplied with two voltage biases of + and -12V from a DC workbench power supply. The RMS of the baseline noise was measured while no pulse was injected. The circuit was fed with a square pulse of amplitude $20$ mV and the rise time of the output signal was measured directly on the oscilloscope between the $10\%$ and $90\%$ of the rising signal. The amplitude of the signal was noted as well. During these measurements, the circuit and the cables were coated with aluminium foil (grounded through a cable to the HV power supply), in order to shield the system from radiations, which would cause additional noise to the output signal.
-
-After the calibration measurements were completed, the silicon detector was introduced in the circuit by connecting it to the pre-amplifier. A voltage of around $60$ V was fed to the sensor, in order to fully deplete it, through a low-pass filter consisting of a $100$ nF capacitance and of a $300$ k$\Omega$ resistor, see Figure \ref{fig:ExperimentalSetup}. The resulting circuit is schematically shown in Figure \ref{fig:SiliconDiodeCircuit}.
-Finally the Strontium-90 source was attached with tape to the lid of the box containig the entire circuit. By closing the lid and covering it with aliminium foil, external radiations were shielded. The measurement of the pulses induced in the silicon detector by the particles radiated by the Strontium decay were registered from the oscilloscoper for further analysis.
-
-\begin{figure}[htb]
+\begin{figure}[h]
   \centering
-  \includegraphics[width=0.6\textwidth]{./graphics/SiliconDiodeCircuit}
-  \caption{Silicon detector circuit with low-pass filter, pre-amplifier and silicon diode.}
-  \label{fig:SiliconDiodeCircuit}
+  \includegraphics[width=0.8\textwidth]{./graphics/placeholder}
+  \caption{Picture of the probing station used for the the sensor calibration measurements.}
+  \label{fig:probe_station}
 \end{figure}
 
-%More about the above: The wave supplies a fixed amount of electrons to the pre-amp. That amount can be converted from voltage to charge using the formula:
+Before integrating the silicon detector inside the rest of the circuit, several properties of the junction had to be measured, namely the \textit{depletion voltage} (the voltage at which the sensor is subjected to a reverse bias that is high enough to drain out all intrinsic carriers from the semiconductor), the \textit{leakage current} (undesired currents that add background to the signal current), and the \textit{capacitance} at depletion. All curves were measured $4$ times, in order to have an estimate of the uncertainty of each measurement.
 
-%\begin{equation}
-%  Q = C\cdot V
-%\end{equation}
+To determine the depletion voltage, a bias scan was performed, and the current was measured with a pico amp-meter, as shown in the bottom plot of figure \ref{fig:IVcurve}. The depletion voltage was then defined to be -60V, and corresponds to the onset of the plateau region of the IV curve, which occurs when the width of the space charge region covers the entire width of the semiconductor.
 
-%The capacitance $C$ is going to be the capacitance added to the circuit, in the case of the RMS noise. The charge of the output signal can also be converted into a charge value, but then the capacitance to use must be the sum of the Calib.in capacitance (0.4 pF) and the capacitance that is being added to the circuit.
-
-%Amplitude of the result is 70 percent of the calibration amplitude due to different impedance matching.
-%42mv became 32mV after termination (termination = channel at 50 Ohm impedance).
-
-%################################################################################################
-%
-% Study of the silicon detector
-%
-%################################################################################################
-
-
-\section{Study of Silicon detector}
-
-Before integrating the silicon detector inside the rest of the circuit, a few measurements were undertaken to understand its properties: the depletion voltage and the capacitance at depletion. All curves were measured $4$ times, in order to have an estimate of the uncertainty of each measurement.
-
-The IV curve measures the leakage current as a function of voltage and it is useful for measuring the deplation voltage. As it is visible from Figure \ref{fig:IVcurve}, the depletion voltage for this particular silicon diode is of $\approx 50$ V. The current going through the diode at full depletion is of around $-15$ nA. The errorbars are found by taking the standard deviarion between the four measurements performed for each point.
-
-\begin{figure}[h!]
+\begin{figure}[htb]
   \centering
   \includegraphics[width=0.8\textwidth]{./graphics/IV_V_vs_A.pdf}
   \caption{IV curve for the silicon detector of p-type. The upper plot shows the current per pad for the $4$ different pads, while the lower plot shows the total current }
   \label{fig:IVcurve}
 \end{figure}
 
-The CV curve measures the capacitance of the diode as a function of the voltage and can be seen in Figure \ref{fig:VC_curve_single} for the diode used in this experiment. Before measuring the capacitance of the silicon diode though, we measured the capacitance of the measuring probe, called "Open needle" in Figure \ref{fig:VC_curve_single}. We then measured the diode capacitance and finally we subtracted the instrument capacitance, to have the actual measurement in red in Figure \ref{fig:VC_curve_single}. Again each measurement was performed $4$ times and the plotted results are the mean of the experiments, while the errorbars are found by calculating the standard derivation of the measurements. In this case, the standard deviation is very small and the errorbars are hence smaller than the data points. The capacitance of the diode at full depletion voltage (above $50$ V) is measured to $11.20 \pm 0.02$ pF, see Figure \ref{fig:VC_curve_single}.
+The same probing station was also used to measure the capacitance of the sensor. First, the parasitic capacitance of the measurement electronics was measured by monitoring the capacitance between the two contacts (in this case needles) of the probing station. The result of this scan is shown as the ``Open Needle'' line of figure \ref{fig:VC_curve_single}. Then, the capacitance of the sensor was measured as a function of voltage and the parasitic capacitance was subtracted, to get the correct value of the capacitance of the silicon detector. All measurements were performed four times, in order to gain insight on the uncertainty of the measurements. The capacitance of the diode at full depletion voltage ( $\approx 60$ V) is measured to $11.20 \pm 0.02$ pF, see Figure \ref{fig:VC_curve_single}.
 
-\begin{figure}[t!]
+
+\begin{figure}[htb]
   \centering
   \includegraphics[width=0.8\textwidth]{./graphics/V_vs_C}
   \caption{Parasitic capacitance of the instrument (blue), capacitance of the system plus the silicon diode and capacitance of the diode as a function of voltage.}
   \label{fig:VC_curve_single}
 \end{figure}
 
-%################################################################################################
-%
-% Pre-amplifier calibration curves
-%
-%################################################################################################
-
-\section{Pre-amplifier calibration}
-
-The response of the pre-amplifier was studied with a calibration signal consisting of a square pulse over the calibration load capacitance, which was between $1$ and $100$ pF. 
-Before injecting the square pulse, the noise of the circuit with the different capacitors was measured as the RMS of the noise oscillations. The measurements were recorded and plotted on Figure \ref{fig:Noise_vs_Capacitance}. As it is clearly visible, the noise RMS increases as a function of the input load capacitance.
 
 
-After feeding the square pulse through the preamplifier, the amplitude and the rise time of the pulse were noted and plotted in Figure \ref{fig:Amplitude_vs_Capacitance} and Figure \ref{fig:RiseTime_vs_Capacitance} respectively. The amplitude decreases as a function of load capacitance, while the rise time increasese, which means that the pulse reacts slowlier and looses some of its power as a functio of capacitance. The rise time was measured by finding the time interval between the $10\%$ and $90\%$ of the rising pulse. 
-Additionaly, the measurements with higher capacitances are affected more by the noise, as it is visible by the errorbar size for C = $100$ pF for example. The rise time measurement was fitted to a $2$nd degree polynomial and the resulting paramters are shown in Figure \ref{fig:RiseTime_vs_Capacitance} 
+\section{Preamplifier Calibration}
 
-\begin{figure}[htb]
+Before attaching the sensor to the rest of the circuit to perform measurements, the response of the pre-amplifier was calibrated using the set-up illustrated in figure \ref{fig:preampsetup}. Different load capacitances between $1$ pF and $100$ pF were put in parallel to the capacitance of $0.4$ pF of the calibration input. The amplifier was supplied with two voltage biases of + and -12V from a DC workbench power supply. For every capacitance value, two quantities were measured: the RMS of the baseline noise when no pulse are injected, and the properties of the amplaified signal when provided with a calibrated pulse.  The circuit was fed with a square pulse of amplitude $20$ mV and the rise time of the output signal was measured directly on the oscilloscope between the $10\%$ and $90\%$ of the rising signal. The amplitude of the signal was noted as well. During these measurements, the circuit and the cables were coated with aluminium foil (grounded through a cable to the HV power supply), in order to shield the system from electrical interference that would cause additional noise to the output signal.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{./graphics/placeholder}
+  \caption{Experimental setup of the preamplifier circuit}
+  \label{fig:preampsetup}
+\end{figure}
+
+
+The noise-only measurements were recorded and plotted on Figure \ref{fig:Noise_vs_Capacitance}. As it is clearly visible, the noise RMS increases as a function of the input load capacitance.
+
+\begin{figure}[h]
  \centering
   \begin{subfigure}[t]{0.45\textwidth}
   \centering
@@ -147,8 +124,13 @@ Additionaly, the measurements with higher capacitances are affected more by the 
   \caption{Noise RMS vs capacitance measurement}
   \label{fig:Noise_vs_Capacitance}
 \end{subfigure}
-\hfill
-\begin{subfigure}[t]{0.45\textwidth}
+
+
+  The amplitude and rise time of the output pulses are plotted as a function of circuit capacitance in figure \ref{fig:Amplitude_vs_Capacitance} and figure \ref{fig:RiseTime_vs_Capacitance} respectively. The rise time was measured by finding the time interval between the $10\%$ and $90\%$ of the rising pulse. As can be seen, the amplitude decreases as a function of load capacitance, while the rise time increases, which means that the pulse reacts more slowly  and loses some of its power as the circuit capacitance increases.
+
+ One can note that at higher capacitance the measurements get more affected more by the noise, as it is visible by the errorbar size for C = $100$ pF for example. The rise time measurement was fitted to a $2$nd degree polynomial and the resulting paramters are shown in Figure \ref{fig:RiseTime_vs_Capacitance}
+
+\begin{subfigure}[h]{0.45\textwidth}
   \centering
   \includegraphics[width=1.2\textwidth]{./graphics/amplitude_vs_capacitance}
   \caption{Amplitude vs capacitance measurement}
@@ -165,13 +147,9 @@ Additionaly, the measurements with higher capacitances are affected more by the 
   \label{fig:RiseTime_vs_Capacitance}
 \end{figure}
 
-%################################################################################################
-%
-% ENC calibration curve
-%
-%################################################################################################
 
-\subsection{Equivlent Noise Charge}
+
+\subsection{Equivalent Noise Charge}
 
 The \textit{Equivalent Noise Charge}, or ENC, is the amount of charge one would have to inject into the pre-amplifier in order to match the recorded noise level of the output. In other words, we want to figure out, for a given capacitance, what the RMS noise signal would look like if it were an unamplified input signal. The ENC can be calculated as:
 \begin{equation}
@@ -192,16 +170,30 @@ During the calibration test, the input voltage is fixed to $20$ mV, so the only 
   \label{fig:ENC_vs_Capacitance}
 \end{figure}
 
-The ENC for the setup with the different capacitors was evaluated and the results can be seen in Figure \ref{fig:ENC_vs_Capacitance}. It is clear that the ENC increases as a function of capacitance and this increase seems linear in the first points, while the last data point, due to the relatively high uncertainty, makes the linear fit less appropriate. The ENC at $0$ pF, given by the intercept in the linear fit, is $-113$ electrons.
+The ENC for the setup with the different capacitors was evaluated and the results can be seen in figure \ref{fig:ENC_vs_Capacitance}. It is clear that the ENC increases as a function of capacitance and this increase seems linear in the first points, while the last data point, due to the relatively high uncertainty, makes the linear fit less appropriate. The ENC at $0$ pF, given by the intercept in the linear fit, is $-113$ electrons.
 
 
-%################################################################################################
-%
-% Results and discussions 
-%
-%################################################################################################
+\section{Final Assembly}
+After the calibration measurements were completed, the silicon detector was introduced in the circuit by connecting it to the pre-amplifier. A voltage of around $60$ V was fed to the sensor, in order to fully deplete it, and the output was connected to a low-pass filter consisting of a $100$ nF capacitance and of a $300$ k$\Omega$ resistor, see Figure \ref{fig:ExperimentalSetup}. The resulting circuit is schematically shown in Figure \ref{fig:SiliconDiodeCircuit}.
+Finally the Strontium-90 source was attached with tape to the lid of the box containig the entire circuit. By closing the lid and covering it with aliminium foil, external radiations were shielded. The measurement of the pulses induced in the silicon detector by the particles radiated by the Strontium decay were registered from the oscilloscoper for further analysis.
 
-\section{Results and Discussion}
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=0.8\textwidth]{./graphics/experimentalSetup}
+  \caption{Silicon detector experimental setup.}
+  \label{fig:ExperimentalSetup}
+\end{figure}
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=0.6\textwidth]{./graphics/SiliconDiodeCircuit}
+  \caption{Silicon detector circuit with low-pass filter, pre-amplifier and silicon diode.}
+  \label{fig:SiliconDiodeCircuit}
+\end{figure}
+
+
+
+When one of the product decays of the radioactive source hit the diode, it induced a signal, which was observed on the oscilloscope. A few of these signals were saved and are visible in Figure \ref{fig:rise_time_measurement} and \ref{fig:rise_time_measurement_2}. Several measurements were extracted from these data. First of all the noise RMS was measured by taking the standard deviation of all the measured points before the pulse (until Time = $-0.5\mu$ s, which is a cut-off that is valid for all the datasets). The mean noise RMS for all the registered pulses and its uncertainty are $1.0 \pm 0.1$ mV.
 
 \begin{figure}[h!]
   \centering
@@ -272,18 +264,20 @@ The ENC for the setup with the different capacitors was evaluated and the result
 \label{fig:rise_time_measurement_2}
 \end{figure}
 
-After soldering the silicon diode to the rest of the circuit with the pre-amplifier (see Figure \ref{fig:SiliconDiodeCircuit}), we closed the Strontium-90 source and the diode in a box, shielded it with aluminium foil and we connected the pre-amplifier to the $\pm 12$ V source and we applied $\approx 50$ V to diode to fully deplete it. When one of the product decays of the radioactive source hit the diode, it induced a signal, which was observed on the oscilloscope. A few of these signals were saved and are visible in Figure \ref{fig:rise_time_measurement} and \ref{fig:rise_time_measurement_2}. Several measurements were extracted from these data. First of all the noise RMS was measured by taking the standard deviation of all the measured points before the pulse (until Time = $-0.5\mu$ s, which is a cut-off that is valid for all the datasets). The mean noise RMS for all the registered pulses and its uncertainty are $1.0 \pm 0.1$ mV.
 The rising pulse is fitted to find the rise time using the equation:
 \begin{equation}
   V = V_{0} (1 - \exp^{-t/\tau}) + V_{noise}
   \label{eq:rise_time}
 \end{equation}
+
 where $V_{0}$ is the starting amplitude, $V_{noise}$ is the background amplitude and $\tau$ is the rising time. The rising time from the fit and the rising time from the calibration of the pre-amplifier are though not exactly the same rising time, as the first one is measured for the entire rising slope and the second one is measured only between $10\%$ and $90\%$ of the slope. In order to relate the two to each other, this relation exists:
+
 \begin{equation}
 t_{r} = \ln(9) \cdot \tau = 2.197 \cdot \tau
 \end{equation}
-where $t_{r}$ is the time interval between $10\%$ and $90\%$, while $\tau = RC$. 
-The mean rise time found with the fits is of $/tau = 38.9 \pm 9.7$ ns and if we multiply this by $2.197$ to get the time interval we get $t_{r} = 85.5 \pm 21.3$ ns. Using the mean rise time, we can extract the capacitance of the silicon detector system by extracting it from the parameters of the calibration curve on Figure \ref{fig:RiseTime_vs_Capacitance}. Given that the rise time calibration curve was fitted with a secon degree polynomial, we use the parameters there to isolate the capacitance term. The statistical uncertainty on the capacitance of the diode system is though evaluated using a Monte Carlo technique with $100.000$ pseudoexperiments. Shortly, we draw $100.000$ different values for each parameter each from a Gaussian distribution, where the mean of the distribution is the value of the parameter and the standard deviation is the uncertainty of the parameter determined by the calibration fits. We solve the equation and find $100.000$ values of the capacitance. The statistical uncertainty is then estimated by taking the standard deviation of the gaussian fitted to the capacitance distribution, see Figure \ref{fig:stat_error_on_C}. The value of the diode system's capacitance is then C = $65 \pm 10$ pF.
+where $t_{r}$ is the time interval between $10\%$ and $90\%$, while $\tau = RC$.
+
+The mean rise time found with the fits is of $/tau = 38.9 \pm 9.7$ ns and if we multiply this by $2.197$ to get the time interval we get $t_{r} = 85.5 \pm 21.3$ ns. Using the mean rise time, we can extract the capacitance of the silicon detector system by extracting it from the parameters of the calibration curve on Figure \ref{fig:RiseTime_vs_Capacitance}. Given that the rise time calibration curve was fitted with a secon degree polynomial, we use the parameters there to isolate the capacitance term. The statistical uncertainty on the capacitance of the diode system is evaluated using a Monte Carlo technique with $100.000$ pseudoexperiments. Shortly, we draw $100.000$ different values for each parameter each from a Gaussian distribution, where the mean of the distribution is the value of the parameter and the standard deviation is the uncertainty of the parameter determined by the calibration fits. We solve the equation and find $100.000$ values of the capacitance. The statistical uncertainty is then estimated by taking the standard deviation of the gaussian fitted to the capacitance distribution, see Figure \ref{fig:stat_error_on_C}. The value of the diode system's capacitance is then C = $65 \pm 10$ pF.
 
 \begin{figure}[h!]
   \centering
@@ -293,7 +287,7 @@ The mean rise time found with the fits is of $/tau = 38.9 \pm 9.7$ ns and if we 
 \end{figure}
 %Given that the capacitance is found using a second degree coming from the calibration curve, the distribution of the value of the capacitance has a tail in one end. 
 
-Using this extracted value of the capacitance, we can find the ENC of the silicon diode system by again using the parameters in from the ENC calibration curve fit. The uncertainty is calculated using a simple error propagation, as we no longer have to solve a second order degree polynomial. The estimated value of the ENC is $42500 \pm 7700$ electrons.
+Using this extracted value of the capacitance, we can find the ENC of the silicon diode system by looking at the ENC calibration curve fit. The uncertainty is calculated using a simple error propagation, as we no longer have to solve a second order degree polynomial. The estimated value of the ENC is $42500 \pm 7700$ electrons.
 
 Finally we extracted the pulse height from the measured Strontium-90 pulses and the values can be found in Figure \ref{fig:rise_time_measurement} and \ref{fig:rise_time_measurement_2}. The calibration pulses and the Strontium-90 pulses were measured with different oscilloscopes, which have different impedances. This results in a $40\%$ difference between the two pulses (with the calibration pulse being the highest). The amplitudes of the recorded Strontium-90 pulses are between $13$ mV and $41$ mV, which multiplied to $1.4$ gives an amplitude range between $18.2$ mV and $57.4$. Given the capacitance of the silicon diode system of $65$ pF, we can extrapolate from the amplitude vs capacitance dataset in Figure \ref{fig:Amplitude_vs_Capacitance} that we would expect an amplitude of between $30$ meV and $20$ meV, which fits the results observed in our experiment.
 
@@ -307,21 +301,7 @@ Finally we extracted the pulse height from the measured Strontium-90 pulses and 
 
 \section{Conclusion}
 
-In this experiment the preparation and characterisation of a silicon diode detector was observed, its deplation voltage and its capacitance have been measured. The pre-amplifier response was characterized and calibration curves were constructed by analysing the response of the pre-amplifier to a defined input pulse going through a set of dfferent capacitances. After connecting the diode to the pre-amplifier and radiating it with a radioactive source, we coule measure, through the generated pulses by the detected charge, the diode system capacitance and ENC.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+In this experiment the preparation and characterisation of a silicon diode detector was observed, its depletion voltage and its capacitance have been measured. The pre-amplifier response was characterized and calibration curves were constructed by analysing the response of the pre-amplifier to a defined input pulse going through a set of dfferent capacitances. After connecting the diode to the pre-amplifier and radiating it with a radioactive source, we could measure, through the generated pulses by the detected charge, the sensor-preamplifier circuit's capacitance and ENC.
 
 
 

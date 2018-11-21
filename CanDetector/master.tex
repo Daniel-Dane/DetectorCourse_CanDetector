@@ -12,6 +12,7 @@
 \usepackage{ifthen}
 \usepackage[T1]{fontenc} % proper underscores etc.
 \usepackage{subcaption} % replace subfloat with subfigure env.
+\setlength{\parskip}{.8em} % add some space btwn paragraphs
 
 \sisetup{per-mode=fraction}
 
@@ -38,26 +39,33 @@
 	
 	
 	% === Main matter =====================================================
+
+        % Report structure reflects the structure laid out in todo.txt
 	
 	% --- Chapter 1: Background -----------------------------------------------
 	
-	\cleardoublepage 		
-	%\chapter{Theory}
+	\cleardoublepage
+
+        \clearpage
+	\input{./sections/detector_construction.tex}    % Fabian
+        
+	\clearpage
+	\input{./sections/setup_and_calibration.tex}    % Etienne
+
+	\clearpage
+	\input{./sections/energy_scale_calibration.tex} % Daniel
+
+        \clearpage
+	\input{./sections/spectra_analysis.tex}         % Daniel
+
+        \clearpage
+	\input{./sections/systematics_analysis.tex}     % Etienne
+        
+	\clearpage
+	\input{./sections/special_detector_results.tex} % 
 	
 	\clearpage
-	\input{./sections/theory.tex}
-	
-	\clearpage
-	\input{./sections/experimental_setup.tex}
-	
-	\clearpage
-	\input{./sections/results.tex}
-	
-	\clearpage
-	%\input{./sections/dicussion.tex}
-	
-	\clearpage
-	\input{./sections/conclusion.tex}
+	\input{./sections/conclusion.tex}               % Rosanna
 	
 	
 	

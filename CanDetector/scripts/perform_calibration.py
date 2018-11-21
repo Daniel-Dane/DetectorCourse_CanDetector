@@ -15,7 +15,7 @@ np.random.seed(42)
 
 
 
-######################################
+#%%#####################################
 # Channel to voltage 
 ######################################
 
@@ -59,13 +59,16 @@ plt.plot(x, y, 'b-')
 
 # spice it up and show
 show_title(ax)
-show_text("p( X², ndof ) = p( {:.1f}, {:d} ) = {:.1f}%".format(fit1.GetChisquare(), fit1.GetNDF(), fit1.GetProb()*100), ax, y=0.85)
-show_text("y = {:.2f} + {:.2f}*x".format(fit1.GetParameter(0),fit1.GetParameter(1)), ax, y=0.80)
-show_text("Note: Channel uncertainties scaled by 5000", ax, y=0.75)
-show_text("          Voltage uncertainties scaled by 10", ax, y=0.70)
+show_text("Note: Channel uncertainties scaled by 5000", ax, y=0.85)
+show_text("          Voltage uncertainties scaled by 10", ax, y=0.80)
+show_text("Fit: y = b + ax", ax, y=0.75)
+show_text("b = {:3.1f}     ± {:.1f}".format(fit1.GetParameter(0),fit1.GetParError(0)), ax, y=0.70)
+show_text("a =  {:5.3f} ± {:.3f}".format(fit1.GetParameter(1),fit1.GetParError(1)), ax, y=0.65)
+show_text("p( X², ndof ) = p( {:.1f}, {:d} ) = {:.1f}%".format(fit1.GetChisquare(), fit1.GetNDF(), fit1.GetProb()*100), ax, y=0.60)
 ax.set_xlabel("Voltage [V]")
 ax.set_ylabel("Channel [bit]")
 fig.show()
+plt.savefig("../graphics/voltchannelcalib.pdf", format='pdf')
 
 # if using a terminal
 #input("ready...")

@@ -23,7 +23,7 @@ class gas_properties:
         self.dv = 23.6 /1000.# units: kV
         self.dv_unc = 5.4/1000.
         self.pressure = 1.0 # Units = fraction of standard pressure (p/[1 bar])
-        self.pressure_unc = 0.01
+        self.pressure_unc = 0.001 # Based on monitoring over a day
         self.temperature = 1.0# Units = fraction of standard temperature (T/[273.15 K])
 
     def __getitem__(self,key):
@@ -191,7 +191,7 @@ if __name__=='__main__':
                  one_pc,
                  ninety,
                  ninety9,
-                 median],open("uncertainties_lnm2.p","wb"))
+                 median],open("uncertainties_lnm_sub_p0.001_p_uncertainty.p","wb"))
 
     voltages = X
     plt.fill_between(voltages,one_pc,ninety9,label=r'$2\sigma$',color='m')

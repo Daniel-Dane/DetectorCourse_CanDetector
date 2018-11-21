@@ -7,7 +7,7 @@ Created on Wed Oct  31 08:19:00 2018
 """
 
 import numpy as np
-from math import sqrt
+from math import sqrt, log, exp
 import ROOT
 from array import array
 from common import show_title, show_text, font
@@ -60,7 +60,7 @@ plt.plot(xx, yy, 'b-')
 #show_text("          Voltage uncertainties scaled by 10", ax, y=0.70)
 ax.set_xlabel("Channel [bit]")
 ax.set_ylabel("Q [pC]")
-fig.show()
+#fig.show()
 
 # if using a terminal
 #input("ready...")
@@ -90,14 +90,14 @@ mean_tot_unc_Am = [sqrt( mean_unc_Am[x]**2  +  mean_syst_unc_Am[x]**2  ) for x i
 num_of_electrons_Fe = np.zeros(len(volt_Fe))
 num_of_electrons_error_Fe = np.zeros(len(volt_Fe))
 for j in range(len(volt_Fe)):
-	num_of_electrons_Fe[j] = ( (fit_Q.Eval(mean_Fe[j]) * (10./gain_Fe[j]) * 1E-12) / (1.602 * 1E-19))
-	num_of_electrons_error_Fe[j] = sqrt( (1**2 * fit_Q.GetParError(0)**2)  +  (fit_Q.GetParError(1)**2 * (mean_Fe[j]**2)) + ((fit_Q.GetParameter(1)**2) * (mean_tot_unc_Fe[j]**2))   ) * ((10./gain_Fe[j]) * 1E-12) / (1.602 * 1E-19)
+	num_of_electrons_Fe[j] = ( (fit_Q.Eval(mean_Fe[j]) * (1./gain_Fe[j]) * 1E-12) / (1.602 * 1E-19))
+	num_of_electrons_error_Fe[j] = sqrt( (1**2 * fit_Q.GetParError(0)**2)  +  (fit_Q.GetParError(1)**2 * (mean_Fe[j]**2)) + ((fit_Q.GetParameter(1)**2) * (mean_tot_unc_Fe[j]**2))   ) * ((1./gain_Fe[j]) * 1E-12) / (1.602 * 1E-19)
 
 num_of_electrons_Am = np.zeros(len(volt_Am))
 num_of_electrons_error_Am = np.zeros(len(volt_Am))
 for j in range(len(volt_Am)):
-	num_of_electrons_Am[j] = ( (fit_Q.Eval(mean_Am[j]) * (10./gain_Am[j]) * 1E-12) / (1.602 * 1E-19))
-	num_of_electrons_error_Am[j] = sqrt(  (1**2 * fit_Q.GetParError(0)**2)  +  (fit_Q.GetParError(1)**2 * (mean_Am[j]**2)) + ((fit_Q.GetParameter(1)**2)*(mean_tot_unc_Am[j]**2)) ) * ((10./gain_Am[j]) * 1E-12) / (1.602 * 1E-19)
+	num_of_electrons_Am[j] = ( (fit_Q.Eval(mean_Am[j]) * (1./gain_Am[j]) * 1E-12) / (1.602 * 1E-19))
+	num_of_electrons_error_Am[j] = sqrt(  (1**2 * fit_Q.GetParError(0)**2)  +  (fit_Q.GetParError(1)**2 * (mean_Am[j]**2)) + ((fit_Q.GetParameter(1)**2)*(mean_tot_unc_Am[j]**2)) ) * ((1./gain_Am[j]) * 1E-12) / (1.602 * 1E-19)
 
 fig1, ax1 = plt.subplots()
 ax1.set_xlabel("Voltage [V]")
@@ -121,6 +121,23 @@ M_unc_Fe = num_of_electrons_error_Fe * ( 1./227.)
 M_Am = num_of_electrons_Am * (1./2290.)
 M_unc_Am = num_of_electrons_error_Am * (1./2290.)
 
+xx = np.linspace(1000., 2500., 1000)
+#yy = np.zeros(1000)
+def M_thoe(V):
+	b = 6.58 #cm
+	a =  0.005 #cm 50 microns (from our measurement)
+	DeltaU = 23.6 #V
+	p =  1.# 1 atm
+	K = 4.8 * 1E+4 # 10^4 V/cm*atm 
+
+	first_term = (V)/(log(b/a))
+	second_term = (log(2.))/(DeltaU)
+	third_term = log(   (V)  /  (K* p * a * log(b/a))    )  #- log(K)   
+	#lnM = first_term * second_term * third_term
+	lnM = ((V)/(log(b/a))) * ((log(2.))/(DeltaU)) * (log(   (V)  /  (K* p * a * log(b/a))    ))
+	return exp(lnM)
+
+yy = [M_thoe(x) for x in xx]
 
 fig2, ax2 = plt.subplots()
 ax2.set_xlabel("Voltage [V]")
@@ -128,6 +145,7 @@ ax2.set_ylabel("M")
 ax2.set_yscale("log", nonposy="clip")
 ax2.errorbar(volt_Fe, M_Fe, M_unc_Fe, color = "r", label = r"$\gamma = 5.9 keV$ Fe-55", marker='o', linestyle='None')
 ax2.errorbar(volt_Am, M_Am, M_unc_Am, color = "b", label = r"$\gamma = 59.5 keV$ Am-241", marker='d', linestyle='None')
+ax2.plot(xx,yy,color = "g", label="Prediction")
 #ax2.errorbar(volt_Fe, num_of_electrons_Fe, num_of_electrons_error_Fe, color = "k", label = r"$\gamma = 5.9 keV$ Fe-55", linestyle='None', marker='o')
 #ax2.errorbar(volt_Am, num_of_electrons_Am, num_of_electrons_error_Am, color = "k", label = r"$\gamma = 59.5 keV$ Am-241", linestyle='None', marker='d')
 ax2.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',

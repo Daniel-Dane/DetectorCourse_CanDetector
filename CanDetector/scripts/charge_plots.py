@@ -90,14 +90,14 @@ mean_tot_unc_Am = [sqrt( mean_unc_Am[x]**2  +  mean_syst_unc_Am[x]**2  ) for x i
 num_of_electrons_Fe = np.zeros(len(volt_Fe))
 num_of_electrons_error_Fe = np.zeros(len(volt_Fe))
 for j in range(len(volt_Fe)):
-	num_of_electrons_Fe[j] = ( (fit_Q.Eval(mean_Fe[j]) * (1./gain_Fe[j]) * 1E-12) / (1.602 * 1E-19))
-	num_of_electrons_error_Fe[j] = sqrt( (1**2 * fit_Q.GetParError(0)**2)  +  (fit_Q.GetParError(1)**2 * (mean_Fe[j]**2)) + ((fit_Q.GetParameter(1)**2) * (mean_tot_unc_Fe[j]**2))   ) * ((1./gain_Fe[j]) * 1E-12) / (1.602 * 1E-19)
+	num_of_electrons_Fe[j] = ( (fit_Q.Eval(mean_Fe[j]) * (10./gain_Fe[j]) * 1E-12) / (1.602 * 1E-19))
+	num_of_electrons_error_Fe[j] = sqrt( (1**2 * fit_Q.GetParError(0)**2)  +  (fit_Q.GetParError(1)**2 * (mean_Fe[j]**2)) + ((fit_Q.GetParameter(1)**2) * (mean_tot_unc_Fe[j]**2))   ) * ((10./gain_Fe[j]) * 1E-12) / (1.602 * 1E-19)
 
 num_of_electrons_Am = np.zeros(len(volt_Am))
 num_of_electrons_error_Am = np.zeros(len(volt_Am))
 for j in range(len(volt_Am)):
-	num_of_electrons_Am[j] = ( (fit_Q.Eval(mean_Am[j]) * (1./gain_Am[j]) * 1E-12) / (1.602 * 1E-19))
-	num_of_electrons_error_Am[j] = sqrt(  (1**2 * fit_Q.GetParError(0)**2)  +  (fit_Q.GetParError(1)**2 * (mean_Am[j]**2)) + ((fit_Q.GetParameter(1)**2)*(mean_tot_unc_Am[j]**2)) ) * ((1./gain_Am[j]) * 1E-12) / (1.602 * 1E-19)
+	num_of_electrons_Am[j] = ( (fit_Q.Eval(mean_Am[j]) * (10./gain_Am[j]) * 1E-12) / (1.602 * 1E-19))
+	num_of_electrons_error_Am[j] = sqrt(  (1**2 * fit_Q.GetParError(0)**2)  +  (fit_Q.GetParError(1)**2 * (mean_Am[j]**2)) + ((fit_Q.GetParameter(1)**2)*(mean_tot_unc_Am[j]**2)) ) * ((10./gain_Am[j]) * 1E-12) / (1.602 * 1E-19)
 
 fig1, ax1 = plt.subplots()
 ax1.set_xlabel("Voltage [V]")
@@ -124,10 +124,10 @@ M_unc_Am = num_of_electrons_error_Am * (1./2290.)
 xx = np.linspace(1000., 2500., 1000)
 #yy = np.zeros(1000)
 def M_thoe(V):
-	b = 6.58 #cm
-	a =  0.005 #cm 50 microns (from our measurement)
+	b = 6.58/2 #cm
+	a =  0.005/2 #cm 50 microns (from our measurement)
 	DeltaU = 23.6 #V
-	p =  1.# 1 atm
+	p =  1.03# 1 atm
 	K = 4.8 * 1E+4 # 10^4 V/cm*atm 
 
 	first_term = (V)/(log(b/a))
@@ -135,9 +135,29 @@ def M_thoe(V):
 	third_term = log(   (V)  /  (K* p * a * log(b/a))    )  #- log(K)   
 	#lnM = first_term * second_term * third_term
 	lnM = ((V)/(log(b/a))) * ((log(2.))/(DeltaU)) * (log(   (V)  /  (K* p * a * log(b/a))    ))
-	return exp(lnM)
+	return lnM
 
-yy = [M_thoe(x) for x in xx]
+def M_theo_unc(V):
+	# assume DeltaU, K and V constant
+	# add factos for a, b, p
+	b = 6.58234/2 #cm
+	a =  0.005/2 #cm 50 microns (from our measurement)
+	DeltaU = 23.6 #V
+	p =  1.03# 1 atm
+	K = 4.8 * 1E+4 # 10^4 V/cm*atm 
+
+	sigma_a = 0.001
+	sigma_b = 0.009
+	sigma_p = 0.001
+	a_factor = ((log(2.)*V)/DeltaU) * ((   1 - log(K) - log(b/a)   + log((V)/(p*a*log(b/a)))  )/(  a * log(b/a) *log(b/a)  ))
+	b_factor = ((log(2.)*V)/DeltaU) * ( (  1 - log(K) + log( (V)/(a*p*log(b/a)) ) )/( b*log(b/a) *log(b/a)  )  )
+	p_factor = ((log(2.)*V)/DeltaU) * (-1./p) * (1./log(b/a))
+
+	sigma_lnM = sqrt( sigma_a * sigma_a * a_factor*a_factor  + sigma_b*sigma_b *b_factor*b_factor )#+ sigma_p*sigma_p * p_factor*p_factor     )
+	return sigma_lnM
+
+yy = [exp(M_thoe(x)) for x in xx]
+yy2 = [exp(M_thoe(x) + M_theo_unc(x)) for x in xx]
 
 fig2, ax2 = plt.subplots()
 ax2.set_xlabel("Voltage [V]")
@@ -145,7 +165,8 @@ ax2.set_ylabel("M")
 ax2.set_yscale("log", nonposy="clip")
 ax2.errorbar(volt_Fe, M_Fe, M_unc_Fe, color = "r", label = r"$\gamma = 5.9 keV$ Fe-55", marker='o', linestyle='None')
 ax2.errorbar(volt_Am, M_Am, M_unc_Am, color = "b", label = r"$\gamma = 59.5 keV$ Am-241", marker='d', linestyle='None')
-ax2.plot(xx,yy,color = "g", label="Prediction")
+ax2.plot(xx,yy,color = "g", label=r"Prediction")
+ax2.plot(xx,yy2,color = "g", label=r"Prediction + 1$\sigma$", linestyle='--')
 #ax2.errorbar(volt_Fe, num_of_electrons_Fe, num_of_electrons_error_Fe, color = "k", label = r"$\gamma = 5.9 keV$ Fe-55", linestyle='None', marker='o')
 #ax2.errorbar(volt_Am, num_of_electrons_Am, num_of_electrons_error_Am, color = "k", label = r"$\gamma = 59.5 keV$ Am-241", linestyle='None', marker='d')
 ax2.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',

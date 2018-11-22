@@ -79,15 +79,15 @@ class cangeo:
         
         #outer can diameter)
         self.out_d = np.mean(cider_diameter)/10.  #units: cm
-        #self.out_d_unc = std_caliper/10. #units: cm
+        self.out_d_unc = std_caliper/10. #units: cm
         
         #thickness
         self.thick = cider_wall/10.              # units cm
-        #self.thick_unc = std_micrometerscrew/10. #units: cm
+        self.thick_unc = std_micrometerscrew/10. #units: cm
         
         #Wire diameter      #units cm
         self.wire = anodewire_diameter/10.  #
-        #self.wire_unc = std_micrometerscrew/10.
+        self.wire_unc = std_micrometerscrew/10.
 
     def __getitem__(self,key):
         return self.__dict__[key]
@@ -192,10 +192,18 @@ if __name__=='__main__':
                         default='uncertainties_lnm.p')
     args = parser.parse_args()
 
-    
+
+    gas = gas_properties()
+    gas.compute_density_ratio()
+
+    geo = cangeo()
+    geo.compute_useful_geo()
 
     lnm_distributions = {}
     voltages = np.linspace(0.8,4.,101)
+
+    distrib_ra = []
+    distrib_rc = []
     
     for OV in voltages: #scan accross operating voltages
 
@@ -211,11 +219,18 @@ if __name__=='__main__':
             geo.wigle()
             geo.compute_useful_geo()
 
+            distrib_ra.append(geo['ra'])
+            distrib_rc.append(geo['rc'])
+            
             lm = lnm(gas,geo,OV)
 
 
             lnm_distributions[OV].append(lm)
 
+    print np.mean(distrib_ra),np.std(distrib_ra)
+    print np.mean(distrib_rc),np.std(distrib_rc)
+
+    
     # plot everything
 
     import matplotlib.pyplot as plt

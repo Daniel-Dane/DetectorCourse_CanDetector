@@ -8,5 +8,6 @@ auto
 CanDetector/master.pdf
 *.synctex.gz
 **/.DS_Store
+*~
 .*~
 __pycache__/

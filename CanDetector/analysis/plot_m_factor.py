@@ -140,7 +140,7 @@ plt.show()
 import pickle
 import seaborn as sns
 
-dataname = "./test.p"
+dataname = "./uncertainties_100000trials.p"
 data = pickle.load(open(dataname))
 
 ten_pc = data[0]
@@ -256,11 +256,11 @@ M_am_unc = Q_detector_am_unc/(2290.)/M_am
 plt.errorbar(M_X_am,M_am,yerr=M_am_unc,fmt='sr',label=r'$Am^{241}$',color='#de2d26')
 plt.errorbar(M_X_Fe,M_Fe,yerr=M_Fe_unc,fmt='o',label=r'$Fe^{55}$',color='#31a354')
 
-plt.xlabel('Operating voltage (kV)')
-plt.ylabel(r'$\ln(M)$')
+plt.xlabel('Operating voltage (kV)',fontsize=13)
+plt.ylabel(r'$\ln(M)$',fontsize=13)
 plt.legend()
-plt.xlim([0,4])
-plt.ylim([-2.,15.])
+plt.xlim([0.8,2.5])
+plt.ylim([-2.,14.5])
 plt.show()
 
             

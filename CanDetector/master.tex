@@ -13,6 +13,8 @@
 \usepackage[T1]{fontenc} % proper underscores etc.
 \usepackage{subcaption} % replace subfloat with subfigure env.
 \usepackage{float}
+\usepackage{todonotes}
+\usepackage{placeins}
 \setlength{\parskip}{.8em} % add some space btwn paragraphs
 
 
@@ -73,13 +75,10 @@
 	
 	% === Appendices ======================================================	
 	
-	\appendix
+  \FloatBarrier
 	\cleardoublepage
-	\section*{Appendices}
-	\addcontentsline{toc}{chapter}{\protect\numberline{}Appendices}
-
-	%\clearpage
-	%\input{./sections/appendixA.tex}
+	\appendix
+	\input{./sections/appendixA.tex}
 
 
 	

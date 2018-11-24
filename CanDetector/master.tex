@@ -15,6 +15,9 @@
 \usepackage{float}
 \usepackage{todonotes}
 \usepackage{placeins}
+\usepackage[backend=biber,backref=true,style=numeric-comp]{biblatex}
+\addbibresource{sections/references.bib}
+
 \setlength{\parskip}{.8em} % add some space btwn paragraphs
 
 
@@ -85,11 +88,5 @@
 	% === Back matter =====================================================
 	
 	% References
-	%\bibliographystyle{plain}
-	%\bibliographystyle{acm}
-	\bibliographystyle{unsrt}
-	\bibliography{./sections/references}
-	\clearpage
-	\pagestyle{empty}
-	\cleardoublepage
+  \printbibliography
 \end{document}

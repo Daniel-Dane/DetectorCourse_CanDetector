@@ -27,7 +27,11 @@
 	% === Front matter ====================================================
 
 	%\frontmatter
-	\maketitle
+\maketitle
+
+  \input{./sections/abstract.tex}
+
+  \newpage
 	
 	\tableofcontents
 	
@@ -37,12 +41,8 @@
 	
 	%\lstlistoflistings
 	
-	\cleardoublepage
-	\input{./sections/abstract.tex}
 	
-	\clearpage
 	\input{./sections/introduction.tex}	
-	
 	
 	
 	% === Main matter =====================================================
@@ -53,7 +53,7 @@
 	
 	\cleardoublepage
 
-        \clearpage
+  \clearpage
 	\input{./sections/detector_construction.tex}    % Fabian
         
 	\clearpage
@@ -62,10 +62,10 @@
 	\clearpage
 	\input{./sections/energy_scale_calibration.tex} % Daniel
 
-        \clearpage
+  \clearpage
 	\input{./sections/spectra_analysis.tex}         % Daniel
 
-        \clearpage
+  \clearpage
 	\input{./sections/systematics_analysis.tex}     % Etienne
         
 	\clearpage

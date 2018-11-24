@@ -130,12 +130,12 @@ def plot_confs(confs, title, abbrev):
         print(v.split("_"))
         fit_pars[v] = {'volt': int(v.split("_")[1]), 'spec': plotSpec(path, h, r_min, r_max)}
 
-    gain_style = {100: 'blue',
-                  10: 'red',
-                  20: 'pink',
-                  2: 'purple',
-                  40: 'orange',
-                  4: 'green'}
+    gain_style = {100: 'D',
+                  10: 'H',
+                  20: '<',
+                  2: '>',
+                  40: 'o',
+                  4: '*'}
 
     d_y = {}
     d_y_unc = {}
@@ -191,7 +191,7 @@ def plot_confs(confs, title, abbrev):
             value = gain_style[key]
             print("gain", key, "volt", d_volt[key])
             # mean, std, fwhm, mean_err, fwhm_err
-            ax.errorbar(d_volt[key], d_y[key], d_y_unc[key], marker='o', color=gain_style[key], linestyle='None')
+            ax.errorbar(d_volt[key], d_y[key], d_y_unc[key], marker=gain_style[key], color='black', linestyle='None')
             # define a legend
             l.append("Gain: {:}".format(key))
 

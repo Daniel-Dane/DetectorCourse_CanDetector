@@ -116,8 +116,9 @@ def plotSpec(name, h, r_min=0, r_max=0):
     plt.show()
     plt.savefig(pp, format='pdf')
     pp.close()
+    plt.close()
 
-    return (f.GetParameter(1), f.GetParameter(2), fwhm, f.GetParError(1), f.GetParError(2)*2.*math.sqrt(2*math.log(2)), name.split("_")[1],f.GetParError(1))
+    return (f.GetParameter(1), f.GetParameter(2), fwhm, f.GetParError(1), f.GetParError(2)*2.*math.sqrt(2*math.log(2)), name.split("_")[1], f.GetParError(1))
 
 def plot_confs(confs, title, abbrev):
 
@@ -208,6 +209,7 @@ def plot_confs(confs, title, abbrev):
     plt.show()
     plt.savefig(pp, format='pdf')
     pp.close()
+    plt.close()
 
 
 

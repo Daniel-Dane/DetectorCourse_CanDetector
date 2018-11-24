@@ -128,7 +128,7 @@ def plot_confs(confs, title, abbrev):
         path = "../graphics/"+abbrev+"_"+v+".pdf"
         (h, r_min, r_max, time) = mca_to_hist(name)
         print(v.split("_"))
-        fit_pars[int(v.split("_")[1])] = plotSpec(path, h, r_min, r_max)
+        fit_pars[v] = {'volt': int(v.split("_")[1]), 'spec': plotSpec(path, h, r_min, r_max)}
 
     gain_style = {100: 'blue',
                   10: 'red',
@@ -147,17 +147,19 @@ def plot_confs(confs, title, abbrev):
         d_y[gain] = []
 
     for key, value in fit_pars.items():
+        k = value['volt']
+        v = value['spec']
         # mean, std, fwhm, mean_err, fwhm_err
-        gain = int(value[5])
-        d_y[gain].append(value[2]/value[0])
-        rel_unc_mean = value[3]/value[0]
-        d_volt[gain].append(key)
-        print("volt",key," mean",value[0]," FWHM",value[2], " mean unc",value[6])
+        gain = int(v[5])
+        d_y[gain].append(v[2]/v[0])
+        rel_unc_mean = v[3]/v[0]
+        d_volt[gain].append(k)
+        print("volt", k, " mean", v[0], " FWHM", v[2], " mean unc", v[6], " gain", gain)
 
-        rel_unc_fwhm = value[4]/value[2]
+        rel_unc_fwhm = v[4]/v[2]
         rel_unc_fwhm = math.sqrt(math.pow(rel_unc_fwhm, 2) + math.pow(0.1, 2))
         d_y_unc[gain].append(math.sqrt(math.pow(rel_unc_mean, 2)+
-                                       math.pow(rel_unc_fwhm, 2))*value[2]/value[0])
+                                       math.pow(rel_unc_fwhm, 2))*v[2]/v[0])
 
     pp = PdfPages("../graphics/"+title.lower()+"_scan.pdf")
 

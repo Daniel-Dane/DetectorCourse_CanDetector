@@ -186,15 +186,16 @@ def plot_confs(confs, title, abbrev):
         ax.set_xlabel("Voltage [V]")
         ax.set_title(title)
 
-        for key, value in gain_style.items():
-            # mean, std, fwhm, mean_err, fwhm_err
-            ax.errorbar(d_volt[key], d_y[key], d_y_unc[key], marker='o', color=gain_style[key], linestyle='None')
-
-        # define a legend
         l = []
         for key in sorted(gain_style.keys(), reverse=True):
-             l.append("Gain: {:}".format(key))
-        ax.legend(l, numpoints=1)
+            value = gain_style[key]
+            print("gain", key, "volt", d_volt[key])
+            # mean, std, fwhm, mean_err, fwhm_err
+            ax.errorbar(d_volt[key], d_y[key], d_y_unc[key], marker='o', color=gain_style[key], linestyle='None')
+            # define a legend
+            l.append("Gain: {:}".format(key))
+
+        ax.legend(l, numpoints=1, fontsize='large')
 
 
         # make ATLAS fonts in plot

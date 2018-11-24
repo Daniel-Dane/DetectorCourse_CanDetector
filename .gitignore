@@ -1,4 +1,7 @@
 *.aux
+*.swp
+*.bcf
+*.run.xml
 *.log
 *.out
 *.toc

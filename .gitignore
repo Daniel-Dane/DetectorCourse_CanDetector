@@ -9,6 +9,7 @@
 *.blg
 auto
 CanDetector/master.pdf
+SemiconductorDetector/report_semiconductor_detector.pdf
 *.synctex.gz
 **/.DS_Store
 *~

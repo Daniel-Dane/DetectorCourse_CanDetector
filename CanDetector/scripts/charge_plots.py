@@ -3,7 +3,7 @@
 """
 Created on Wed Oct  31 08:19:00 2018
 
-@author: dnielsen
+@author: 
 """
 
 import numpy as np
@@ -30,11 +30,11 @@ C = 1.0 # pF
 Q = C * volt * 1E-3#pC
 Qerr = C * verr * 1E-3# pC
 
-mean_sys_unc = [x*0.2 for x in mean]
-mean_tot_unc = [sqrt( mean_unc[x]**2 + mean_sys_unc[x]**2 ) for x in range(len(mean))]
+mean_sys_unc = 0 #[x*0.2 for x in mean]
+mean_tot_unc = np.sqrt( mean_unc**2 + mean_sys_unc**2 ) #[sqrt( mean_unc[x]**2 + mean_sys_unc[x]**2 ) for x in range(len(mean))]
 
 # fit calibration values to find channel to volt
-gr_Q = ROOT.TGraphErrors( len(Q), array('d',mean), array('d',Q), array('d',mean_unc), array('d',Qerr) )
+gr_Q = ROOT.TGraphErrors( len(Q), array('d',mean), array('d',Q), array('d',mean_tot_unc), array('d',Qerr) )
 fit_Q = ROOT.TF1("fit_Q","pol1", 70., 1000.);
 res_Q = gr_Q.Fit(fit_Q, "RS")
 #res.Print()
@@ -45,7 +45,7 @@ fig = plt.figure()
 ax = plt.subplot()
 
 # plot points and fit result
-plt.errorbar(y=Q, yerr=Qerr, x=mean, xerr=mean_tot_unc, color='r', linestyle='None')
+plt.errorbar(y=Q, yerr=10*Qerr, x=mean, xerr=5000*mean_tot_unc, color='r', linestyle='None')
 x0 = mean[0]-10
 xlast = mean[-1]+10
 xx = np.linspace(x0, xlast, 1000)
@@ -53,11 +53,13 @@ yy = [fit_Q.Eval(x) for x in xx]
 plt.plot(xx, yy, 'b-')
 
 # spice it up and show
-#show_title(ax)
-#show_text("p( X², ndof ) = p( {:.1f}, {:d} ) = {:.1f}%".format(fit_Q.GetChisquare(), fit_Q.GetNDF(), fit_Q.GetProb()*100), ax, y=0.85)
-#show_text("y = {:.2f} + {:.2f}*x".format(fit_Q.GetParameter(0),fit_Q.GetParameter(1)), ax, y=0.80)
-#show_text("Note: Channel uncertainties scaled by 5000", ax, y=0.75)
-#show_text("          Voltage uncertainties scaled by 10", ax, y=0.70)
+show_title(ax)
+show_text("Note: Channel uncertainties scaled by 5000", ax, y=0.85)
+show_text("          Charge uncertainties scaled by 10", ax, y=0.80)
+show_text("Fit: y = b + ax", ax, y=0.75)
+show_text("b = {:.5f}     ± {:.5f}".format(fit_Q.GetParameter(0),fit_Q.GetParError(0)), ax, y=0.70)
+show_text("a = {:.7f} ± {:.7f}".format(fit_Q.GetParameter(1),fit_Q.GetParError(1)), ax, y=0.65)
+show_text("p( X², ndof ) = p( {:.1f}, {:d} ) = {:.1f}%".format(fit_Q.GetChisquare(), fit_Q.GetNDF(), fit_Q.GetProb()*100), ax, y=0.60)
 ax.set_xlabel("Channel [bit]")
 ax.set_ylabel("Q [pC]")
 #fig.show()
@@ -112,8 +114,8 @@ ax1.legend(loc="upper left", numpoints=1)
 plt.grid()
 plt.show()
 #fig1.savefig('../graphics/amplitude_vs_capacitance.pdf')
-plt.close(fig1)
-plt.clf()
+#plt.close(fig1)
+#plt.clf()
 
 
 M_Fe =  num_of_electrons_Fe * ( 1./227.)
@@ -175,13 +177,14 @@ ax2.legend(loc="upper left", numpoints=1)
 plt.grid()
 plt.show()
 #fig1.savefig('../graphics/amplitude_vs_capacitance.pdf')
-plt.close(fig2)
-plt.clf()
+#plt.close(fig2)
+#plt.clf()
 
 
 
-
-raw_input("Press enter to finish")
+import sys
+if sys.version_info[0]==2:
+    raw_input("Press enter to finish")
 
 
 

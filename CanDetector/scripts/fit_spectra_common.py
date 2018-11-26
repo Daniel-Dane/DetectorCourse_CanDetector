@@ -140,7 +140,7 @@ def make_fit_object(funcOrExpr, xmin, xmax):
     else:
         return ROOT.TF1("fit"+str(makeFitObject_counter), funcOrExpr, xmin, xmax, 4)
 
-def fit_and_draw_ROOT(hist, func, startval, ax, xrange=None, dont_plot_hist=False, ax2=None, return_pcov=False, draw_individually=False, bounds=None, col='b-', dont_draw_fit=False, fitoptions="RS"):
+def fit_and_draw_ROOT(hist, func, startval, ax, xrange=None, dont_plot_hist=False, ax2=None, return_pcov=False, draw_individually=False, bounds=None, col='b-', dont_draw_fit=False, fitoptions="RS", label=None):
     if xrange is None:
         xrange = [0, 1024]
     fitobject = make_fit_object(func, xrange[0], xrange[1])
@@ -163,7 +163,7 @@ def fit_and_draw_ROOT(hist, func, startval, ax, xrange=None, dont_plot_hist=Fals
     x = np.linspace(xrange[0], xrange[1], 1000)
     if not dont_plot_hist:
         if ax is not None:
-            rplt.hist(hist, color='r', axes=ax)
+            rplt.hist(hist, color='r', axes=ax, label=label)
         if ax2 is not None:
             rplt.hist(hist, color='r', axes=ax2)
     if not dont_draw_fit:

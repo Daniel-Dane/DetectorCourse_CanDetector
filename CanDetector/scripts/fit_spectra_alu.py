@@ -78,7 +78,7 @@ f, (ax, ax2) = plt.subplots(1, 2)
 f.set_figwidth(7)
 
 # plot points and fit result
-[fe_esc_c, fe_esc_mean, fe_esc_sigma], [_, fe_esc_unc, _], fe_esc_chi2, fe_esc_ndof, fe_esc_prob = fit_and_draw_ROOT( h_fe_new, gauss_single, [1206, 51.3, 7.33], ax, [35,70])#, bounds=([0,45,2],[10_000,57,14]) )
+[fe_esc_c, fe_esc_mean, fe_esc_sigma], [_, fe_esc_unc, _], fe_esc_chi2, fe_esc_ndof, fe_esc_prob = fit_and_draw_ROOT( h_fe_new, gauss_single, [1206, 51.3, 7.33], ax, [50,70])#, bounds=([0,45,2],[10_000,57,14]) )
 
 [N, r, fe_mean, fe_sigma, fe_sec_mean, fe_sec_sigma], [_, _, fe_unc, _, fe_sec_unc, _], fe_chi2, fe_ndof, fe_prob = fit_and_draw_ROOT( h_fe_new, gauss_double_uncorr, [12755, 0.89, 95.64, 6.83, 107.2, 4.73], ax, [85,115], draw_individually=True, dont_plot_hist=True)# good bounds: , bounds=([5_000,0.5,85,2,102,1],[20_000,1,105,11,113,8]) )
 
@@ -112,13 +112,13 @@ ax2.plot((-d,+d), (-d,+d), **kwargs)
 # spice it up and show
 x=0.9
 ax2.set_ylim(top=30)
-show_title(ax)
+show_title(ax, subtitle_x_offset=0.4)
 show_text("Fe-55", ax, y=0.1)
 show_text("Am-241", ax2, y=0.1, x=0.7)
 show_text("Esc. peak:  {: 5.1f} ± {:.1f} bit ({:.0f}/{:d}=  {:.0f}%)".format(fe_esc_mean,fe_esc_unc,fe_esc_chi2,fe_esc_ndof,fe_esc_prob), ax2, y=0.90, x=x, ha="right")
 show_text("Fe K-α peak:  {: 5.1f} ± {:.1f} bit ({:.0f}/{:d}=  {:.0f}%)".format(fe_mean,fe_unc,fe_chi2,fe_ndof,fe_prob), ax2, y=0.85, x=x, ha="right")
 show_text("Fe K-β peak:  {: 5.1f} ± {:.1f} bit ({:.0f}/{:d}=  {:.0f}%)".format(fe_sec_mean,fe_sec_unc,fe_chi2,fe_ndof,fe_prob), ax2, y=0.80, x=x, ha="right")
-show_text("Am peak: {:05.1f} ± {:.1f} bit ({:.0f}/{:d}={:.0f}%)".format(am_mean,am_unc,am_chi2,am_ndof,am_prob), ax2, y=0.75, x=x, ha="right")
+show_text("Am peak: {:05.1f} ± {:.1f} bit ({:.0f}/{:d}=  {:.0f}%)".format(am_mean,am_unc,am_chi2,am_ndof,am_prob), ax2, y=0.75, x=x, ha="right")
 #ax.set_ylabel("Counts per second per 4 channels [1/s/bit]")
 ax.set_ylabel("Counts for {:.0f} seconds per channel [1/s/bit]".format(time_fe))
 ax2.yaxis.set_label_position("right")
@@ -185,76 +185,77 @@ plt.savefig("../graphics/aluenergychannelcalib.pdf", format='pdf')
 fig = plt.figure()
 ax = plt.subplot()
 
-[ am1_c, am1_mean, am1_sigma, am1_p0, am1_p1 ], [ am1_c_unc, am1_mean_unc, am1_sigma_unc, am1_p0_unc, am1_p1_unc ], \
-am1_chi2, am1_ndof, am1_prob = fit_and_draw_ROOT(h_am_new, gauss_p1, [161, 261, 11, 20, -0.03], ax, [240,285], col='g-', dont_draw_fit=True)
-
-[ am2_c, am2_mean, am2_sigma, am2_p0, am2_p1 ], [ am2_c_unc, am2_mean_unc, am2_sigma_unc, am2_p0_unc, am2_p1_unc ], \
-am2_chi2, am2_ndof, am2_prob = fit_and_draw_ROOT(h_am_new, gauss_p1, [58, 318, 7, 20, -0.03], None, [300,335], True, \
-                                                 bounds=([10, 310, 2, 10, -0.2],[100, 325, 11, 10000, -0.001]), col='g-'
-                                                 )
+#[ am1_c, am1_mean, am1_sigma, am1_p0, am1_p1 ], [ am1_c_unc, am1_mean_unc, am1_sigma_unc, am1_p0_unc, am1_p1_unc ], \
+#am1_chi2, am1_ndof, am1_prob = fit_and_draw_ROOT(h_am_new, gauss_p1, [161, 261, 11, 20, -0.03], ax, [240,285], col='g-', dont_draw_fit=True)
+#
+#[ am2_c, am2_mean, am2_sigma, am2_p0, am2_p1 ], [ am2_c_unc, am2_mean_unc, am2_sigma_unc, am2_p0_unc, am2_p1_unc ], \
+#am2_chi2, am2_ndof, am2_prob = fit_and_draw_ROOT(h_am_new, gauss_p1, [58, 318, 7, 20, -0.03], ax, [300,335], True, \
+#                                                 bounds=([10, 310, 2, 10, -0.2],[100, 325, 11, 10000, -0.001]), col='g-'
+#                                                 )
 
 [ am3_c, am3_mean, am3_sigma, am3_p0, am3_p1 ], [ am3_c_unc, am3_mean_unc, am3_sigma_unc, am3_p0_unc, am3_p1_unc ], \
-am3_chi3, am3_ndof, am3_prob = fit_and_draw_ROOT(h_am_new, gauss_p1, [447, 392, 10, 20, -0.03], None, [360,415], True, col='g-')
+am3_chi3, am3_ndof, am3_prob = fit_and_draw_ROOT(h_am_new, gauss_p1, [447, 418, 10, 20, -0.03], ax, [385,445], False, col='g-', label="Am-241")
 
-[ am4_c, am4_mean, am4_sigma, am4_p0, am4_p1 ], [ am4_c_unc, am4_mean_unc, am4_sigma_unc, am4_p0_unc, am4_p1_unc ], \
-am4_chi4, am4_ndof, am4_prob = fit_and_draw_ROOT(h_am_new, gauss_p1, [2000, 183, 10, 31, -0.03], None, [175,216], True, \
-                                                 bounds=([1000,170,5,1,-0.2],[10000,190,20,10000,-0.001]), col='g-'
-                                                 )
+#[ am4_c, am4_mean, am4_sigma, am4_p0, am4_p1 ], [ am4_c_unc, am4_mean_unc, am4_sigma_unc, am4_p0_unc, am4_p1_unc ], \
+#am4_chi4, am4_ndof, am4_prob = fit_and_draw_ROOT(h_am_new, gauss_p1, [2000, 203, 10, 31, -0.03], ax, [190,210], True, \
+#                                                 bounds=([1000,200,3,1,-2],[10000,210,25,10000,-0.001]), col='g-'
+#                                                 )
 
-lower_bound=0.8
-upper_bound=1.2
-
-p0=20
-p1=-0.001
-
-[ am1_c, am1_mean, am1_sigma, am2_c, am2_mean, am2_sigma, \
-  am3_c, am3_mean, am3_sigma, am4_c, am4_mean, am4_sigma, \
-  am_final_p0, am_final_p1, am_final_p2 ], \
-[ am1_c_unc, am1_mean_unc, am1_sigma_unc, \
-  am2_c_unc, am2_mean_unc, am2_sigma_unc, \
-  am3_c_unc, am3_mean_unc, am3_sigma_unc, \
-  am4_c_unc, am4_mean_unc, am4_sigma_unc, \
-  am_final_p0_unc, am_final_p1_unc, am_final_p2_unc ], \
-am_final_chi4, am_final_ndof, am_final_prob = \
-    fit_and_draw_ROOT( h_am_new, gauss_quad_p2, \
-                       [ am1_c, am1_mean, am1_sigma, am2_c, am2_mean, am2_sigma, \
-                         am3_c, am3_mean, am3_sigma, am4_c, am4_mean, am4_sigma, \
-                         20, -0.001, 0
-                         ], \
-                       ax, [175,450], True, \
-                       draw_individually=True, \
-                       bounds=( [ 60,                am1_mean*lower_bound, am1_sigma*lower_bound, \
-                                  am2_c*lower_bound, am2_mean*lower_bound, am2_sigma*lower_bound, \
-                                  am3_c*lower_bound, am3_mean*lower_bound, am3_sigma*lower_bound, \
-                                  am4_c*lower_bound, am4_mean*lower_bound, am4_sigma*lower_bound, \
-                                  0.0, -1.0, 0.000000001 ],
-                                [ 1000,              am1_mean*upper_bound, am1_sigma*upper_bound, \
-                                  am2_c*upper_bound*100, am2_mean*upper_bound, am2_sigma*upper_bound, \
-                                  am3_c*upper_bound, am3_mean*upper_bound, am3_sigma*upper_bound, \
-                                  am4_c*upper_bound, am4_mean*upper_bound, am4_sigma*upper_bound, \
-                                  100, -0.001, 0.000000001 ]
-                               )
-                      )
+#lower_bound=0.8
+#upper_bound=1.2
+#
+#p0=20
+#p1=-0.001
+#
+#[ am1_c, am1_mean, am1_sigma, am2_c, am2_mean, am2_sigma, \
+#  am3_c, am3_mean, am3_sigma, am4_c, am4_mean, am4_sigma, \
+#  am_final_p0, am_final_p1, am_final_p2 ], \
+#[ am1_c_unc, am1_mean_unc, am1_sigma_unc, \
+#  am2_c_unc, am2_mean_unc, am2_sigma_unc, \
+#  am3_c_unc, am3_mean_unc, am3_sigma_unc, \
+#  am4_c_unc, am4_mean_unc, am4_sigma_unc, \
+#  am_final_p0_unc, am_final_p1_unc, am_final_p2_unc ], \
+#am_final_chi4, am_final_ndof, am_final_prob = \
+#    fit_and_draw_ROOT( h_am_new, gauss_quad_p2, \
+#                       [ am1_c, am1_mean, am1_sigma, am2_c, am2_mean, am2_sigma, \
+#                         am3_c, am3_mean, am3_sigma, am4_c, am4_mean, am4_sigma, \
+#                         20, -0.001, 0
+#                         ], \
+#                       ax, [175,450], True, \
+#                       draw_individually=True, \
+#                       bounds=( [ 60,                am1_mean*lower_bound, am1_sigma*lower_bound, \
+#                                  am2_c*lower_bound, am2_mean*lower_bound, am2_sigma*lower_bound, \
+#                                  am3_c*lower_bound, am3_mean*lower_bound, am3_sigma*lower_bound, \
+#                                  am4_c*lower_bound, am4_mean*lower_bound, am4_sigma*lower_bound, \
+#                                  0.0, -1.0, 0.000000001 ],
+#                                [ 1000,              am1_mean*upper_bound, am1_sigma*upper_bound, \
+#                                  am2_c*upper_bound*100, am2_mean*upper_bound, am2_sigma*upper_bound, \
+#                                  am3_c*upper_bound, am3_mean*upper_bound, am3_sigma*upper_bound, \
+#                                  am4_c*upper_bound, am4_mean*upper_bound, am4_sigma*upper_bound, \
+#                                  100, -0.001, 0.000000001 ]
+#                               )
+#                      )
 
 # we fit with a gauss on top of a flat background
 # the uncertainty on the mean is then the width divided by the square root of the number of entries
 # the normalization constant divided by the binwidth gives us exactly the number of entries
 # this elaborate exercise gives us the actual uncertainty of the mean for just the signal/gauss
-am1_energy = energyall(fit1, am1_mean, am1_sigma/np.sqrt(am1_c/binwidth))
-am2_energy = energyall(fit1, am2_mean, am2_sigma/np.sqrt(am2_c/binwidth))
+#am1_energy = energyall(fit1, am1_mean, am1_sigma/np.sqrt(am1_c/binwidth))
+#am2_energy = energyall(fit1, am2_mean, am2_sigma/np.sqrt(am2_c/binwidth))
 am3_energy = energyall(fit1, am3_mean, am3_sigma/np.sqrt(am3_c/binwidth))
-am4_energy = energyall(fit1, am4_mean, am4_sigma/np.sqrt(am4_c/binwidth))
+#am4_energy = energyall(fit1, am4_mean, am4_sigma/np.sqrt(am4_c/binwidth))
 
 # spice it up and show
 x=0.011
 ax.set_ylim(top=1.3*ax.get_ylim()[1])
 show_title(ax, x=x, y=0.92)
-show_text("Peak 1: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am4_energy, 0), ax, y=0.87, x=x)
-show_text("Peak 2: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am1_energy, 0), ax, y=0.82, x=x)
-show_text("Peak 3: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am2_energy, 0), ax, y=0.77, x=x)
+#show_text("Peak 1: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am4_energy, 0), ax, y=0.87, x=x)
+#show_text("Peak 2: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am1_energy, 0), ax, y=0.82, x=x)
+#show_text("Peak 3: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am2_energy, 0), ax, y=0.77, x=x)
 show_text("Peak 4: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am3_energy, 0), ax, y=0.72, x=x)
-ax.set_ylabel("Counts for {:.0f} seconds per 4 channels [1/s/bit]".format(time_fe))
+ax.set_ylabel("Counts for {:.0f} seconds per channel [1/s/bit]".format(time_fe))
 ax.set_xlabel("Channel [bit]")
+ax.legend(loc='best')
 fig.show()
 plt.savefig("../graphics/alupeaksearch.pdf", format='pdf')
 

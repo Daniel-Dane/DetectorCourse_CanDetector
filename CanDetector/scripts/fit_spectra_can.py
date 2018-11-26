@@ -121,7 +121,7 @@ ax2.plot((-d,+d), (-d,+d), **kwargs)
 
 # spice it up and show
 x=0.9
-show_title(ax)
+show_title(ax, subtitle_x_offset=0.4)
 show_text("Fe-55", ax, y=0.1)
 show_text("Am-241", ax2, y=0.1, x=0.7)
 show_text("Esc. peak:  {: 5.1f} ± {:.1f} bit ({:.0f}/{:d}=  {:.0f}%)".format(fe_esc_mean,fe_esc_unc,fe_esc_chi2,fe_esc_ndof,fe_esc_prob), ax2, y=0.90, x=x, ha="right")
@@ -190,7 +190,7 @@ fig = plt.figure()
 ax = plt.subplot()
 
 [ am1_c, am1_mean, am1_sigma, am1_p0, am1_p1 ], [ am1_c_unc, am1_mean_unc, am1_sigma_unc, am1_p0_unc, am1_p1_unc ], \
-am1_chi2, am1_ndof, am1_prob = fit_and_draw_ROOT(h_am_new, gauss_p1, [161, 261, 11, 20, -0.03], ax, [240,285], col='g-', dont_draw_fit=True)
+am1_chi2, am1_ndof, am1_prob = fit_and_draw_ROOT(h_am_new, gauss_p1, [161, 261, 11, 20, -0.03], ax, [240,285], col='g-', dont_draw_fit=True, label="Am-241")
 
 [ am2_c, am2_mean, am2_sigma, am2_p0, am2_p1 ], [ am2_c_unc, am2_mean_unc, am2_sigma_unc, am2_p0_unc, am2_p1_unc ], \
 am2_chi2, am2_ndof, am2_prob = fit_and_draw_ROOT(h_am_new, gauss_p1, [58, 318, 7, 20, -0.03], None, [300,335], True, \
@@ -258,8 +258,9 @@ show_text("Peak 1: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst
 show_text("Peak 2: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am1_energy, 0), ax, y=0.82, x=x)
 show_text("Peak 3: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am2_energy, 0), ax, y=0.77, x=x)
 show_text("Peak 4: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am3_energy, 0), ax, y=0.72, x=x)
-ax.set_ylabel("Counts for {:.0f} seconds per 4 channels [1/s/bit]".format(time_fe))
+ax.set_ylabel("Counts for {:.0f} seconds per channel [1/s/bit]".format(time_fe))
 ax.set_xlabel("Channel [bit]")
+ax.legend(loc='best')
 fig.show()
 plt.savefig("../graphics/peaksearch.pdf", format='pdf')
 

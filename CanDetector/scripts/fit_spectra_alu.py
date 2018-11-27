@@ -15,7 +15,7 @@ np.random.seed(42)
 import ROOT
 from array import array
 from fit_spectra_common import get_draw_spline, subtract_bkg, fit_and_draw_ROOT, energyall, \
-                               gauss_single, gauss_double_uncorr, gauss_p1, gauss_quad_p2, \
+                               gauss_single, gauss_double_uncorr, gauss_p1, \
                                fe_escape_energy, fe_main_energy, fe_sec_energy, am_main_energy, \
                                fe_escape_energy_unc, fe_main_energy_unc, fe_sec_energy_unc, am_main_energy_unc
 import common
@@ -78,13 +78,13 @@ f, (ax, ax2) = plt.subplots(1, 2)
 f.set_figwidth(7)
 
 # plot points and fit result
-[fe_esc_c, fe_esc_mean, fe_esc_sigma], [_, fe_esc_unc, _], fe_esc_chi2, fe_esc_ndof, fe_esc_prob = fit_and_draw_ROOT( h_fe_new, gauss_single, [1206, 51.3, 7.33], ax, [50,70])#, bounds=([0,45,2],[10_000,57,14]) )
+[fe_esc_c, fe_esc_mean, fe_esc_sigma], [_, fe_esc_unc, _], fe_esc_chi2, fe_esc_ndof, fe_esc_prob = fit_and_draw_ROOT( h_fe_new, gauss_single, [961, 53.39, 6.53], ax, [50,70])#, bounds=([0,45,2],[10_000,57,14]) )
 
-[N, r, fe_mean, fe_sigma, fe_sec_mean, fe_sec_sigma], [_, _, fe_unc, _, fe_sec_unc, _], fe_chi2, fe_ndof, fe_prob = fit_and_draw_ROOT( h_fe_new, gauss_double_uncorr, [12755, 0.89, 95.64, 6.83, 107.2, 4.73], ax, [85,115], draw_individually=True, dont_plot_hist=True)# good bounds: , bounds=([5_000,0.5,85,2,102,1],[20_000,1,105,11,113,8]) )
+[N, r, fe_mean, fe_sigma, fe_sec_mean, fe_sec_sigma], [_, _, fe_unc, _, fe_sec_unc, _], fe_chi2, fe_ndof, fe_prob = fit_and_draw_ROOT( h_fe_new, gauss_double_uncorr, [12755, 0.89, 95.64, 6.83, 107.2, 4.723], ax, [85,115], draw_individually=True, dont_plot_hist=True)# good bounds: , bounds=([5_000,0.5,85,2,102,1],[20_000,1,105,11,113,8]) )
 
 #[_, fe_mean, fe_sigma], [_, fe_unc, _], fe_chi2, fe_ndof, fe_prob = fit_and_draw_ROOT( h_fe_new, gauss_single, [49022, 89, 10], ax, [80,95], bounds=([10,85,1],[100000,95,15]), fitoptions="RSLL" )
 
-[am_c, am_mean, am_sigma, _, _], [_, am_unc, _, _, _], am_chi2, am_ndof, am_prob = fit_and_draw_ROOT( h_am_new, gauss_p1, [4722, 940, 6.6,10.6,0.54], None, [925, 960], ax2=ax2, bounds=([10,930,2,0,-100],[10_000,950,10,100,100]) )
+[am_c, am_mean, am_sigma, _, _], [_, am_unc, _, _, _], am_chi2, am_ndof, am_prob = fit_and_draw_ROOT( h_am_new, gauss_p1, [214.2, 939.23, 11.05, 8.437, -0.00133], None, [925, 960], ax2=ax2)#, bounds=([10,930,2,0,-100],[10_000,950,15,100,100]) )
 
 #def crystalball_function(x, alpha, n, mu, sigma):
 #    return ROOT.Math.crystalball_function(alpha, n, sigma, mu)
@@ -166,7 +166,7 @@ plt.plot(x, y, 'b-')
 show_title(ax)
 show_text("Note: Channel uncertainties scaled by 10", ax, y=0.85)
 show_text("Fit: y = b + ax", ax, y=0.80)
-show_text("b = {:5.3f}     ± {:.3f}".format(fit1.GetParameter(0),fit1.GetParError(0)), ax, y=0.75)
+show_text("b = {:5.3f}     ± {:.3f} ({:3.1f}σ from 0)".format(fit1.GetParameter(0),fit1.GetParError(0),abs(fit1.GetParameter(0))/fit1.GetParError(0)), ax, y=0.75)
 show_text("a = {: 7.5f} ± {:.5f}".format(fit1.GetParameter(1),fit1.GetParError(1)), ax, y=0.70)
 show_text("p( X², ndof ) = p( {:.1f}, {:d} ) = {:.1f}%".format(fit1.GetChisquare(), fit1.GetNDF(), fit1.GetProb()*100), ax, y=0.65)
 ax.set_ylabel("Energy [keV]")

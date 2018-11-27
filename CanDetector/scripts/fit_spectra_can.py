@@ -87,14 +87,14 @@ f.set_figwidth(7)
 #fe_unc = fe_pcov[1]
 #am_unc = am_pcov[1]
 
-[_, fe_esc_mean, _], [_, fe_esc_unc, _], fe_esc_chi2, fe_esc_ndof, fe_esc_prob = fit_and_draw_ROOT( h_fe_new, gauss_single, [48, 46.4, 5.9], ax, [30,50] )
+[_, fe_esc_mean, _], [_, fe_esc_unc, _], fe_esc_chi2, fe_esc_ndof, fe_esc_prob = fit_and_draw_ROOT( h_fe_new, gauss_single, [48, 46.4, 5.9], ax, [37,50] )
 
-[N, r, fe_mean, fe_sigma, fe_sec_mean, fe_sec_sigma], [_, _, fe_unc, _, fe_sec_unc, _], fe_chi2, fe_ndof, fe_prob = fit_and_draw_ROOT( h_fe_new, gauss_double_uncorr, [800, 0.88, 90.2, 7.04, 99.1, 4.04], ax, [70,120], draw_individually=True, dont_plot_hist=True)#, bounds=([0,0.1,87,3,96,1],[15000,1,93,10,102,10]) )
+[N, r, fe_mean, fe_sigma, fe_sec_mean, fe_sec_sigma], [_, _, fe_unc, _, fe_sec_unc, _], fe_chi2, fe_ndof, fe_prob = fit_and_draw_ROOT( h_fe_new, gauss_double_uncorr, [800, 0.88, 90.2, 7.04, 99.1, 4.04], ax, [70,120], draw_individually=True, dont_plot_hist=True)#, bounds=([0,0.80,87,3,98,1],[15000,1,93,10,102,10]) )
 
 #def gauss_plus_exp(x, c0, m0, s0, c1, t1):
 #    return gauss_single(x, c0, m0, s0) + c1*np.exp(-t1*x)
 
-[_, am_mean, _], [_, am_unc, _], am_chi2, am_ndof, am_prob = fit_and_draw_ROOT( h_am_new, gauss_single, [4896, 883, 22], None, [865, 950], ax2=ax2, bounds=([10,875,20],[10000,885,28]) )
+[_, am_mean, _], [_, am_unc, _], am_chi2, am_ndof, am_prob = fit_and_draw_ROOT( h_am_new, gauss_single, [5116, 882, 22], None, [865, 920], ax2=ax2)#, bounds=([10,875,20],[10000,885,28]) )
 
 #def crystalball_function(x, alpha, n, mu, sigma):
 #    return ROOT.Math.crystalball_function(alpha, n, sigma, mu)
@@ -156,7 +156,7 @@ yerr = [ fe_escape_energy_unc, fe_main_energy_unc, fe_sec_energy_unc, am_main_en
 xerr = np.array([ fe_esc_unc, fe_unc, fe_sec_unc, am_unc ])
 gr = ROOT.TGraphErrors( len(x), array('d',x), array('d',y), array('d',xerr), array('d',yerr) )
 fit1 = ROOT.TF1("fit1","pol1", min(x), max(x));
-fit1.SetParameters(-0.2232671292611002, 0.06796181642128599)
+fit1.SetParameters(0.0740639, 0.0674355)
 res = gr.Fit(fit1, "RS")
 print("Fit prob. = {:.1f}%".format(fit1.GetProb()*100))
 
@@ -170,7 +170,7 @@ plt.plot(x, y, 'b-')
 show_title(ax)
 show_text("Note: Channel uncertainties scaled by 10", ax, y=0.85)
 show_text("Fit: y = b + ax", ax, y=0.80)
-show_text("b = {:5.3f}     ± {:.3f}".format(fit1.GetParameter(0),fit1.GetParError(0)), ax, y=0.75)
+show_text("b = {:5.3f}     ± {:.3f} ({:3.1f}σ from 0)".format(fit1.GetParameter(0),fit1.GetParError(0),abs(fit1.GetParameter(0))/fit1.GetParError(0)), ax, y=0.75)
 show_text("a = {:7.5f} ± {:.5f}".format(fit1.GetParameter(1),fit1.GetParError(1)), ax, y=0.70)
 show_text("p( X², ndof ) = p( {:.1f}, {:d} ) = {:.1f}%".format(fit1.GetChisquare(), fit1.GetNDF(), fit1.GetProb()*100), ax, y=0.65)
 ax.set_ylabel("Energy [keV]")
@@ -190,19 +190,19 @@ fig = plt.figure()
 ax = plt.subplot()
 
 [ am1_c, am1_mean, am1_sigma, am1_p0, am1_p1 ], [ am1_c_unc, am1_mean_unc, am1_sigma_unc, am1_p0_unc, am1_p1_unc ], \
-am1_chi2, am1_ndof, am1_prob = fit_and_draw_ROOT(h_am_new, gauss_p1, [161, 261, 11, 20, -0.03], ax, [240,285], col='g-', dont_draw_fit=True, label="Am-241")
+am1_chi2, am1_ndof, am1_prob = fit_and_draw_ROOT(h_am_new, gauss_p1, [130, 262, 9.3, 28.7, -0.0325], ax, [240,285], col='g-', dont_draw_fit=True, label="Am-241")
 
 [ am2_c, am2_mean, am2_sigma, am2_p0, am2_p1 ], [ am2_c_unc, am2_mean_unc, am2_sigma_unc, am2_p0_unc, am2_p1_unc ], \
-am2_chi2, am2_ndof, am2_prob = fit_and_draw_ROOT(h_am_new, gauss_p1, [58, 318, 7, 20, -0.03], None, [300,335], True, \
-                                                 bounds=([10, 310, 2, 10, -0.2],[100, 325, 11, 10000, -0.001]), col='g-'
+am2_chi2, am2_ndof, am2_prob = fit_and_draw_ROOT(h_am_new, gauss_p1, [47.5, 317.77, 5.92, 20.6, 0.00479], None, [300,335], True, \
+                                                 col='g-'#, bounds=([10, 310, 2, 10, -0.2],[100, 325, 11, 10000, 1])
                                                  )
 
 [ am3_c, am3_mean, am3_sigma, am3_p0, am3_p1 ], [ am3_c_unc, am3_mean_unc, am3_sigma_unc, am3_p0_unc, am3_p1_unc ], \
-am3_chi3, am3_ndof, am3_prob = fit_and_draw_ROOT(h_am_new, gauss_p1, [447, 392, 10, 20, -0.03], None, [360,415], True, col='g-')
+am3_chi3, am3_ndof, am3_prob = fit_and_draw_ROOT(h_am_new, gauss_p1, [904, 394, 14.56, 87, -0.183], None, [360,415], True, col='g-')
 
 [ am4_c, am4_mean, am4_sigma, am4_p0, am4_p1 ], [ am4_c_unc, am4_mean_unc, am4_sigma_unc, am4_p0_unc, am4_p1_unc ], \
-am4_chi4, am4_ndof, am4_prob = fit_and_draw_ROOT(h_am_new, gauss_p1, [2000, 183, 10, 31, -0.03], None, [175,216], True, \
-                                                 bounds=([1000,170,5,1,-0.2],[10000,190,20,10000,-0.001]), col='g-'
+am4_chi4, am4_ndof, am4_prob = fit_and_draw_ROOT(h_am_new, gauss_p1, [4190, 180.97, 14.92, 87, -0.2], ax, [175,216], False, \
+                                                 col='g-', bounds=([1000,170,5,0,-0.3],[10_000,190,20,200,1])
                                                  )
 
 lower_bound=0.8
@@ -227,13 +227,13 @@ am_final_chi4, am_final_ndof, am_final_prob = \
                          ], \
                        ax, [175,450], True, \
                        draw_individually=True, \
-                       bounds=( [ 60,                am1_mean*lower_bound, am1_sigma*lower_bound, \
+                       bounds=( [ 60,                am1_mean*lower_bound, am1_sigma*lower_bound*2, \
                                   am2_c*lower_bound, am2_mean*lower_bound, am2_sigma*lower_bound, \
                                   am3_c*lower_bound, am3_mean*lower_bound, am3_sigma*lower_bound, \
                                   am4_c*lower_bound, am4_mean*lower_bound, am4_sigma*lower_bound, \
                                   0.0, -1.0, 0.000000001 ],
                                 [ 1000,              am1_mean*upper_bound, am1_sigma*upper_bound, \
-                                  am2_c*upper_bound*100, am2_mean*upper_bound, am2_sigma*upper_bound, \
+                                  am2_c*upper_bound*100, am2_mean*upper_bound, am2_sigma*upper_bound*0.5, \
                                   am3_c*upper_bound, am3_mean*upper_bound, am3_sigma*upper_bound, \
                                   am4_c*upper_bound, am4_mean*upper_bound, am4_sigma*upper_bound, \
                                   100, -0.001, 0.000000001 ]

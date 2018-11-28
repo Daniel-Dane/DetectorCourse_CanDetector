@@ -1,4 +1,5 @@
-\documentclass[twocolumn]{article}
+\documentclass[twocolumn,a4paper]{article}
+\usepackage[a4paper]{geometry}
 \usepackage[utf8]{inputenc}
 %\usepackage{multicol}
 %\setlength{\columnsep}{1cm}
@@ -10,7 +11,7 @@
 \title{detectorhandins}
 \author{Daniel S. Nielsen, Rosanna Ignazzi, \\Étienne Bourbeau, Fabian A.J. Thiele}
 \date{October 2018}
-\usepackage{siunitx} % SI units
+\usepackage[separate-uncertainty=true,multi-part-units=single]{siunitx} % SI units
 \usepackage{amsmath} % equations
 \usepackage{tabularx}
 \usepackage{tikz}
@@ -25,6 +26,12 @@
 \usepackage{multirow}
 \usepackage{graphicx}
 % \usepackage{bmpsize}
+
+% Outputs warnings (in log file as well) about unreferenced labels
+% NOTE: Unlabeled figures are not caugt! Label all figures!
+% NOTE: It also tends to report labels as unused even when they are (and are marked as used in the pdf)
+\usepackage{refcheck}
+
 \addbibresource{sections/references.bib}
 
 \setlength{\parskip}{.8em} % add some space btwn paragraphs

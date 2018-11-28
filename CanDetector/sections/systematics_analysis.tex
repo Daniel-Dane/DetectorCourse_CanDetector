@@ -9,43 +9,26 @@ In the analysis of data from experiments, care must be taken to properly take in
 
 The meaning and values associated with each parameter of this equation is listed in table \ref{Tab:params}. One can see that most of these values either come from tabulated properties of the gas used, or are derived from the initial measurement of the beer can dimensions, listed in table \ref{Tab:cidercan_sizes} for reference.
 
-\begin{table}[htb]
-  \begin{tabularx}{\linewidth}{p{1.5cm}|p{6cm}|c|l}
+\begin{table*}[htb]
+  \begin{tabularx}{\linewidth}{p{1.5cm}p{8cm}rl}
     \textbf{Variable}     & \textbf{Definition}                                                         & \textbf{Value}     & \textbf{Source}  \\
     \hline
-    $r_{c}$                 & radius of the cathode                                                       & $3.121 \pm 0.003$      &\ref{eq:rcra}   \\
+    $r_{c}$                 & radius of the cathode                                                       & $3.121 \pm 0.003$      & Eq. \ref{eq:rcra}   \\
     &&&\\
-    $r_{a}$                 & radius of the anode                                                         & $25 \pm 2 \mu$m &\ref{eq:rcra}   \\
+    $r_{a}$                 & radius of the anode                                                         & $\SI{25 +- 2}{\micro\meter}$ & Eq. \ref{eq:rcra}   \\
     &&&\\
     $V$                    & operating voltage                                                           & 1-3 kV             & N/A                \\
     &&&\\
-    $\Delta V$             & average potential required to produce an additional electron                & $23.6 \pm 5.4$ V   &\cite{gas_detect}   \\
+    $\Delta V$             & potential required to produce an additional electron                & $23.6 \pm 5.4$ V   &\cite{gas_detect}   \\
     &&&\\
-    $E_{min}(\rho_{o})$      & Minimal electric field needed for ionization (at standard pressure)         & $48. \pm 3$ kV/cm  &\cite{gas_detect}   \\
+    $E_{min}(\rho_{o})$      & \begin{tabular}[c]{@{}l@{}}Minimal electric field needed for ionization\\(at standard pressure)\end{tabular}         & $48. \pm 3$ kV/cm  &\cite{gas_detect}   \\
     &&&\\
-    $\frac{\rho_{o}}{\rho}$ & Standard density of the gas (compared to density at  T=273K and P = 1 bar)  &                    &\ref{eq:gaslaw}, \cite{meteo}\\
+    $\rho_{o}/\rho$ & \begin{tabular}[c]{@{}l@{}}Standard density of the gas\\(compared to density at  T=273K and P = 1 bar)\end{tabular}  &                    &Eq. \ref{eq:gaslaw}, \cite{meteo}\\
     \hline
   \end{tabularx}
   \caption{List of the main systematics sources}
   \label{Tab:params}
-\end{table}
-
-
-\begin{table}[htb]
-  \begin{tabularx}{\linewidth}{X|X|p{2cm}}
-    \textbf{Element}                   & \textbf{Measurements}                                 & \textbf{Size}       \\ \hline
-    Cider can diameter $D_{outer}$      &                                                       &                     \\
-    Cider can wall thickness   $\tau$ & $105 \pm 10 \ \mu$m                                   & $105 \pm 10 \ \mu$m \\
-    Plastic tube diameter             & $5.89$ mm, $5.95$ mm, $6.00$ mm, $6.01$ mm, $6.01$ mm &                     \\
-    Brass tube diameter               & $1.0$ mm                                              &                     \\
-    Nylon screw diameter              & $7.8$ mm, $7.75$ mm                                   &                     \\
-    HV connector diameter             & $9.37$ mm                                             &                     \\
-    Anode wire diameter               & $50 \pm 10 \ \mu$m                                    & $50 \pm 10 \ \mu$m  \\
-    \hline
-  \end{tabularx}
-  \caption{Measurements of the cider can experiment setup components.}
-  \label{Tab:cidercan_sizes}
-\end{table}
+\end{table*}
 
 For the geometric properties, the relationship between the measured quantities and the anode radius, is simply $r_{a} = d_{a}/2.$. Meanwhile, the radii of the cathode is related to the other measurements via equation \ref{eq:rcra}.
 
@@ -87,7 +70,7 @@ where $G_{pre,mca}$ is the preamplifier gain in units of $d.c./V$ (as plotted in
 Where $n_{Fe^{5},Am^{241}}$ is the average number of electrons-ion pairs produced by either iron-55 (227) or americium-241 (2290), as taken from \cite{can_paper}. The measured multiplication factors obtained in each voltage scan is shown in figure \ref{final_lnm}, along with the theoretical expectation for their values given the geometry of the can detector and the environmental conditions during the measurement. As one can see, the data collected is matches remarkably well the prediction, which has its $1\sigma$ and $2\sigma$ contours plotted in blue.
 
 \begin{figure}[H]
-  \includegraphics[width=0.5\textwidth]{graphics/lnM_final_plot.png}
+  \includegraphics[width=0.5\textwidth]{graphics/lnM_final_plot.pdf}
   \caption{Natural logarithm of the drift chamber's multiplication factor M. Red and green data points represent the results obtained with $Fe^{5}$ and $Am^{241}$ respectively. Blue bands show the theoretical expectation for the detector, given systematics uncertainties in the cider can geometry and gas peroperties.}
   \label{final_lnm}
 \end{figure}

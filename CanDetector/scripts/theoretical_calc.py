@@ -1,3 +1,5 @@
+import numpy as np
+
 # milimeters
 std_caliper = 0.05 #?
 std_micrometerscrew = 0.005 # micrometer screw gauge
@@ -21,3 +23,8 @@ anodewire_coppertube_diameter = np.array( [0.025] )
 # to get mean and std for a variable
 #coppertube_inner_diameter.mean()
 #coppertube_inner_diameter.std(ddof=1)
+
+print( "{:5.3f} ± {:.3f}".format(coppertube_length.mean(),coppertube_length.std(ddof=1)) )
+print( "{:5.3f} ± {:.3f}".format(coppertube_wall.mean(),coppertube_wall.std(ddof=1)) )
+print( "{:5.3f} ± {:.3f}".format(coppertube_inner_diameter.mean(),coppertube_inner_diameter.std(ddof=1)) )
+print( "{:5.3f} ± {:.3f}".format(coppertube_radiationhole.mean(),coppertube_radiationhole.std(ddof=1)) )

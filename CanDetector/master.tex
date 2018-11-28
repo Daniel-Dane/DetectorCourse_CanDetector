@@ -3,6 +3,10 @@
 %\usepackage{multicol}
 %\setlength{\columnsep}{1cm}
 
+\usepackage{tocloft}
+\setlength\cftbeforesecskip{1pt}
+\setlength\cftaftertoctitleskip{2pt}
+
 \title{detectorhandins}
 \author{Daniel S. Nielsen, Rosanna Ignazzi, \\Étienne Bourbeau, Fabian A.J. Thiele}
 \date{October 2018}
@@ -19,6 +23,8 @@
 \usepackage{placeins}
 \usepackage[backend=biber,backref=true,style=numeric-comp]{biblatex}
 \usepackage{multirow}
+\usepackage{graphicx}
+% \usepackage{bmpsize}
 \addbibresource{sections/references.bib}
 
 \setlength{\parskip}{.8em} % add some space btwn paragraphs
@@ -37,6 +43,8 @@
   \newpage
 	
 	\tableofcontents
+    
+    \clearpage
 	
 	%\listoffigures
 	
@@ -54,27 +62,27 @@
 	
 	% --- Chapter 1: Background -----------------------------------------------
 	
-	\cleardoublepage
+	% \cleardoublepage
 
-  \clearpage
+  % \clearpage
 	\input{./sections/detector_construction.tex}    % Fabian
         
-	\clearpage
+	% \clearpage
 	\input{./sections/setup_and_calibration.tex}    % Etienne
 
-	\clearpage
+	% \clearpage
 	\input{./sections/energy_scale_calibration.tex} % Daniel
 
-  \clearpage
+  % \clearpage
 	\input{./sections/spectra_analysis.tex}         % Daniel
 
-  \clearpage
+  % \clearpage
 	\input{./sections/systematics_analysis.tex}     % Etienne
         
-	\clearpage
+	% \clearpage
 	\input{./sections/special_detector_results.tex} % 
 	
-	\clearpage
+	% \clearpage
 	\input{./sections/conclusion.tex}               % Rosanna
 	
 	

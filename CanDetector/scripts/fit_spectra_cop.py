@@ -163,7 +163,7 @@ ax.set_ylabel("Energy [keV]")
 ax.set_xlabel("Channel [bit]")
 #ax.arrow(10,10,50,-2.7,width=0.5,head_length=15)
 fig.show()
-plt.savefig("../graphics/cupenergychannelcalib.pdf", format='pdf')
+#plt.savefig("../graphics/cupenergychannelcalib.pdf", format='pdf')
 
 
 
@@ -247,7 +247,7 @@ show_text("Peak 4: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst
 ax.set_ylabel("Counts for {:.0f} seconds per channel [1/s/bit]".format(time_fe))
 ax.set_xlabel("Channel [bit]")
 fig.show()
-plt.savefig("../graphics/cuppeaksearch.pdf", format='pdf')
+#plt.savefig("../graphics/cuppeaksearch.pdf", format='pdf')
 
 # if using a terminal
 #input("ready...")

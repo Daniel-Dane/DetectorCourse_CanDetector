@@ -31,12 +31,13 @@ Gaussian fits are then performed on the known Fe and Am peaks. All fits are perf
 
 For the escape peak fits, a regular gaussian is used. For the Fe peak, the uncorrelated gaussian double gaussian is used. For the Am peak, a regular gaussian is used for the can detector. However, for the aluminium pipe, a 1st order polynomial must be added to ensure convergence.
 
+% \begin{tabular}[c]{@{}l@{}}Uncorrelated\\ double gaussian\end{tabular}
 \begin{table*}[htb!]
 \begin{tabular}{ll}
 \textbf{Name}                 & \textbf{Expression} \\ \hline
 Gaussian                      & $\frac{N}{\sqrt{2\pi}\sigma}\exp{\left(-\frac{\left(x-\mu\right)^2}{2\sigma^2}\right)}$                    \\
-\begin{tabular}[c]{@{}l@{}}Uncorrelated\\ double gaussian\end{tabular}  & $N\left[r\frac{1}{\sqrt{2\pi}\sigma}\exp{\left(-\frac{\left(x-\mu\right)^2}{2\sigma^2}\right)}+(1-r)\frac{1}{\sqrt{2\pi}\sigma}\exp{\left(-\frac{\left(x-\mu\right)^2}{2\sigma^2}\right)}\right]$                     \\
-\begin{tabular}[c]{@{}l@{}}Gaussian plus\\ 1st order poly.\end{tabular} & $\frac{N}{\sqrt{2\pi}\sigma}\exp{\left(-\frac{\left(x-\mu\right)^2}{2\sigma^2}\right)} + b + ax$                   
+Uncorrelated double gaussian  & $N\left[r\frac{1}{\sqrt{2\pi}\sigma}\exp{\left(-\frac{\left(x-\mu\right)^2}{2\sigma^2}\right)}+(1-r)\frac{1}{\sqrt{2\pi}\sigma}\exp{\left(-\frac{\left(x-\mu\right)^2}{2\sigma^2}\right)}\right]$                     \\
+Gaussian plus 1st order poly. & $\frac{N}{\sqrt{2\pi}\sigma}\exp{\left(-\frac{\left(x-\mu\right)^2}{2\sigma^2}\right)} + b + ax$                   
 \end{tabular}
 \caption{Expressions for the used fit functions for the gaussian fits. These are regular gaussian functions with a normalization factor. The uncorrelated double gaussian expression is used for fits with overlapping signals, and has less correlated parameters than two regular gaussians. The parameters are the usual gaussian parameters as well as the normalization factor, $N$, the ratio, $r$, and the polynomial factors of the y-intersection, $b$, and slope $a$.}
 \label{tab:fitfuncchannelfits}

@@ -25,7 +25,16 @@
 \usepackage[backend=biber,backref=true,style=numeric-comp]{biblatex}
 \usepackage{multirow}
 \usepackage{graphicx}
+\usepackage{changepage}
 % \usepackage{bmpsize}
+
+\makeatletter%
+\newenvironment{maybeleft}[1][\relax]{%
+  \ifx#1\relax\def\@mypl{\if@firstcolumn -0.5cm\else 0cm\fi}%
+  \else\def\@mypl{#1}\fi%
+  \adjustwidth{-0.5cm}{}}%
+  {\par\endadjustwidth}%
+\makeatother%
 
 % Outputs warnings (in log file as well) about unreferenced labels
 % NOTE: Unlabeled figures are not caugt! Label all figures!

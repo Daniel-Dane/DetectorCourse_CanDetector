@@ -39,7 +39,7 @@ plt.show()
 output_mca = calib[:,2]
 Dy_mca = calib[:,4]
 
-plt.errorbar(input_v,output_mca,yerr=Dy_mca,fmt='s',color='r')
+plt.errorbar(input_v,output_mca,yerr=Dy_mca,fmt='v',color='r')
 plt.title('Preamplifier gain')
 plt.xlabel('input voltage (V)',fontsize=13)
 plt.ylabel('Digitized Output (MCA)',fontsize=13) # As measured with the MCA
@@ -110,7 +110,7 @@ for p,i in zip(alll_am,range(0,len(alll_am))):
     y_am[i]  = p[0,2]/float(p[1,2]) # Ratio of output MCA
     dy_am[i] = y_am[i]*np.sqrt((p[0,3]/float(p[0,2]))**2.+(p[1,3]/p[1,2])**2.) # propagated uncertainties
    
-plt.errorbar(x_values+0.2,y_am,yerr=dy_am,fmt='o',color='b',label=r'$Am^{241}$')
+plt.errorbar(x_values+0.2,y_am,yerr=dy_am,fmt='P',color='b',label=r'$Am^{241}$')
 
 # Get a combined measurement of Am and Fe data
 # weighted average
@@ -120,7 +120,7 @@ print x_fe
 print coarse_gain
 print coarse_gain_unc
 
-plt.errorbar(x_values+0.4,coarse_gain,yerr=coarse_gain_unc,fmt='o',color='r',label=r'Combined')
+plt.errorbar(x_values+0.4,coarse_gain,yerr=coarse_gain_unc,fmt='s',color='r',label=r'Combined')
 
 # Change the xticks so that they reflect the labels
 ax = plt.gca()
@@ -165,12 +165,22 @@ M_X_Fe = Data_fe[:,1]      # operating voltage
 M_MCA_Fe = Data_fe[:,2]    # Signal in MCA counts
 M_MCA_Fe_unc = Data_fe[:,3]
 
+
+# Instead of the raw files, I'll use the ones computed by Daniel for americium
+# calibration values from fits from files
+M_X_am = np.array([1399, 1900, 1136, 1758, 1191, 1899, 1559, 1502, 1665, 1858, 1712, 1808, 1666, 1351, 1455, 1757, 1559, 1244, 1603, 1397, 2001, 1951, 1297])/1000.
+M_MCA_am = np.array([544.5050345089651, 326.54317404616205, 127.43071791508439, 583.1179426444957, 168.17293382088152, 664.6309157208256, 616.6382473661497, 424.6967760119166, 307.2646013317212, 491.6720944076552, 425.2699471739359, 345.64279002057714, 619.5692060677644, 412.3728612037973, 315.6736531410237, 238.1303995063521, 304.003946203382, 225.20774106290764, 407.2465678168178, 221.10818867536287, 682.42716036647, 471.56052001424354, 301.853614468452])
+M_MCA_am_unc = np.array([0.506039369118879, 0.3519355211309751, 0.1939561101144484,  0.5668291396588969, 0.2108980208118094, 0.5813120503493101, 0.4314897281094914, 0.29656483037448206, 0.2569726706757164, 0.366757556247128, 0.40212867545908054, 0.3087515122151757, 0.52404887890526, 0.355285435847614, 0.223769775890340, 0.2011415760430970, 0.2370662570751042, 0.272520173643901, 0.2950501496973, 0.174656632615955, 0.769557610293755, 0.53759025583648, 0.335624971474936])
+M_coarse_am = np.array([100, 2, 100, 10, 100, 4, 40, 40, 10, 4, 10, 4, 20, 100, 40, 4, 20, 100, 20, 40, 2, 2, 100])
+
+
+"""
 # Part where you plot the data, divided by the proper factor
 M_coarse_am = Data_am[:,0] # coarse gain setting
 M_X_am = Data_am[:,1]/1000.      # operating voltage
 M_MCA_am = Data_am[:,2]    # Signal in MCA counts
 M_MCA_am_unc = Data_am[:,3]
-
+"""
 
 
 preamp_gain = mca_preampgain/10. # preamp data was taken at a coarse gain of 10. Removing it form the equation
@@ -216,8 +226,10 @@ for g,i in zip(M_coarse_Fe,range(0,len(M_coarse_Fe))):
         
 Q_detector_fe = M_MCA_Fe/preamp_gain*(1e-12)/1.602e-19/M_Gratio
 Q_detector_fe_unc = Q_detector_fe*np.sqrt((preamp_unc/preamp_gain)**2.+(M_Gratio_unc/M_Gratio)**2.+(M_MCA_Fe_unc/M_MCA_Fe)**2.)
-M_Fe = np.log(Q_detector_fe/227.)
-M_Fe_unc = np.log(Q_detector_fe_unc/227.)/M_Fe
+M_Fe = Q_detector_fe/227.
+M_Fe_unc = Q_detector_fe_unc/227.
+ln_M_Fe = np.log(M_Fe)
+ln_M_Fe_unc = M_Fe_unc/M_Fe
 
 
 #***************************************************************************
@@ -248,18 +260,22 @@ for g,i in zip(M_coarse_am,range(0,len(M_coarse_am))):
              
 
 Q_detector_am = M_MCA_am/preamp_gain*(1e-12)/1.602e-19/M_Gratio_am
-Q_detector_am_unc = Q_detector_am*np.sqrt((preamp_unc/preamp_gain)**2.+(M_Gratio_am_unc/M_Gratio_am)**2.+(M_MCA_am_unc/M_MCA_am)**2.)
+Q_detector_am_unc = Q_detector_am*np.sqrt((preamp_unc/preamp_gain)**2.+(M_MCA_am_unc/M_MCA_am)**2.+(M_Gratio_am_unc/M_Gratio_am)**2.)#+
 
-M_am = np.log(Q_detector_am/(2290.))
-M_am_unc = Q_detector_am_unc/(2290.)/M_am
+M_am = Q_detector_am/(2290.)
+M_am_unc = Q_detector_am_unc/(2290.)
 
-plt.errorbar(M_X_am,M_am,yerr=M_am_unc,fmt='sr',label=r'$Am^{241}$',color='#de2d26')
-plt.errorbar(M_X_Fe,M_Fe,yerr=M_Fe_unc,fmt='o',label=r'$Fe^{55}$',color='#31a354')
+ln_M_am = np.log(M_am)
+ln_M_am_unc = M_am_unc/M_am
+
+plt.errorbar(M_X_am,ln_M_am,yerr=ln_M_am_unc,fmt='sr',label=r'$Am^{241}$',color='#de2d26')
+plt.errorbar(M_X_Fe,ln_M_Fe,yerr=ln_M_Fe_unc,fmt='o',label=r'$Fe^{55}$',color='#31a354')
 
 plt.xlabel('Operating voltage (kV)',fontsize=13)
 plt.ylabel(r'$\ln(M)$',fontsize=13)
 plt.legend()
 plt.xlim([0.8,2.5])
+#plt.yscale('log')
 plt.ylim([-2.,14.5])
 plt.show()
 

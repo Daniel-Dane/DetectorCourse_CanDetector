@@ -8,6 +8,7 @@
 *.bbl
 *.blg
 *.bak
+*.tdo
 auto
 CanDetector/master.pdf
 SemiconductorDetector/report_semiconductor_detector.pdf

@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 np.random.seed(42)
 import ROOT
 from array import array
-from fit_spectra_common import get_draw_spline, subtract_bkg, fit_and_draw_ROOT, energyall, \
+from fit_spectra_common import get_draw_spline, subtract_bkg, fit_and_draw_ROOT, energywithuncertainty, energyall, \
                                gauss_single, gauss_double_uncorr, gauss_p1, \
                                fe_escape_energy, fe_main_energy, fe_sec_energy, am_main_energy, \
                                fe_escape_energy_unc, fe_main_energy_unc, fe_sec_energy_unc, am_main_energy_unc
@@ -35,9 +35,6 @@ ax = plt.subplot()
 axins = zoomed_inset_axes(ax, 5.0, loc=5)
 
 # Get histograms and make+draw splines (normalizing to fe)
-#[h_fe,  spline_fe, time_fe]  = get_draw_spline("../data/mcapipe/fe_10_1224_spec_cop.mca",  0.02,  'b', 'b', "Fe-55",      ax, axins, False)
-#[h_am,  spline_am, _]  = get_draw_spline("../data/mcapipe/am_10_1224_spec_cop.mca",  0.02,  'r', 'r', "Am-241",     ax, axins, True, time_fe)
-#[h_bkg, spline_bkg, _] = get_draw_spline("../data/mcapipe/bkg_10_1224_spec_cop.mca", 0.002, 'g', 'g', "Background", ax, axins, True, time_fe)
 [h_fe,  spline_fe, time_fe]  = get_draw_spline("../data/mcapipe/fe_10_1217_spec_alu.mca",  0.02,  'b', 'b', "Fe-55",      ax, axins, False)
 [h_am,  spline_am, _]  = get_draw_spline("../data/mcapipe/am_10_1217_spec_alu.mca",  0.02,  'r', 'r', "Am-241",     ax, axins, True, time_fe)
 [h_bkg, spline_bkg, _] = get_draw_spline("../data/mcapipe/bkg_10_1217_spec_alu.mca", 0.002, 'g', 'g', "Background", ax, axins, True, time_fe)
@@ -258,6 +255,30 @@ ax.set_xlabel("Channel [bit]")
 ax.legend(loc='best')
 fig.show()
 plt.savefig("../graphics/alupeaksearch.pdf", format='pdf')
+
+
+
+#%%#####################################
+# print all values to screen
+######################################
+
+# Get energies of peaks with full uncertainties
+esc_energy_calc = energywithuncertainty(fit1, fe_esc_mean, fe_esc_unc)
+fe_energy_calc = energywithuncertainty(fit1, fe_mean, fe_unc)
+fe_sec_energy_calc = energywithuncertainty(fit1, fe_sec_mean, fe_sec_unc)
+am_energy_calc = energywithuncertainty(fit1, am_mean, am_unc)
+
+am3_energy_calc = energywithuncertainty(fit1, am3_mean, am3_sigma/np.sqrt(am3_c/binwidth))
+
+# print to console
+print("Esc. & {:.2f} ± {:.2f} & {:.2f} ± {:.2f}".format(fe_esc_mean, fe_esc_unc, esc_energy_calc[0], esc_energy_calc[1]))
+print("Fe K-α & {:.2f} ± {:.2f} & {:.2f} ± {:.2f}".format(fe_mean, fe_unc, fe_energy_calc[0], fe_energy_calc[1]))
+print("Fe K-β & {:.2f} ± {:.2f} & {:.2f} ± {:.2f}".format(fe_sec_mean, fe_sec_unc, fe_sec_energy_calc[0], fe_sec_energy_calc[1]))
+print("Am & {:.2f} ± {:.2f} & {:.2f} ± {:.2f}".format(am_mean, am_unc, am_energy_calc[0], am_energy_calc[1]))
+
+print("4 & {:.2f} ± {:.2f} & {:.2f} ± {:.2f}".format(am3_mean, am3_sigma/np.sqrt(am3_c/binwidth), am3_energy_calc[0], am3_energy_calc[1]))
+
+
 
 # if using a terminal
 #input("ready...")

@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 np.random.seed(42)
 import ROOT
 from array import array
-from fit_spectra_common import get_draw_spline, subtract_bkg, fit_and_draw_ROOT, energyall, \
+from fit_spectra_common import get_draw_spline, subtract_bkg, fit_and_draw_ROOT, energywithuncertainty, energyall, \
                                gauss_single, gauss_double_uncorr, gauss_p1, gauss_quad_p2, \
                                fe_escape_energy, fe_main_energy, fe_sec_energy, am_main_energy, \
                                fe_escape_energy_unc, fe_main_energy_unc, fe_sec_energy_unc, am_main_energy_unc
@@ -66,6 +66,9 @@ ax.set_xlabel("Channel [bit]")
 ax.legend(loc='best')
 fig.show()
 plt.savefig("../graphics/bkgsubtraction.pdf", format='pdf')
+
+# used later on for calculating the number of events in gauss
+binwidth = h_am_new.GetBinWidth(1)
 
 
 
@@ -244,7 +247,6 @@ am_final_chi4, am_final_ndof, am_final_prob = \
 # the uncertainty on the mean is then the width divided by the square root of the number of entries
 # the normalization constant divided by the binwidth gives us exactly the number of entries
 # this elaborate exercise gives us the actual uncertainty of the mean for just the signal/gauss
-binwidth = h_am_new.GetBinWidth(1)
 am1_energy = energyall(fit1, am1_mean, am1_sigma/np.sqrt(am1_c/binwidth))
 am2_energy = energyall(fit1, am2_mean, am2_sigma/np.sqrt(am2_c/binwidth))
 am3_energy = energyall(fit1, am3_mean, am3_sigma/np.sqrt(am3_c/binwidth))
@@ -263,6 +265,36 @@ ax.set_xlabel("Channel [bit]")
 ax.legend(loc='best')
 fig.show()
 plt.savefig("../graphics/peaksearch.pdf", format='pdf')
+
+
+
+#%%#####################################
+# print all values to screen
+######################################
+
+# Get energies of peaks with full uncertainties
+esc_energy_calc = energywithuncertainty(fit1, fe_esc_mean, fe_esc_unc)
+fe_energy_calc = energywithuncertainty(fit1, fe_mean, fe_unc)
+fe_sec_energy_calc = energywithuncertainty(fit1, fe_sec_mean, fe_sec_unc)
+am_energy_calc = energywithuncertainty(fit1, am_mean, am_unc)
+
+am1_energy_calc = energywithuncertainty(fit1, am1_mean, am1_sigma/np.sqrt(am1_c/binwidth))
+am2_energy_calc = energywithuncertainty(fit1, am2_mean, am2_sigma/np.sqrt(am2_c/binwidth))
+am3_energy_calc = energywithuncertainty(fit1, am3_mean, am3_sigma/np.sqrt(am3_c/binwidth))
+am4_energy_calc = energywithuncertainty(fit1, am4_mean, am4_sigma/np.sqrt(am4_c/binwidth))
+
+# print to console
+print("Esc. & {:.2f} ± {:.2f} & {:.2f} ± {:.2f}".format(fe_esc_mean, fe_esc_unc, esc_energy_calc[0], esc_energy_calc[1]))
+print("Fe K-α & {:.2f} ± {:.2f} & {:.2f} ± {:.2f}".format(fe_mean, fe_unc, fe_energy_calc[0], fe_energy_calc[1]))
+print("Fe K-β & {:.2f} ± {:.2f} & {:.2f} ± {:.2f}".format(fe_sec_mean, fe_sec_unc, fe_sec_energy_calc[0], fe_sec_energy_calc[1]))
+print("Am & {:.2f} ± {:.2f} & {:.2f} ± {:.2f}".format(am_mean, am_unc, am_energy_calc[0], am_energy_calc[1]))
+
+print("1 & {:.2f} ± {:.2f} & {:.2f} ± {:.2f}".format(am4_mean, am4_sigma/np.sqrt(am4_c/binwidth), am4_energy_calc[0], am4_energy_calc[1]))
+print("2 & {:.2f} ± {:.2f} & {:.2f} ± {:.2f}".format(am1_mean, am1_sigma/np.sqrt(am1_c/binwidth), am1_energy_calc[0], am1_energy_calc[1]))
+print("3 & {:.2f} ± {:.2f} & {:.2f} ± {:.2f}".format(am2_mean, am2_sigma/np.sqrt(am2_c/binwidth), am2_energy_calc[0], am2_energy_calc[1]))
+print("4 & {:.2f} ± {:.2f} & {:.2f} ± {:.2f}".format(am3_mean, am3_sigma/np.sqrt(am3_c/binwidth), am3_energy_calc[0], am3_energy_calc[1]))
+
+
 
 # if using a terminal
 #input("ready...")

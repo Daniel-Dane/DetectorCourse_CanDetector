@@ -160,6 +160,7 @@ def M_theo_unc(V):
 
 yy = [exp(M_thoe(x)) for x in xx]
 yy2 = [exp(M_thoe(x) + M_theo_unc(x)) for x in xx]
+yy3 = [exp(M_thoe(x) - M_theo_unc(x)) for x in xx]
 
 fig2, ax2 = plt.subplots()
 ax2.set_xlabel("Voltage [V]")
@@ -168,7 +169,7 @@ ax2.set_yscale("log", nonposy="clip")
 ax2.errorbar(volt_Fe, M_Fe, M_unc_Fe, color = "r", label = r"$\gamma = 5.9 keV$ Fe-55", marker='o', linestyle='None')
 ax2.errorbar(volt_Am, M_Am, M_unc_Am, color = "b", label = r"$\gamma = 59.5 keV$ Am-241", marker='d', linestyle='None')
 ax2.plot(xx,yy,color = "g", label=r"Prediction")
-ax2.plot(xx,yy2,color = "g", label=r"Prediction + 1$\sigma$", linestyle='--')
+ax2.fill_between(xx,yy3,yy2,color = "lightgreen", label=r"Prediction ± 1$\sigma$", linestyle='--')
 #ax2.errorbar(volt_Fe, num_of_electrons_Fe, num_of_electrons_error_Fe, color = "k", label = r"$\gamma = 5.9 keV$ Fe-55", linestyle='None', marker='o')
 #ax2.errorbar(volt_Am, num_of_electrons_Am, num_of_electrons_error_Am, color = "k", label = r"$\gamma = 59.5 keV$ Am-241", linestyle='None', marker='d')
 ax2.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',

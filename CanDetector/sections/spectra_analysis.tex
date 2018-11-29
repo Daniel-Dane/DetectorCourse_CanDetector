@@ -19,7 +19,7 @@ In this section, the figures for the can and aluminium pipe detectors will be sh
 
 When the sources are measured, the data files are loaded into histograms which are then converted to cubic basis splines (B-splines) with smoothing of 0.02 for the sources and 0.002 for the background. These are shown as dashed lines in fig. \ref{fig:spectra}. The Am and background spectra are normalized to the Fe spectrum. The splined background is then subtracted from the splined sources and binned into 1024 bits and shown as the full lines in the figure. For the aluminium pipe, the spline procedure does distort the escape peak somewhat. All subsequent figures will only be shown with the background subtracted.
 
-\begin{figure*}[htb]
+\begin{figure*}[htb!]
   \includegraphics[width=0.49\textwidth,page=1]{graphics/bkgsubtraction.pdf}
   \includegraphics[width=0.49\textwidth,page=1]{graphics/alubkgsubtraction.pdf}
   %\includegraphics[width=0.32\textwidth,page=1]{graphics/cupbkgsubtraction.pdf}
@@ -43,7 +43,7 @@ Gaussian plus 1st order poly. & $\frac{N}{\sqrt{2\pi}\sigma}\exp{\left(-\frac{\l
 \label{tab:fitfuncchannelfits}
 \end{table*}
 
-\begin{figure*}[htb]
+\begin{figure*}[htb!]
   \includegraphics[width=0.49\textwidth,page=1]{graphics/channelfits.pdf}
   \includegraphics[width=0.49\textwidth,page=1]{graphics/aluchannelfits.pdf}
   \caption{Fits to the four known peaks, the escape peak, the double iron, and the americium. The single gaussians of the double iron peak are shown as dashed lines. The resulting centroids of the fits are shown in the figure along with the Chisquare value, number degrees of freedom, and the Chisquare probability. Note the broken x-axis.}
@@ -52,7 +52,7 @@ Gaussian plus 1st order poly. & $\frac{N}{\sqrt{2\pi}\sigma}\exp{\left(-\frac{\l
 
 After extracting the centroids, the four peaks are plotted against their known energies and a 1st order polynomial fit is performed. The result is shown in fig \ref{fig:energychannelcalib}. For the aluminium detector, the low Chisquare value is due to the larger uncertainties coming from the poor gaussian fits, and the y-intersection is not consistent with 0.
 
-\begin{figure*}[htb]
+\begin{figure*}[htb!]
   \includegraphics[width=0.49\textwidth,page=1]{graphics/energychannelcalib.pdf}
   \includegraphics[width=0.49\textwidth,page=1]{graphics/aluenergychannelcalib.pdf}
   \caption{The centroids found in Fig. \ref{fig:channelfits} are plotted against their known energies and fitted with a 1st order polynomial. The y-intersection is not fixed. For the can detector, the uncertainties on the data points are reasonable, while for the aluminium detector, the large uncertainties lead to a smaller Chisquare. For the aluminium detector, the y-intersection is also not consistent with 0. Note that the uncertainties are scaled by 10 to aid visualization.}
@@ -65,7 +65,7 @@ For the can detector, four peaks were fitted individually with only peak 1 left 
 
 In Fig. \ref{fig:peaksearch}, the energy uncertainties of the peaks are shown split into its statistical, calibrational, and systematical components. Tab. \ref{tab:peakschannelenergies} shows the fully combined uncertainties only.
 
-\begin{figure*}[htb]
+\begin{figure*}[htb!]
   \includegraphics[width=0.49\textwidth,page=1]{graphics/peaksearch.pdf}
   \includegraphics[width=0.49\textwidth,page=1]{graphics/alupeaksearch.pdf}
   \caption{Additional peaks in the americium spectrum are fitted. For the can detector, the individual components of the 4 Gaussians fit are shown in dashed lines. See the text for the fitting details.}
@@ -90,4 +90,4 @@ Am            & $881.11 \pm 1.06$ & $ 59.5$ & $939.23 \pm 1.92$ & $ 59.5$ \\
 \end{table*}
 
 % There's a lot of figures here, and we better flush them out, so they don't mingle way further down the article
-\clearpage
+%\FloatBarrier

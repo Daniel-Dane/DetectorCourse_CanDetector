@@ -2,14 +2,16 @@
 \label{sec:systematics}
 In the analysis of data from experiments, care must be taken to properly take into account systematic uncertainties in our measurements. In the case of the cider can detector, environmental and geometric factors can influence the overall performances of the drift chamber, namely the average number of carriers produced and collected at the electrodes. This number, called the \textit{gain} or \textit{multiplication factor}, can be approximated by the following formula, assuming that our detector is operating in the linear regime(\cite{gas_detect}):
 
-\begin{equation}
-  \label{eq:lnm}
-  \ln(M)=\frac{\ln(2)}{\ln(r_{c}/r_{a})}\cdot\frac{V}{\Delta V}\cdot\ln\left[ \frac{V\rho_{o}}{ra\ln(r_{c}/r_{a})E_{min}(\rho_{o})\rho}\right]
-\end{equation}
+\begin{adjustwidth}{-2cm}{}
+\begin{align}
+\ln(M)=\frac{\ln(2)}{\ln(r_{c}/r_{a})}\cdot\frac{V}{\Delta V}\cdot\ln\left[ \frac{V\rho_{o}}{ra\ln(r_{c}/r_{a})E_{min}(\rho_{o})\rho}\right]
+\label{eq:lnm}
+\end{align}
+\end{adjustwidth}
 
 The meaning and values associated with each parameter of this equation is listed in table \ref{Tab:params}. One can see that most of these values either come from tabulated properties of the gas used, or are derived from the initial measurement of the beer can dimensions, listed in table \ref{Tab:cidercan_sizes} for reference.
 
-\begin{table*}[htb]
+\begin{table*}[htb!]
   \begin{tabularx}{\linewidth}{p{1.5cm}p{8cm}rl}
     \textbf{Variable}     & \textbf{Definition}                                                         & \textbf{Value}     & \textbf{Source}  \\
     \hline
@@ -32,21 +34,21 @@ The meaning and values associated with each parameter of this equation is listed
 
 For the geometric properties, the relationship between the measured quantities and the anode radius, is simply $r_{a} = d_{a}/2.$. Meanwhile, the radii of the cathode is related to the other measurements via equation \ref{eq:rcra}.
 
-\begin{equation}
+\begin{align}
   \label{eq:rcra}
   r_{c} = \frac{D_{outer}}{2}-\tau
-\end{equation}
+\end{align}
 
 To determine the gas properties at the environmental conditions of the laboratory, one needed to measure the temperature and pressure of the room. With these values on hand, the ratio of gas densities can be determined by using the ideal gas law.
 
-\begin{equation}
+\begin{align}
   \label{eq:gaslaw}
   \frac{\rho}{\rho_{o}} = \frac{P}{P_{o}}\cdot \frac{T_{o}}{T}
-\end{equation}
+\end{align}
 
 During the measurements, the temperature stayed mostly constant, but the pressure varied over the course of the day, as shown in figure \ref{fig:pressure}. The uncertainty on the pressure was thus selected to be the largest pressure change with respect to standard pressure, over the course of a day.
 
-\begin{figure}[htb]
+\begin{figure}[htb!]
   \includegraphics[width=0.5\textwidth]{graphics/pressure_monitoring.png}
   \caption{Atmospheric pressure in Helsinki during the spectra measurement. Source: \cite{meteo}}
   \label{fig:pressure}
@@ -56,16 +58,16 @@ Given the parameters and uncertainties quoted in table \ref{Tab:params}, a MC si
 
 The theoretical expectation for the drift chamber's electron yield can be compared to the data obtained during the iron spectrum scan described in section \ref{sec:resolution_scans}. Given a number of MCA counts $Q_{mca}$, the charge accumulated at the electrodes of the drift chamber can be obtained with equation \ref{eq:M_exp}.
 
-\begin{equation}
+\begin{align}
   \label{eq:M_exp}
   Q_{detector} = \frac{Q_{MCA}}{G_{pre,mca}\cdot{G_{coarse}}}
-\end{equation}
+\end{align}
 
 where $G_{pre,mca}$ is the preamplifier gain in units of $d.c./V$ (as plotted in figure \ref{fig:preamp_gain_mca}),and $G_{coarse}$ is the coarse gain that was described and measured in section \ref{sec:coarse}. From that point, the multiplication factor of the experimental data is given by the following:
 
-\begin{equation}
+\begin{align}
   M_{experimental} = \frac{N_{carriers,out}}{N_{carriers per avalanche}} = \frac{Q_{detector}}{n_{Fe^{5},Am^{241}}\cdot e}
-\end{equation}
+\end{align}
 
 Where $n_{Fe^{5},Am^{241}}$ is the average number of electrons-ion pairs produced by either iron-55 (227) or americium-241 (2290), as taken from \cite{can_paper}. The measured multiplication factors obtained in each voltage scan is shown in figure \ref{final_lnm}, along with the theoretical expectation for their values given the geometry of the can detector and the environmental conditions during the measurement. As one can see, the data collected is matches remarkably well the prediction, which has its $1\sigma$ and $2\sigma$ contours plotted in blue.
 

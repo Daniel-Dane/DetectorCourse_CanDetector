@@ -39,13 +39,13 @@
 % Outputs warnings (in log file as well) about unreferenced labels
 % NOTE: Unlabeled figures are not caugt! Label all figures!
 % NOTE: It also tends to report labels as unused even when they are (and are marked as used in the pdf)
-\usepackage{refcheck}
+%\usepackage{refcheck}
 
 \addbibresource{sections/references.bib}
 
 \setlength{\parskip}{.8em} % add some space btwn paragraphs
 
-
+% \raggedbottom
 \sisetup{per-mode=fraction}
 
 \begin{document}
@@ -93,10 +93,11 @@
 
   % \clearpage
 	\input{./sections/spectra_analysis.tex}         % Daniel
-
+    \cleardoublepage
+    \clearpage
   % \clearpage
 	\input{./sections/systematics_analysis.tex}     % Etienne
-        
+    
 	% \clearpage
 	\input{./sections/special_detector_results.tex} % 
 	

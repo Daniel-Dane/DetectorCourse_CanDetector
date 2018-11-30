@@ -11,7 +11,7 @@ In the analysis of data from experiments, care must be taken to properly take in
 
 The meaning and values associated with each parameter of this equation is listed in table \ref{Tab:params}. One can see that most of these values either come from tabulated properties of the gas used, or are derived from the initial measurement of the beer can dimensions, listed in table \ref{Tab:cidercan_sizes} for reference.
 
-\begin{table*}[htb!]
+\begin{table*}[htb]
   \begin{tabularx}{\linewidth}{p{1.5cm}p{8cm}rl}
     \textbf{Variable}     & \textbf{Definition}                                                         & \textbf{Value}     & \textbf{Source}  \\
     \hline
@@ -48,7 +48,7 @@ To determine the gas properties at the environmental conditions of the laborator
 
 During the measurements, the temperature stayed mostly constant, but the pressure varied over the course of the day, as shown in figure \ref{fig:pressure}. The uncertainty on the pressure was thus selected to be the largest pressure change with respect to standard pressure, over the course of a day.
 
-\begin{figure}[htb!]
+\begin{figure}[htb]
   \includegraphics[width=0.5\textwidth]{graphics/pressure_monitoring.png}
   \caption{Atmospheric pressure in Helsinki during the spectra measurement. Source: \cite{meteo}}
   \label{fig:pressure}
@@ -63,15 +63,16 @@ The theoretical expectation for the drift chamber's electron yield can be compar
   Q_{detector} = \frac{Q_{MCA}}{G_{pre,mca}\cdot{G_{coarse}}}
 \end{align}
 
-where $G_{pre,mca}$ is the preamplifier gain in units of $d.c./V$ (as plotted in figure \ref{fig:preamp_gain_mca}),and $G_{coarse}$ is the coarse gain that was described and measured in section \ref{sec:coarse}. From that point, the multiplication factor of the experimental data is given by the following:
+where $G_{pre,mca}$ is the preamplifier gain in units of $d.c./V$ (as plotted in figure \ref{fig:preamp_gain_mca}),and $G_{coarse}$ is the coarse gain that was described and measured in section \ref{sec:coarse}. From that point, the multiplication factor of the experimental data is given by Eq. \ref{eq:Mexp}.
 
 \begin{align}
+  \label{eq:Mexp}
   M_{experimental} = \frac{N_{carriers,out}}{N_{carriers per avalanche}} = \frac{Q_{detector}}{n_{Fe^{5},Am^{241}}\cdot e}
 \end{align}
 
 Where $n_{Fe^{5},Am^{241}}$ is the average number of electrons-ion pairs produced by either iron-55 (227) or americium-241 (2290), as taken from \cite{can_paper}. The measured multiplication factors obtained in each voltage scan is shown in figure \ref{final_lnm}, along with the theoretical expectation for their values given the geometry of the can detector and the environmental conditions during the measurement. As one can see, the data collected is matches remarkably well the prediction, which has its $1\sigma$ and $2\sigma$ contours plotted in blue.
 
-\begin{figure}[htb!]
+\begin{figure}[htb]
   \includegraphics[width=0.5\textwidth]{graphics/lnM_final_plot.pdf}
   \caption{Natural logarithm of the drift chamber's multiplication factor M. Red and green data points represent the results obtained with $Fe^{5}$ and $Am^{241}$ respectively. Blue bands show the theoretical expectation for the detector, given systematics uncertainties in the cider can geometry and gas properties.}
   \label{final_lnm}

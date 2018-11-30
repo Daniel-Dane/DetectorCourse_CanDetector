@@ -28,7 +28,7 @@ common.show_title_subtitle = "(Al pipe)"
 ######################################
 
 # make figure and axes
-fig = plt.figure()
+fig = plt.figure(constrained_layout=True)
 ax = plt.subplot()
 
 # make zoomed in sub-figure
@@ -71,7 +71,7 @@ binwidth = h_am_new.GetBinWidth(1)
 ######################################
 
 # make figure and axes
-f, (ax, ax2) = plt.subplots(1, 2)
+f, (ax, ax2) = plt.subplots(1, 2, constrained_layout=True)
 f.set_figwidth(7)
 
 # plot points and fit result
@@ -134,7 +134,7 @@ plt.savefig("../graphics/aluchannelfits.pdf", format='pdf')
 ######################################
 
 # make figure and axes
-fig = plt.figure()
+fig = plt.figure(constrained_layout=True)
 ax = plt.subplot()
 
 #fe_esc_unc = fe_esc_sigma/np.sqrt(fe_esc_c/binwidth)
@@ -179,7 +179,7 @@ plt.savefig("../graphics/aluenergychannelcalib.pdf", format='pdf')
 ######################################
 
 # make figure and axes
-fig = plt.figure()
+fig = plt.figure(constrained_layout=True)
 ax = plt.subplot()
 
 #[ am1_c, am1_mean, am1_sigma, am1_p0, am1_p1 ], [ am1_c_unc, am1_mean_unc, am1_sigma_unc, am1_p0_unc, am1_p1_unc ], \

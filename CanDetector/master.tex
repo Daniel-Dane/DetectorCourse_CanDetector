@@ -1,16 +1,12 @@
+% Packages
 \documentclass[twocolumn,a4paper]{article}
 \usepackage[a4paper]{geometry}
 \usepackage[utf8]{inputenc}
 %\usepackage{multicol}
 %\setlength{\columnsep}{1cm}
-
 \usepackage{tocloft}
 \setlength\cftbeforesecskip{1pt}
 \setlength\cftaftertoctitleskip{2pt}
-
-\title{detectorhandins}
-\author{Daniel S. Nielsen, Rosanna Ignazzi, \\Étienne Bourbeau, Fabian A.J. Thiele}
-\date{October 2018}
 \usepackage[separate-uncertainty=true,multi-part-units=single]{siunitx} % SI units
 \usepackage{amsmath} % equations
 \usepackage{tabularx}
@@ -28,12 +24,13 @@
 \usepackage{changepage}
 % \usepackage{bmpsize}
 
+% does not work
 \makeatletter%
-\newenvironment{maybeleft}[1][\relax]{%
-  \ifx#1\relax\def\@mypl{\if@firstcolumn -0.5cm\else 0cm\fi}%
-  \else\def\@mypl{#1}\fi%
-  \adjustwidth{-0.5cm}{}}%
-  {\par\endadjustwidth}%
+	\newenvironment{maybeleft}[1][\relax]{%
+	\ifx#1\relax\def\@mypl{\if@firstcolumn -0.5cm\else 0cm\fi}%
+	\else\def\@mypl{#1}\fi%
+	\adjustwidth{-0.5cm}{}}%
+	{\par\endadjustwidth}%
 \makeatother%
 
 % Outputs warnings (in log file as well) about unreferenced labels
@@ -41,82 +38,71 @@
 % NOTE: It also tends to report labels as unused even when they are (and are marked as used in the pdf)
 \usepackage[norefs]{refcheck}
 
+% Misc.
 \addbibresource{sections/references.bib}
-
 \setlength{\parskip}{.8em} % add some space btwn paragraphs
-
 % \raggedbottom
 \sisetup{per-mode=fraction}
 
+% Paper (meta-)data
+\title{detectorhandins}
+\author{Daniel S. Nielsen, Rosanna Ignazzi, \\Étienne Bourbeau, Fabian A.J. Thiele}
+\date{October 2018}
 \begin{document}
-	% === Front matter ====================================================
 
-	%\frontmatter
+
+
+% === Front matter ====================================================
+
+%\frontmatter
 \maketitle
 
-  \input{./sections/abstract.tex}
+\input{./sections/abstract.tex}
 
-  \newpage
-	
-	\tableofcontents
-    
-    \clearpage
-	
-	%\listoffigures
-	
-	%\listoftables
-	
-	%\lstlistoflistings
+\newpage
 
-  \listoftodos
-	
-	
-	\input{./sections/introduction.tex}	
-	
-	
-	% === Main matter =====================================================
+\tableofcontents
 
-        % Report structure reflects the structure laid out in todo.txt
-	
-	% --- Chapter 1: Background -----------------------------------------------
-	
-	% \cleardoublepage
+\clearpage
 
-  % \clearpage
-	\input{./sections/detector_construction.tex}    % Fabian
-        
-	% \clearpage
-	\input{./sections/setup_and_calibration.tex}    % Etienne
+%\listoffigures
 
-	% \clearpage
-	\input{./sections/energy_scale_calibration.tex} % Daniel
+%\listoftables
 
-  % \clearpage
-	\input{./sections/spectra_analysis.tex}         % Daniel
-    \cleardoublepage
-    \clearpage
-  % \clearpage
-	\input{./sections/systematics_analysis.tex}     % Etienne
-    
-	% \clearpage
-	\input{./sections/special_detector_results.tex} % 
-	
-	% \clearpage
-	\input{./sections/conclusion.tex}               % Rosanna
-	
-	
-	
-	% === Appendices ======================================================	
-	
-  \FloatBarrier
-	\cleardoublepage
-	\appendix
-	\input{./sections/appendixA.tex}
+%\lstlistoflistings
+
+\listoftodos
+
+\input{./sections/introduction.tex}	
 
 
-	
-	% === Back matter =====================================================
-	
-	% References
-  \printbibliography
+
+% === Main matter =====================================================
+% Report structure reflects the structure laid out in todo.txt
+
+\input{./sections/detector_construction.tex}    % Fabian
+\input{./sections/setup_and_calibration.tex}    % Etienne
+\input{./sections/energy_scale_calibration.tex} % Rosanna/Fabian
+\input{./sections/spectra_analysis.tex}         % Daniel
+% Yes, they are BOTH needed! I know!
+\cleardoublepage
+\clearpage
+\input{./sections/systematics_analysis.tex}     % Etienne
+\input{./sections/conclusion.tex}               % Rosanna
+
+
+
+% === Appendices ======================================================	
+
+\FloatBarrier
+\cleardoublepage
+\appendix
+\input{./sections/appendixA.tex}
+
+
+
+% === Back matter =====================================================
+
+% References
+\printbibliography
 \end{document}

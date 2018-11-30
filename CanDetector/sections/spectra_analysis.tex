@@ -1,7 +1,7 @@
 \section{Spectra analysis}
-The approximate sweet spot for Am and Fe were rough gain of $4$ and bias voltage of $1937$ V. The measurement times are listed in Tab.~\ref{tab:measurementstimes}. For the can experiment, the sources were collimated.
+For the can detector, the approximate sweet spot for Am and Fe were rough gain of $4$ and bias voltage of $1937$ V. The measurement times are listed in Tab.~\ref{tab:measurementstimes}. For the can detector, the sources were collimated.
 
-In this section, the figures for the can and aluminium pipe detectors will be shown side-by-side with the can detector on the left and the aluminium detector on the right.
+In this section, the figures for the aluminium detector assumbled by group 2 and the can detector will be shown side-by-side with the can detector on the left and the aluminium detector on the right.
 
 \begin{table}[hb!]
 \begin{tabular}{lll}
@@ -17,19 +17,19 @@ In this section, the figures for the can and aluminium pipe detectors will be sh
 \label{tab:measurementstimes}
 \end{table}
 
-When the sources are measured, the data files are loaded into histograms which are then converted to cubic basis splines (B-splines) with smoothing of 0.02 for the sources and 0.002 for the background. These are shown as dashed lines in fig. \ref{fig:spectra}. The Am and background spectra are normalised to the Fe spectrum. The splined background is then subtracted from the splined sources and binned into 1024 bits and shown as the full lines in the figure. For the aluminium pipe, the spline procedure does distort the escape peak somewhat. All subsequent figures will only be shown with the background subtracted.
+When the sources are measured, the data files are loaded into histograms which are then converted to cubic basis splines (B-splines) with smoothing of 0.02 for the sources and 0.002 for the background. These are shown as dashed lines in fig. \ref{fig:spectra}. The Am and background spectra are normalised to the Fe spectrum. The splined background is then subtracted from the splined sources and binned into 1024 bits and shown as the full lines in the figure. For the aluminium detector, the spline procedure does distort the escape peak somewhat. All subsequent figures will only be shown with the background subtracted.
 
 \begin{figure*}[htb!]
   \includegraphics[width=0.49\textwidth,page=1]{graphics/bkgsubtraction.pdf}
   \includegraphics[width=0.49\textwidth,page=1]{graphics/alubkgsubtraction.pdf}
   %\includegraphics[width=0.32\textwidth,page=1]{graphics/cupbkgsubtraction.pdf}
-  \caption{Spectra of Fe and Am as well as background for the can detector and the aluminium pipe. Am and background have been normalised to the Fe spectra. The dashed lines are splines of the original histograms, and the full lines are the splined sources with splined background subtracted. The shown resolution of the splines is intentionally low.}
+  \caption{Spectra of Fe and Am as well as background for the can detector and the aluminium detector. Am and background have been normalised to the Fe spectra. The dashed lines are splines of the original histograms, and the full lines are the splined sources with splined background subtracted. The shown resolution of the splines is intentionally low.}
   \label{fig:spectra}
 \end{figure*}
 
-Gaussian fits are then performed on the known Fe and Am peaks. All fits are performed using Chi-squared minimization with square root of counts as uncertainties. Different fit functions are used and detailed in table \ref{tab:fitfuncchannelfits}. Fits are first performed with strict bounds which are then entirely lifted to show stability and for correctness of uncertainties. For the can detector, only bins with values larger than 20 are used for the escape peak and the Am peak as Chi-squared fits with square root uncertainties over-estimate the goodness-of-fit for bins with low counts. For the Fe double Gaussian, the fit spans further in order to reach convergence for the unbounded fit. For the aluminium pipe, the escape peak is badly shaped, possibly due to the spline procedure. Therefore, the fit is performed from the right tail and above the peak until the shape deterioates. For the Fe double Gaussian, some of the left side is left out to help convergence of the unbounded fit. For both detectors, the left side of the Am peak is not well modeled by a single Gaussian peak, wherefore it is mostly left out from the fit.
+Gaussian fits are then performed on the known Fe and Am peaks. All fits are performed using Chi-squared minimisation with square root of counts as uncertainties. Different fit functions are used and detailed in table \ref{tab:fitfuncchannelfits}. Fits are first performed with strict bounds which are then entirely lifted to show stability and for correctness of uncertainties. For the can detector, only bins with values larger than 20 are used for the escape peak and the Am peak as Chi-squared fits with square root uncertainties over-estimate the goodness-of-fit for bins with low counts. For the Fe double Gaussian, the fit spans further in order to reach convergence for the unbounded fit. For the aluminium detector, the escape peak is badly shaped, possibly due to the spline procedure. Therefore, the fit is performed from the right tail and above the peak until the shape deterioates. For the Fe double Gaussian, some of the left side is left out to help convergence of the unbounded fit. For both detectors, the left side of the Am peak is not well modeled by a single Gaussian peak, wherefore it is mostly left out from the fit.
 
-For the escape peak fits, a regular Gaussian is used. For the Fe peak, the uncorrelated Gaussian double Gaussian is used. For the Am peak, a regular Gaussian is used for the can detector. However, for the aluminium pipe, a 1st order polynomial must be added to ensure convergence.
+For the escape peak fits, a regular Gaussian is used. For the Fe peak, the uncorrelated Gaussian double Gaussian is used. For the Am peak, a regular Gaussian is used for the can detector. However, for the aluminium detector, a 1st order polynomial must be added to ensure convergence.
 
 % \begin{tabular}[c]{@{}l@{}}Uncorrelated\\ double Gaussian\end{tabular}
 \begin{table*}[htb!]

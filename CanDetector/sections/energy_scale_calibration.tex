@@ -37,17 +37,17 @@ iron respectively. The uncertainties are propagated from the fit. Additionally t
 total uncertainty on the FWHM, a \SI{10}{\percent} systematic
 uncertainty was added due to the dependency on choosing the corresponding ROI.
 
-\begin{figure}[htb]
+\begin{figure*}[htbp]
   \includegraphics[width=\linewidth]{graphics/americium_scan}
   \caption{Americium scan}
   \label{fig:resolution:americium}
-\end{figure}
+\end{figure*}
 
-\begin{figure}[htb]
+\begin{figure*}[htbp]
   \includegraphics[width=\linewidth]{graphics/iron_scan}
   \caption{Iron scan}
   \label{fig:resolution:iron}
-\end{figure}
+\end{figure*}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -58,15 +58,15 @@ uncertainty was added due to the dependency on choosing the corresponding ROI.
 \label{sec:systematics}
 
 In Sec.~\ref{sec:energy_scan} the resolution for each voltage (with its coarse gain) is calculated by finding the FWHM and the mean of the characteristic peak of the two materials.
-The same data can be used to calculate the collected charge as a function of the applied voltage. In fact, the MCA mean of the peaks can be converted in an amount of charge using the calibration curve in Fig.~\ref{fig:charge_calibration}. Since the data in Figs.~\ref{fig:resolution:americium} and \ref{fig:resolution:iron} are taken at different coarse gains and the calibration data are collected with coarse gain $10$, a factor needs to be applied to correct for the difference, with the factor being $10/G_{coarse}$. For each measurement $i$, then, the collected charge is calculated as such:
+The same data can be used to calculate the collected charge as a function of the applied voltage. In fact, the MCA mean of the peaks can be converted in an amount of charge using the calibration curve in Fig.~\ref{fig:charge_calibration}. Since the data in Figs.~\ref{fig:resolution:americium} and \ref{fig:resolution:iron} are taken at different coarse gains and the calibration data are collected with coarse gain $10$, a factor needs to be applied to correct for the difference, with the factor being $10/G_\mathrm{coarse}$. For each measurement $i$, then, the collected charge is calculated as such:
 
 \begin{adjustwidth}{-1cm}{}
 \begin{align}
-Q_{coll, i} = (b + a \cdot mean_{MCA, i}) \cdot \frac{10}{G_{coarse, i}} 
+Q_{\mathrm{coll}, i} = (b + a \cdot mean_{MCA, i}) \cdot \frac{10}{G_{\mathrm{coarse}, i}} 
 \end{align}
 \end{adjustwidth}
 
-where $Q_{coll, i}$ is the collected charge per measurement, $a$ and $b$ are the calibration function parameters from Fig.~\ref{fig:charge_calibration}, $mean_{MCA, i}$ is the mean of the gaussian in the MCA spectrum and $G_{coarse, i}$ is the coarse gain used for the measurement. In order to obtain the number of electrons, $Q_{coll, i}$ is then divided by the charge of one electron $1.602 \cdot 10^{-19}$ C. The results for both Am and Fe are shown in Fig.~\ref{fig:number_of_electrons}, where the errorbars are smaller than the data points. The uncertainties on these points are both statistial and systematics and they are combined in quadrature; in particular, the systematic uncertainties come from the systematic uncertainties on $mean_{MCA, i}$ and on $G_{coarse, i}$.
+where $Q_{\mathrm{coll}, i}$ is the collected charge per measurement, $a$ and $b$ are the calibration function parameters from Fig.~\ref{fig:charge_calibration}, $mean_{MCA, i}$ is the mean of the gaussian in the MCA spectrum and $G_{\mathrm{coarse}, i}$ is the coarse gain used for the measurement. In order to obtain the number of electrons, $Q_\mathrm{coll, i}$ is then divided by the charge of one electron $1.602 \cdot 10^{-19}$ C. The results for both Am and Fe are shown in Fig.~\ref{fig:number_of_electrons}, where the errorbars are smaller than the data points. The uncertainties on these points are both statistial and systematics and they are combined in quadrature; in particular, the systematic uncertainties come from the systematic uncertainties on $mean_{MCA, i}$ and on $G_{\mathrm{coarse}, i}$.
 
 
 \begin{figure}[htb]
@@ -79,17 +79,17 @@ After having calculated the number of electrons collected as a function of volta
 
 \begin{align}
 \label{eq:Mexp}
-M_{experimental,i} &= \frac{N_{carriers,out,i}}{N_{carriers per avalanche}} \nonumber \\
-                   &= \frac{Q_{coll,i}}{n_{Fe^{5},Am^{241}}\cdot e}
+M_{\mathrm{experimental},i} &= \frac{N_{\mathrm{carriers},\mathrm{out},i}}{N_\mathrm{carriers~per~avalanche}} \nonumber \\
+                            &= \frac{Q_{\mathrm{coll},i}}{n_{\mathrm{Fe}^{5},\mathrm{Am}^{241}}\cdot e}
 \end{align}
 
-where $M_{experimental,i}$ is the experimentally measured multiplication factor, $Q_{coll,i}$ is the charge collected per measurement, $e$ is the electron charge and $n_{Fe^{55},Am^{241}}$ is the average number of electrons-ion pairs produced by either Fe$^{55}$ (227) or Am$^{241}$ (2290), as taken from \cite{can_paper}.
+where $M_{\mathrm{experimental},i}$ is the experimentally measured multiplication factor, $Q_{\mathrm{coll},i}$ is the charge collected per measurement, $e$ is the electron charge and $n_{\mathrm{Fe}^{55},\mathrm{Am}^{241}}$ is the average number of electrons-ion pairs produced by either Fe$^{55}$ (227) or Am$^{241}$ (2290), as taken from \cite{can_paper}.
 
 In order to compare those found values with the theoretical expectation, we computed the multiplication factor with the parameters of our experiment (and of the environment the experiment was conducted in) using this formula, which assumes that our detector is operating in the linear regime (\cite{gas_detect}):
 
 \begin{adjustwidth}{+0.5cm}{}
 \begin{align}
-\ln(M)=\frac{\ln(2)}{\ln(r_{c}/r_{a})}\cdot\frac{V}{\Delta V}\cdot\ln\left[ \frac{V\rho_{o}}{ra\ln(r_{c}/r_{a})E_{min}(\rho_{o})\rho}\right]
+\ln(M)=\frac{\ln(2)}{\ln(r_{c}/r_{a})}\cdot\frac{V}{\Delta V}\cdot\ln\left[ \frac{V\rho_{o}}{ra\ln(r_{c}/r_{a})E_\mathrm{min}(\rho_{o})\rho}\right]
 \label{eq:lnm}
 \end{align}
 \end{adjustwidth}
@@ -108,7 +108,7 @@ The meaning and values associated with each parameter of this equation is listed
     &&&\\
     $\Delta V$             & potential required to produce an additional electron                & $23.6 \pm 5.4$ V   &\cite{gas_detect}   \\
     &&&\\
-    $E_{min}(\rho_{o})$      & \begin{tabular}[c]{@{}l@{}}Minimal electric field needed for ionisation\\(at standard pressure)\end{tabular}         & $48. \pm 3$ kV/cm  &\cite{gas_detect}   \\
+    $E_\mathrm{min}(\rho_{o})$      & \begin{tabular}[c]{@{}l@{}}Minimal electric field needed for ionisation\\(at standard pressure)\end{tabular}         & $48. \pm 3$ kV/cm  &\cite{gas_detect}   \\
     &&&\\
     $\rho_{o}/\rho$ & \begin{tabular}[c]{@{}l@{}}Standard density of the gas\\(compared to density at  T=273K and P = 1 bar)\end{tabular}  &                    &Eq.~\ref{eq:gaslaw}, \cite{meteo}\\
     \hline
@@ -121,10 +121,10 @@ For the geometric properties, the relationship between the measured quantities a
 
 \begin{align}
   \label{eq:rcra}
-  r_{c} = \frac{D_{outer}}{2}-\tau
+  r_{c} = \frac{D_\mathrm{outer}}{2}-\tau
 \end{align}
 
-where $D_{outer}$ is the outer radius of the cider can and $\tau$ is the can wall thickness.
+where $D_\mathrm{outer}$ is the outer radius of the cider can and $\tau$ is the can wall thickness.
 To determine the gas properties at the environmental conditions of the laboratory, the temperature and pressure of the room need to be measured. With these values on hand, the ratio of gas densities can be determined by using the ideal gas law.
 
 \begin{align}
@@ -165,6 +165,8 @@ The measured multiplication factors obtained in each voltage scan is shown in Fi
 
 \begin{figure}[htb]
   \includegraphics[width=0.5\textwidth]{graphics/lnM_final_plot.pdf}
-  \caption{Natural logarithm of the drift chamber's multiplication factor M. Red and green data points represent the results obtained with $Fe^{55}$ and $Am^{241}$ respectively. Blue bands show the theoretical expectation for the detector, given systematics uncertainties in the cider can geometry and gas properties.}
+  \caption{Natural logarithm of the drift chamber's multiplication factor M. Red and green data points represent the results obtained with Fe$^{55}$ and Am$^{241}$ respectively. Blue bands show the theoretical expectation for the detector, given systematics uncertainties in the cider can geometry and gas properties.}
   \label{final_lnm}
 \end{figure}
+
+\FloatBarrier

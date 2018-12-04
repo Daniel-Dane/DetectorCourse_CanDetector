@@ -2,7 +2,6 @@
 \label{sec:construction}
 
 \subsection{Cider can}
-\subsubsection{Material preparation}
 We have been handed a start-up kit consisting of one empty \SI{500}{\milli\liter}
 cider can, two Plexiglas endcaps, two Teflon pipes, one nylon screw and nut,
 brass pipes and a high voltage (HV) connector with a small exterior connector for
@@ -50,15 +49,13 @@ with sand paper, to remove the part that was squeezed due to the cutting tool.
 
 
 Once all the ingredients were ready, all the holes in the can and the edges of
-the brass tube were filed and checked under a microscope (see \ref{fig:brass_file}), in order to avoid
+the brass tube were filed and checked under a microscope (see Fig. \ref{fig:brass_file}), in order to avoid
 sharp edges. All the components were placed in an isopropanol (IPA) bath in a
-sonicator, so all the skin oils and dirt were cleaned off, and the parts were
+sonicator, so all the skin oils and dirt were cleaned off, and all parts were
 dried with $\mathrm{N}_2$ gas. At this point, the only element missing was the
 anode wire, which was taken from a regular low voltage cable and carefully wiped
 with a cloth dipped in IPA.
 
-
-\subsubsection{Assembly}
 
 The assembly of the detector started with the fastening of the nylon screw and
 bolt to the aluminium can, using the hole in the middle of the bottom of the
@@ -85,11 +82,11 @@ quantity of glue was applied around the HV connector, to ensure optimal
 insulation.
 
 Before moving on to the next step, a leakage test was performed, to check for
-possible holes in the glue. The gas supply (in our case $\mathrm{P}_{10}$) was
+possible holes in the glue. The gas supply (in our case $\mathrm{P10}$) was
 attached to one of the Teflon gas tubes and to a flowmeter, which measured a gas
 flow of approximately \SI{25}{\milli\liter\per\minute} out of the tube. When
 moving the flowmeter to the other end of the can detector, the gas flow measured
-was between \SIrange{2}{4}{\milli\liter\per\min}, which meant that an extra layer
+was between \SI{2}{\milli\liter\per\minute} to \SI{4}{\milli\liter\per\minute}, which meant that an extra layer
 of glue had to be applied to the outside and the endcaps and to the tube
 connections, to cover potential leaks. After this adjustment, the gas
 flow was measured again and the gas flow injected in the detector was
@@ -102,10 +99,10 @@ to the HV connector to the bare aluminium of the can with copper tape. This tape
 connection was checked with a multimeter, where it was asserted, that there is no connection between the cathode can and the anode wire.
 
 \subsection{Copper Tube}
-\subsubsection{Assembly}
-A more sophisticated detector made out of copper was built after the more rudimentary one. In this iteration of the gas counter, the proportional chamber experiment was made out of a machined copper tube. The end caps were made out of two Teflon plugs, brass tubes were again used as electric field protector, and a finer, copper beryllium wire was selected as the anode material. The material also included smaller Teflon pipes for the gas inlets, and the same HV connector and a the same grounding pin as the cider can assembly. Figure \ref{fig:copper_parts} shows all parts of the assembly.
 
-In order to ensure that the X-ray emission from the source would be able to penetrate the thicker walls of the copper tube, a hole of $5$ mm was drilled in the copper tube, approximately in the middle of the pipe. The Teflon plugs were filed down in order to match the inner radius of the copper pipe and the pre-existing holes for the gas supply tubes. The HV connector and brass tube were adjusted to the appropriate sizes of the different components. Similarly to the previous detector, the brass pipe was sanded and filed at the edges to remove any sharp debris that would cause sparking.
+A more sophisticated detector made out of copper was built after the more rudimentary one. In this case, the gas proportional chamber detector was made out of a machined copper tube. The end caps were made out of two Teflon plugs, brass tubes were again used as electric field protector, and a finer, copper beryllium wire was selected as the anode material. The material also included smaller Teflon pipes for the gas inlets, the same HV connector and the same grounding pin as in the cider can assembly. Fig. \ref{fig:copper_parts} shows all parts of the assembly.
+
+In order to ensure that the X-ray emission from the source would be able to penetrate the thicker walls of the copper tube, a hole of $5$ mm was drilled in the copper tube, approximately in the middle of the pipe. The Teflon plugs were filed down in order to match the inner radius of the copper pipe and the pre-existing holes for the gas supply tubes. The holes for the HV connector and brass tubes were adjusted to the appropriate sizes of the different components. Similarly to the previous detector, the brass pipe was sanded and filed at the edges to remove any sharp debris that would cause sparking.
 
 All the parts were cleaned in an IPA bath and dried with N$_2$. The wire was soldered to the brass tube and to the HV connector and inserted carefully in the copper tube. This part of the procedure was much more delicate than in the previous assembly, given the tendency of the much thinner wire to curl on itself and break easily. The copper tube was glued with epoxy to the front Teflon plug. The wire was then passed into the second brass tube and in the back Teflon plug  The back plug was glued and the wire soldered to the brass tube.
 
@@ -120,7 +117,8 @@ Finally, the hole drilled for the target was covered by a small piece of metalli
 
 \subsubsection{Testing}
 
-The copper tube detector was flushed and then filled with P10 gas and connected to the amplifier electronics in a similar fashion than the previous detector. Unfortunately, preliminary observations of the signal at the oscilloscope indicated a problem with the state of the detector, as no pulses appeared on the screen even in the presence of a radioactive source. Further investigation led us to realise that the HV connector became electrically shorted when leftover parts of the anode wire (that did not get cut) came into contact with the outer part of the HV connector, as the end cap was inserted into the tube. This rendered the device inoperable, and thus we needed to rely on measurements on reference tubes to get a comparison with the can detector. Results in section \ref{sec:spectraanalysis} have thus not been made with the instrument characterised in table \ref{Tab:coppercan_sizes}.
+The copper tube detector was flushed and then filled with P10 gas and connected to the amplifier electronics in a similar fashion as the previous detector. Unfortunately, preliminary observations of the signal at the oscilloscope indicated a problem with the state of the detector, as no pulses appeared on the screen even in the presence of a radioactive source. Further investigation led us to realise that the HV connector became electrically shorted when leftover parts of the anode wire (the excess wire that was mistakenly not cut) came into contact with the outer part of the HV connector, as the end cap was inserted into the tube. This rendered the device inoperable. To perform the same measurements as in the cider can experiment and thus compare the two proportional gas detectors, we relied on measurements taken with a reference copper tube detector.
+Results in Sec. \ref{sec:spectraanalysis} have thus not been made with the instrument characterised in Tab. \ref{Tab:coppercan_sizes}.
 
 \begin{table}[htb]
 	\begin{tabularx}{\linewidth}{p{4.5cm}r}
@@ -143,4 +141,9 @@ The copper tube detector was flushed and then filled with P10 gas and connected 
 \end{table}
 
 \subsection{Aliminium tube}
+For this experiment, additional measurements were performed with an aluminuium tube proportional counter detector. In this case the aluminium detector was assembled by group 2. For the data with this detector we have no physical parameters (with their uncertainties) or calibration measurements, and as such, the analysis with systematic uncertainties is not possible.
+
+
+
+
 For the analysis, the spectra measurements made by the aluminium tube assembled by group 2 have been used. No physical, calibration, nor systematics measurements of their detector is available, and as such, all theoretical calculations are only made for the can detector.

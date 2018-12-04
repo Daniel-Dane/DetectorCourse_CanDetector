@@ -2,7 +2,7 @@
 
 \subsection{Set-up}
 \label{sec:calibration:set-up}
-Before performing the source spectra measurements, the detector was connected to the HV power supply and to an amplifying circuit consisting of a \textit{preamplifier} and a \textit{coarse-gain amplifier}, shown on respectively in Fig. \ref{fig:preamp_photo} and \ref{fig:ampli_gene}. 
+Before performing the source spectra measurements, the detector was connected to the HV power supply and to an amplifying circuit consisting of a \textit{preamplifier} and a \textit{coarse-gain amplifier}, shown on respectively in Figs.~\ref{fig:preamp_photo} and \ref{fig:ampli_gene}. 
 
 \begin{figure}[htb]
   \begin{subfigure}[b]{0.45\textwidth}
@@ -19,7 +19,7 @@ Before performing the source spectra measurements, the detector was connected to
   \caption{a) Photograph of the preamplifier unit. b) Photograph of the pulse generator used to inject pulses into the preamplifier, and the coarse gain amplifier used in front of the MCA.}
 \end{figure}
 
-Both system contribute to increase the overall number of signal electrons collected per avalanche occurring in the drift chamber. The overall gain in signal, between the drift chamber electrode and the final Multi-Channel Analyser (MCA) reading out data, is given by Eq. \ref{eq:gain_system}.
+Both system contribute to increase the overall number of signal electrons collected per avalanche occurring in the drift chamber. The overall gain in signal, between the drift chamber electrode and the final Multi-Channel Analyser (MCA) reading out data, is given by Eq.~\ref{eq:gain_system}.
 
 \begin{equation}
   \label{eq:gain_system}
@@ -29,7 +29,7 @@ Both system contribute to increase the overall number of signal electrons collec
 where $Q_{MCA}$ is the charge detected by the MCA, $Q_{drift}$ is the number of signal electrons, $G_{pre}$ is the gain of the preamplifier and $G_{coarse}$ is the coarse gain.
 
 \subsection{Calibration of the preamp\-li\-fi\-er gain}
- Calibrated pulses of various intensities were injected into the electronics, and the output was displayed onto an oscilloscope to evaluate the gain of the preamplifier, $G_{pre}$, and its uncertainty. Fig. \ref{fig:preamp_gain} shows the result of this measurements, where the data was fitted to a straight line. Note that the slope of the line corresponds to 10 times the gain of the preamplifier: this is because the entire calibration measurement was performed at a nominal coarse gain of 10. This correction factor is accounted for when quoting the gain that is only due to the preamplifier, $G_{pre} = 6.41 \pm 0.01$.
+ Calibrated pulses of various intensities were injected into the electronics, and the output was displayed onto an oscilloscope to evaluate the gain of the preamplifier, $G_{pre}$, and its uncertainty. Fig.~\ref{fig:preamp_gain} shows the result of this measurements, where the data was fitted to a straight line. Note that the slope of the line corresponds to 10 times the gain of the preamplifier: this is because the entire calibration measurement was performed at a nominal coarse gain of 10. This correction factor is accounted for when quoting the gain that is only due to the preamplifier, $G_{pre} = 6.41 \pm 0.01$.
 
 \begin{figure}[htb]
   \includegraphics[scale=0.5,width=0.5\textwidth]{graphics/preamp_gain_calibration.pdf}
@@ -37,7 +37,7 @@ where $Q_{MCA}$ is the charge detected by the MCA, $Q_{drift}$ is the number of 
   \label{fig:preamp_gain}
 \end{figure}
 
-In later sections of this report, it will be more useful to quote the preamplifier gain in units of $d.c/V$, as the later measurements have been done using the MCA, and not the oscilloscope. Fig. \ref{fig:preamp_gain_mca} presents the preamplifier gain in these units. Once again, a correction factor of 10 is applied to remove the coarse gain value from the result.
+In later sections of this report, it will be more useful to quote the preamplifier gain in units of $d.c/V$, as the later measurements have been done using the MCA, and not the oscilloscope. Fig.~\ref{fig:preamp_gain_mca} presents the preamplifier gain in these units. Once again, a correction factor of 10 is applied to remove the coarse gain value from the result.
 
 \begin{figure}[htb]
   \includegraphics[scale=0.5,width=0.5\textwidth]{graphics/preamp_gain_calibration_plus_conversionfactor.pdf}
@@ -50,7 +50,7 @@ In later sections of this report, it will be more useful to quote the preamplifi
 \label{sec:coarse}
 To estimate the uncertainty on the coarse gain amplifier, subsequent runs of Fe$^{55}$ and Am$^{241}$ spectra acquisitions were made at the same operating voltage, but different coarse gain settings. These measurements allowed us to measure the \textit{ratios of coarse gains} between subsequent settings of the amplifier knob, with corresponding uncertainties.
 
-Fig. \ref{fig:coarse_gain} shows the result of this analysis. Since the data acquired only allowed us to measured ratios of gain settings, the uncertainties of the absolute amplifier gain are simply assumed to scale with the default setting of 10, used in the previous calibration measurement. This means that for the purpose of error propagation, each coarse gain was defined with respect to the following rules
+Fig.~\ref{fig:coarse_gain} shows the result of this analysis. Since the data acquired only allowed us to measured ratios of gain settings, the uncertainties of the absolute amplifier gain are simply assumed to scale with the default setting of 10, used in the previous calibration measurement. This means that for the purpose of error propagation, each coarse gain was defined with respect to the following rules
 
 $$
 G_{coarse} = \left\{
@@ -62,7 +62,7 @@ G_{coarse} = \left\{
 \right.
 $$
 
-where $j$ is the higher level of a pair of coarse gain settings. Fig. \ref{fig:coarse_gain} presents the various ratios of gain settings measured, using both the Fe$^{55}$ and Am$^{241}$ source. The red data points show the result of combining both results, which allows us to get better estimates of the gain ratio uncertainties.
+where $j$ is the higher level of a pair of coarse gain settings. Fig.~\ref{fig:coarse_gain} presents the various ratios of gain settings measured, using both the Fe$^{55}$ and Am$^{241}$ source. The red data points show the result of combining both results, which allows us to get better estimates of the gain ratio uncertainties.
 
 \begin{figure}[htb]
   \includegraphics[width=0.5\textwidth]{graphics/coarse_gain_calibration.pdf}
@@ -71,7 +71,7 @@ where $j$ is the higher level of a pair of coarse gain settings. Fig. \ref{fig:c
 \end{figure}
 
 
-As stated above, the use of gain ratio is useful for propagating the uncertainty on $G_{coarse}$, when considering the effect of systematics on the global yield of charge carrier in the drift chamber (see Sec. \ref{sec:systematics}).
+As stated above, the use of gain ratio is useful for propagating the uncertainty on $G_{coarse}$, when considering the effect of systematics on the global yield of charge carrier in the drift chamber (see Sec.~\ref{sec:systematics}).
 
 \subsection{Charge calibration}
 
@@ -88,6 +88,6 @@ Q = C \cdot V
 \end{align}
 
 where $Q$ is the charge, $V$ is the pulse amplitude in Volts and $C$ is the preamplifier input capacitance with value \SI{1}{pF}.
-The calibration data are fitted to a straight line and the parameter values are visible in Fig. \ref{fig:charge_calibration}.
+The calibration data are fitted to a straight line and the parameter values are visible in Fig.~\ref{fig:charge_calibration}.
 
 

@@ -75,4 +75,19 @@ As stated above, the use of gain ratio is useful for propagating the uncertainty
 
 \subsection{Charge calibration}
 
+\begin{figure}[htb]
+  \includegraphics[width=0.5\textwidth]{graphics/chargevschannel.pdf}
+  \caption{Calibration curve for the charge collected as a function of the MCA channel.}
+  \label{fig:charge_calibration}
+\end{figure}
+
+Along with the coarse and preamplifier calibration curves, a charge calibraiton curve was measured with the test pulses, in order to find the relationship between the MCA channel and the charge detected in the cider can proportional chamber. In order to calculate the charge from the input pulses, this relation was used:
+
+\begin{align}
+Q = C \cdot V
+\end{align}
+
+where $Q$ is the charge, $V$ is the pulse amplitude in Volts and $C$ is the preamplifier input capacitance with value \SI{1}{pF}.
+The calibration data are fitted to a straight line and the parameter values are visible in Fig. \ref{fig:charge_calibration}.
+
 

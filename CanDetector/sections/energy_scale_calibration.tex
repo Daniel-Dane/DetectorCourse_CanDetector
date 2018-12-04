@@ -1,9 +1,10 @@
 \section{Energy scale calibration}
+\label{sec:energy_scan}
 
 \subsection{Resolution Scans}
 \label{sec:resolution_scans}
 As the signal from the detector is rather weak, the detector is connected to an
-amplifying circuit as described in Sect.~\ref{sec:calibration:set-up}. However
+amplifying circuit as described in Sec.~\ref{sec:calibration:set-up}. However
 there is a trade-off associated with this procedure as amplification also
 applies to noise in the detector. In order to increase the signal strength the
 voltage applied to the detector can be increased which in turn increases the
@@ -15,10 +16,10 @@ procedures as described in Sec.~\ref{sec:construction}.
 As the two possibilities for varying the output signal strength are associated
 with independent increases of noise and accordingly reduction of resolution we
 are performing resolution scans for the two samples we are interested in
-measuring: Americium and iron.
+measuring: Americium and Iron.
 
 In order to reliably determine the resolution a Gaussian is fitted to the sample
-peak previously identified in the multi-channel analyser (MCA) spectrum. We look
+peak previously identified in the MCA spectrum. We look
 at the variable peak width divided by the peak position in order to determine
 the resolution of our peak. For the peak width we are using the full-width
 half-maximum (FWHM) value. As secondary decays will affect especially the lower
@@ -57,7 +58,35 @@ uncertainty was added due to the dependency on choosing the corresponding ROI.
 \section{Charge Multiplication}
 \label{sec:systematics}
 
-In the case of the cider can detector, environmental and geometric factors can influence the overall performances of the drift chamber, namely the average number of carriers produced and collected at the electrodes. This number, called the \textit{gain} or \textit{multiplication factor}, can be approximated by the following formula, assuming that our detector is operating in the linear regime(\cite{gas_detect}):
+In Sec. \ref{sec:energy_scan} the resolution for each voltage (with its coarse gain) is calculated by finding the FWHM and the mean of the characteristic peak of the two materials.
+The same data can be used to calculate the collected charge as a function of the applied voltage. In fact, the MCA mean of the peaks can be converted in an amount of charge using the calibration curve in Fig. \ref{fig:charge_calibration}. Since the data in Fig. \ref{fig:resolution:americium} and \ref{fig:resolution:iron} are taken at different coarse gains and the calibration data are collected with coarse gain $10$, a factor needs to be applied to correct for the difference, with the factor being $10/G_{coarse}$. For each measurement $i$, then, the collected charge is calculated as such:
+
+\begin{adjustwidth}{-1cm}{}
+\begin{align}
+Q_{coll, i} = (b + a \cdot mean_{MCA, i}) \cdot \frac{10}{G_{coarse, i}} 
+\end{align}
+\end{adjustwidth}
+
+where $Q_{coll, i}$ is the collected charge per measurement, $a$ and $b$ are the calibration function parameters from Fig. \ref{fig:charge_calibration}, $mean_{MCA, i}$ is the mean of the gaussian in the MCA spectrum and $G_{coarse, i}$ is the coarse gain used for the measurement. In order to obtain the number of electrons, $Q_{coll, i}$ is then divided by the charge of one electron $1.602 \cdot 10^{-19}$ C. The results for both Am and Fe are shown in Fig. \ref{fig:number_of_electrons}, where the errorbars are smaller than the data points. The uncertainties on these points are both statistial and systematics and they are combined in quadrature; in particular, the systematic uncertainties come from the systematic uncertainties on $mean_{MCA, i}$ and on $G_{coarse, i}$.
+
+
+\begin{figure}[htb]
+  \includegraphics[width=0.5\textwidth]{graphics/numbervsvoltage.pdf}
+  \caption{Charge collected in the cider can proportional detector as a function of the voltage applied for the Fe and Am sources. Note that the errorbars are smaller than the plotted points.}
+  \label{fig:number_of_electrons}
+\end{figure}
+
+After having calculated the number of electrons collected as a function of voltage, we can find the measured multiplication factor per measurement $i$ as
+
+\begin{align}
+\label{eq:Mexp}
+M_{experimental,i} &= \frac{N_{carriers,out,i}}{N_{carriers per avalanche}} \nonumber \\
+                   &= \frac{Q_{coll,i}}{n_{Fe^{5},Am^{241}}\cdot e}
+\end{align}
+
+where $M_{experimental,i}$ is the experimentally measured multiplication factor, $Q_{coll,i}$ is the charge collected per measurement, $e$ is the electron charge and $n_{Fe^{55},Am^{241}}$ is the average number of electrons-ion pairs produced by either Fe$^{55}$ (227) or Am$^{241}$ (2290), as taken from \cite{can_paper}.
+
+In order to compare those found values with the theoretical expectation, we computed the multiplication factor with the parameters of our experiment (and of the environment the experiment was conducted in) using this formula, which assumes that our detector is operating in the linear regime (\cite{gas_detect}):
 
 \begin{adjustwidth}{+0.5cm}{}
 \begin{align}
@@ -115,22 +144,25 @@ During the measurements, the temperature stayed mostly constant, but the pressur
 
 Given the parameters and uncertainties quoted in Tab. \ref{Tab:params}, a MC simulation was created in order to compute the theoretical uncertainties on the expected multiplication factor as a function of operating voltage. In this systematics treatment, each parameter was drawn out of Gaussian shaped probability distribution, with a mean centred at a parameter's value and the width set as the quoted uncertainty. Fig. \ref{final_lnm} shows the 1$\sigma$ and 2$\sigma$ confidence interval of the multiplication factor, after propagation of systematic uncertainties.
 
-The theoretical expectation for the drift chamber's electron yield can be compared to the data obtained during the iron spectrum scan described in Sec. \ref{sec:resolution_scans}. Given a number of MCA counts $Q_{mca}$, the charge accumulated at the electrodes of the drift chamber can be obtained with Eq. \ref{eq:M_exp}.
 
-\begin{align}
-  \label{eq:M_exp}
-  Q_{detector} = \frac{Q_{MCA}}{G_{pre,mca}\cdot{G_{coarse}}}
-\end{align}
+%The theoretical expectation for the drift chamber's electron yield can be compared to the data obtained during the iron spectrum scan described in Sec. \ref{sec:resolution_scans}. Given a number of MCA counts $Q_{mca}$, the charge accumulated at the electrodes of the drift chamber can be obtained with Eq. \ref{eq:M_exp}.
 
-where $G_{pre,mca}$ is the preamplifier gain in units of $d.c./V$ (as plotted in Fig. \ref{fig:preamp_gain_mca}),and $G_{coarse}$ is the coarse gain that was described and measured in Sec. \ref{sec:coarse}. From that point, the multiplication factor of the experimental data is given by Eq. \ref{eq:Mexp}.
+%\begin{align}
+%  \label{eq:M_exp}
+%  Q_{detector} = \frac{Q_{MCA}}{G_{pre,mca}\cdot{G_{coarse}}}
+%\end{align}
 
-\begin{align}
-  \label{eq:Mexp}
-  M_{experimental} &= \frac{N_{carriers,out}}{N_{carriers per avalanche}} \nonumber \\
-                   &= \frac{Q_{detector}}{n_{Fe^{5},Am^{241}}\cdot e}
-\end{align}
+%where $G_{pre,mca}$ is the preamplifier gain in units of $d.c./V$ (as plotted in Fig. \ref{fig:preamp_gain_mca}),and $G_{coarse}$ is the coarse gain that was described and measured in Sec. \ref{sec:coarse}. From that point, the multiplication factor of the experimental data is given by Eq. \ref{eq:Mexp}.
 
-Where $n_{Fe^{55},Am^{241}}$ is the average number of electrons-ion pairs produced by either Fe$^{55}$ (227) or Am$^{241}$ (2290), as taken from \cite{can_paper}. The measured multiplication factors obtained in each voltage scan is shown in Fig. \ref{final_lnm}, along with the theoretical expectation for their values given the geometry of the can detector and the environmental conditions during the measurement. As one can see, the data collected lies within the $1\sigma$ band of the theoretically predicted values.
+%\begin{align}
+%  \label{eq:Mexp}
+%  M_{experimental} &= \frac{N_{carriers,out}}{N_{carriers per avalanche}} \nonumber \\
+%                   &= \frac{Q_{detector}}{n_{Fe^{5},Am^{241}}\cdot e}
+%\end{align}
+
+%Where $n_{Fe^{55},Am^{241}}$ is the average number of electrons-ion pairs produced by either Fe$^{55}$ (227) or Am$^{241}$ (2290), as taken from \cite{can_paper}. 
+
+The measured multiplication factors obtained in each voltage scan is shown in Fig. \ref{final_lnm}, along with the theoretical expectation for their values given the geometry of the can detector and the environmental conditions during the measurement. As one can see, the data collected lies within the $1\sigma$ band of the theoretically predicted values.
 
 \begin{figure}[htb]
   \includegraphics[width=0.5\textwidth]{graphics/lnM_final_plot.pdf}

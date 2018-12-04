@@ -279,4 +279,7 @@ def energywithuncertainty(fitobj, val, dval, caluncoff=False):
     return [e, de]
 
 def energyall(fitobj, val, dval):
-    return [energywithuncertainty(fitobj, val,dval)[0], energywithuncertainty(fitobj, val, dval, True)[1], energywithuncertainty(fitobj, val, 0)[1]]
+    return [energywithuncertainty(fitobj, val, dval)[0],
+            energywithuncertainty(fitobj, val, dval, True)[1],
+            energywithuncertainty(fitobj, val, 0)[1]
+            ]

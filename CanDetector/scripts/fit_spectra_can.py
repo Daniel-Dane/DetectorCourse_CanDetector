@@ -124,7 +124,7 @@ ax2.plot((-d,+d), (-d,+d), **kwargs)
 
 # spice it up and show
 x=0.9
-show_title(ax, subtitle_x_offset=0.4)
+show_title(ax, subtitle_x_offset=0.42)
 show_text("Fe-55", ax, y=0.1)
 show_text("Am-241", ax2, y=0.1, x=0.7)
 show_text("Esc. peak:  {: 5.1f} ± {:.1f} bit ({:.0f}/{:d}=  {:.0f}%)".format(fe_esc_mean,fe_esc_unc,fe_esc_chi2,fe_esc_ndof,fe_esc_prob), ax2, y=0.90, x=x, ha="right")
@@ -247,19 +247,44 @@ am_final_chi4, am_final_ndof, am_final_prob = \
 # the uncertainty on the mean is then the width divided by the square root of the number of entries
 # the normalization constant divided by the binwidth gives us exactly the number of entries
 # this elaborate exercise gives us the actual uncertainty of the mean for just the signal/gauss
-am1_energy = energyall(fit1, am1_mean, am1_sigma/np.sqrt(am1_c/binwidth))
-am2_energy = energyall(fit1, am2_mean, am2_sigma/np.sqrt(am2_c/binwidth))
-am3_energy = energyall(fit1, am3_mean, am3_sigma/np.sqrt(am3_c/binwidth))
-am4_energy = energyall(fit1, am4_mean, am4_sigma/np.sqrt(am4_c/binwidth))
+am1_unc = am1_sigma/np.sqrt(am1_c/binwidth)
+am2_unc = am2_sigma/np.sqrt(am2_c/binwidth)
+am3_unc = am3_sigma/np.sqrt(am3_c/binwidth)
+am4_unc = am4_sigma/np.sqrt(am4_c/binwidth)
+
+am1_energy = energyall(fit1, am1_mean, am1_unc)
+am2_energy = energyall(fit1, am2_mean, am2_unc)
+am3_energy = energyall(fit1, am3_mean, am3_unc)
+am4_energy = energyall(fit1, am4_mean, am4_unc)
+
+G = 10
+g = 6
+sigma_G = 0.095223926
+sigma_g = sigma_G/10
+
+# # add systematic uncertainty
+am1_sigma_syst = am1_mean * np.sqrt( (sigma_g/g)**2 + (sigma_G/G)**2 )
+am2_sigma_syst = am2_mean * np.sqrt( (sigma_g/g)**2 + (sigma_G/G)**2 )
+am3_sigma_syst = am3_mean * np.sqrt( (sigma_g/g)**2 + (sigma_G/G)**2 )
+am4_sigma_syst = am4_mean * np.sqrt( (sigma_g/g)**2 + (sigma_G/G)**2 )
+# am1_sigma_syst = am1_mean*(G/g*sigma_g + g/G*sigma_G)
+# am2_sigma_syst = am2_mean*(G/g*sigma_g + g/G*sigma_G)
+# am3_sigma_syst = am3_mean*(G/g*sigma_g + g/G*sigma_G)
+# am4_sigma_syst = am4_mean*(G/g*sigma_g + g/G*sigma_G)
+
+am1_energy_syst = energywithuncertainty(fit1, am1_mean, am1_sigma_syst)[1]
+am2_energy_syst = energywithuncertainty(fit1, am2_mean, am2_sigma_syst)[1]
+am3_energy_syst = energywithuncertainty(fit1, am3_mean, am3_sigma_syst)[1]
+am4_energy_syst = energywithuncertainty(fit1, am4_mean, am4_sigma_syst)[1]
 
 # spice it up and show
 x=0.011
 ax.set_ylim(top=1.3*ax.get_ylim()[1])
 show_title(ax, x=x, y=0.92)
-show_text("Peak 1: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am4_energy, 0), ax, y=0.87, x=x)
-show_text("Peak 2: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am1_energy, 0), ax, y=0.82, x=x)
-show_text("Peak 3: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am2_energy, 0), ax, y=0.77, x=x)
-show_text("Peak 4: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am3_energy, 0), ax, y=0.72, x=x)
+show_text("Peak 1: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am4_energy, am4_energy_syst), ax, y=0.87, x=x)
+show_text("Peak 2: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am1_energy, am1_energy_syst), ax, y=0.82, x=x)
+show_text("Peak 3: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am2_energy, am2_energy_syst), ax, y=0.77, x=x)
+show_text("Peak 4: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am3_energy, am3_energy_syst), ax, y=0.72, x=x)
 ax.set_ylabel("Counts for {:.0f} seconds per channel [1/s/bit]".format(time_fe))
 ax.set_xlabel("Channel [bit]")
 ax.legend(loc='best')
@@ -272,16 +297,22 @@ plt.savefig("../graphics/peaksearch.pdf", format='pdf')
 # print all values to screen
 ######################################
 
+# add systematics
+am1_unc = np.sqrt( am1_unc**2 + am1_energy_syst**2 )
+am2_unc = np.sqrt( am2_unc**2 + am2_energy_syst**2 )
+am3_unc = np.sqrt( am3_unc**2 + am3_energy_syst**2 )
+am4_unc = np.sqrt( am4_unc**2 + am4_energy_syst**2 )
+
 # Get energies of peaks with full uncertainties
 esc_energy_calc = energywithuncertainty(fit1, fe_esc_mean, fe_esc_unc)
 fe_energy_calc = energywithuncertainty(fit1, fe_mean, fe_unc)
 fe_sec_energy_calc = energywithuncertainty(fit1, fe_sec_mean, fe_sec_unc)
 am_energy_calc = energywithuncertainty(fit1, am_mean, am_unc)
 
-am1_energy_calc = energywithuncertainty(fit1, am1_mean, am1_sigma/np.sqrt(am1_c/binwidth))
-am2_energy_calc = energywithuncertainty(fit1, am2_mean, am2_sigma/np.sqrt(am2_c/binwidth))
-am3_energy_calc = energywithuncertainty(fit1, am3_mean, am3_sigma/np.sqrt(am3_c/binwidth))
-am4_energy_calc = energywithuncertainty(fit1, am4_mean, am4_sigma/np.sqrt(am4_c/binwidth))
+am1_energy_calc = energywithuncertainty(fit1, am1_mean, am1_unc)
+am2_energy_calc = energywithuncertainty(fit1, am2_mean, am2_unc)
+am3_energy_calc = energywithuncertainty(fit1, am3_mean, am3_unc)
+am4_energy_calc = energywithuncertainty(fit1, am4_mean, am4_unc)
 
 # print to console
 print("Esc. & {:.2f} ± {:.2f} & {:.2f} ± {:.2f}".format(fe_esc_mean, fe_esc_unc, esc_energy_calc[0], esc_energy_calc[1]))

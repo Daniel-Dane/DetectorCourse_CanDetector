@@ -66,7 +66,7 @@ def show_text( text, ax, x=0.05, y=0.9, verticalalignment='bottom', horizontalal
 
 # show 1-Group title on figure
 show_title_subtitle=""
-def show_title( ax, x=0.05, y=0.9, verticalalignment='bottom', horizontalalignment='left', fontproperties=font, subtitle_x_offset=0.2, subtitle_y_offset=0 ) :
+def show_title( ax, x=0.05, y=0.9, verticalalignment='bottom', horizontalalignment='left', fontproperties=font, subtitle_x_offset=0.17, subtitle_y_offset=0 ) :
     ax.text(x, y, '1-Group', verticalalignment=verticalalignment, horizontalalignment=horizontalalignment, fontproperties=fontproperties, transform=ax.transAxes)
     if show_title_subtitle:
         show_text( show_title_subtitle, ax, x+subtitle_x_offset, y+subtitle_y_offset, verticalalignment, horizontalalignment )

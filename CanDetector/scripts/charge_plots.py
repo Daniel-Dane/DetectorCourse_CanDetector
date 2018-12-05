@@ -41,7 +41,7 @@ res_Q = gr_Q.Fit(fit_Q, "RS")
 print("Fit prob. = {:.1f}%".format(fit_Q.GetProb()*100))
 
 # make figure and axes
-fig = plt.figure()
+fig = plt.figure(constrained_layout=True)
 ax = plt.subplot()
 
 # plot points and fit result
@@ -107,7 +107,7 @@ for j in range(len(volt_Am)):
 	num_of_electrons_Am[j] = ( (fit_Q.Eval(mean_Am[j]) * (10./gain_Am[j]) * 1E-12) / (1.602 * 1E-19))
 	num_of_electrons_error_Am[j] = sqrt(  (1**2 * fit_Q.GetParError(0)**2)  +  (fit_Q.GetParError(1)**2 * (mean_Am[j]**2)) + ((fit_Q.GetParameter(1)**2)*(mean_tot_unc_Am[j]**2)) ) * ((10./gain_Am[j]) * 1E-12) / (1.602 * 1E-19)
 
-fig1, ax1 = plt.subplots()
+fig1, ax1 = plt.subplots(constrained_layout=True)
 ax1.set_xlabel("Voltage [V]")
 ax1.set_ylabel("Number of electrons")
 ax1.set_yscale("log", nonposy="clip")
@@ -115,7 +115,7 @@ ax1.set_yscale("log", nonposy="clip")
 ax1.errorbar(volt_Fe, num_of_electrons_Fe, num_of_electrons_error_Fe, color = "r", label = r"$\gamma = 5.9$ keV (Fe-55)", linestyle='None', marker='o')
 ax1.errorbar(volt_Am, num_of_electrons_Am, num_of_electrons_error_Am, color = "b", label = r"$\gamma = 59.5$ keV (Am-241)", linestyle='None', marker='d')
 ax1.text(0.5,0.9, 'Group 1', verticalalignment='bottom', horizontalalignment='left',
-            fontproperties=font, transform=ax.transAxes)
+            fontproperties=font, transform=ax1.transAxes)
 ax1.legend(loc="upper left", numpoints=1)
 ax1.grid()
 fig1.show()
@@ -168,7 +168,7 @@ yy = [exp(M_thoe(x)) for x in xx]
 yy2 = [exp(M_thoe(x) + M_theo_unc(x)) for x in xx]
 yy3 = [exp(M_thoe(x) - M_theo_unc(x)) for x in xx]
 
-fig2, ax2 = plt.subplots()
+fig2, ax2 = plt.subplots(constrained_layout=True)
 ax2.set_xlabel("Voltage [V]")
 ax2.set_ylabel("M")
 ax2.set_yscale("log", nonposy="clip")

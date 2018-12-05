@@ -237,19 +237,13 @@ am3_chi3, am3_ndof, am3_prob = fit_and_draw_ROOT(h_am_new, gauss_p1, [447, 418, 
 # the uncertainty on the mean is then the width divided by the square root of the number of entries
 # the normalization constant divided by the binwidth gives us exactly the number of entries
 # this elaborate exercise gives us the actual uncertainty of the mean for just the signal/gauss
-#am1_energy = energyall(fit1, am1_mean, am1_sigma/np.sqrt(am1_c/binwidth))
-#am2_energy = energyall(fit1, am2_mean, am2_sigma/np.sqrt(am2_c/binwidth))
 am3_energy = energyall(fit1, am3_mean, am3_sigma/np.sqrt(am3_c/binwidth))
-#am4_energy = energyall(fit1, am4_mean, am4_sigma/np.sqrt(am4_c/binwidth))
 
 # spice it up and show
 x=0.011
 ax.set_ylim(top=1.3*ax.get_ylim()[1])
 show_title(ax, x=x, y=0.92)
-#show_text("Peak 1: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am4_energy, 0), ax, y=0.87, x=x)
-#show_text("Peak 2: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am1_energy, 0), ax, y=0.82, x=x)
-#show_text("Peak 3: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am2_energy, 0), ax, y=0.77, x=x)
-show_text("Peak 4: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) ± {:.3f} (syst.) keV".format(*am3_energy, 0), ax, y=0.72, x=x)
+show_text("Peak 4: E = {:.3f} ± {:.3f} (stat.) ± {:.3f} (cal.) keV".format(*am3_energy), ax, y=0.87, x=x)
 ax.set_ylabel("Counts for {:.0f} seconds per channel [1/s/bit]".format(time_fe))
 ax.set_xlabel("Channel [bit]")
 ax.legend(loc='best')

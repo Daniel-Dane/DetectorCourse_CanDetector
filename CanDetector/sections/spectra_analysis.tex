@@ -19,8 +19,6 @@ In this section, the figures of the spectra taken with the aluminium detector as
 \label{tab:measurementstimes}
 \end{table}
 
-When the sources are measured, the data files are loaded into histograms which are then converted to cubic basis splines (B-splines) with smoothing of 0.02 for the sources and 0.002 for the background. These are shown as dashed lines in Fig.~\ref{fig:spectra}. The Am and background spectra are normalised to the Fe spectrum. The splined background is then subtracted from the splined sources and binned into 1024 bits and shown as the full lines in the figure. For the aluminium detector, the spline procedure does distort the escape peak somewhat. All subsequent figures will only be shown with the background subtracted.
-
 \begin{figure*}[htb]
   \includegraphics[width=0.49\textwidth,page=1]{graphics/bkgsubtraction.pdf}
   \includegraphics[width=0.49\textwidth,page=1]{graphics/alubkgsubtraction.pdf}
@@ -29,11 +27,12 @@ When the sources are measured, the data files are loaded into histograms which a
   \label{fig:spectra}
 \end{figure*}
 
+When the sources are measured, the data files are loaded into histograms which are then converted to cubic basis splines (B-splines) with smoothing of 0.02 for the sources and 0.002 for the background. These are shown as dashed lines in Fig.~\ref{fig:spectra}. The Am and background spectra are normalised to the Fe spectrum. The splined background is then subtracted from the splined sources and binned into 1024 bits and shown as the full lines in the figure. For the aluminium detector, the spline procedure does distort the escape peak somewhat. All subsequent figures will only be shown with the background subtracted.
+
 Gaussian fits are then performed on the known Fe and Am peaks. All fits are performed using Chi-squared minimisation with square root of counts as uncertainties. Different fit functions are used and detailed in Tab.~\ref{tab:fitfuncchannelfits}. Fits are first performed with strict bounds which are then entirely lifted to show stability and for correctness of uncertainties. For the can detector, only bins with values larger than 20 are used for the escape peak and the Am peak as Chi-squared fits with square root uncertainties over-estimate the goodness-of-fit for bins with low counts. For the Fe double Gaussian, the fit spans further in order to reach convergence for the unbounded fit. For the aluminium detector, the escape peak is badly shaped, possibly due to the spline procedure. Therefore, the fit is performed from the right tail and above the peak until the shape deterioates. For the Fe double Gaussian, some of the left side is left out to help convergence of the unbounded fit. For both detectors, the left side of the Am peak is not well modeled by a single Gaussian peak, wherefore it is mostly left out from the fit.
 
 For the escape peak fits, a regular Gaussian is used. For the Fe peak, the uncorrelated double Gaussian is used. For the Am peak, a regular Gaussian is used for the can detector. However, for the aluminium detector, a 1st order polynomial must be added to ensure convergence.
 
-% \begin{tabular}[c]{@{}l@{}}Uncorrelated\\ double Gaussian\end{tabular}
 \begin{table*}[htb]
   \centering
 \begin{tabular}{ll}
@@ -80,18 +79,25 @@ In Fig.~\ref{fig:peaksearch}, the energy uncertainties of the peaks are shown sp
 \begin{tabular}{lrrrr}
               & \multicolumn{2}{c}{\textbf{Can}} & \multicolumn{2}{c}{\textbf{Alu}} \\
 \textbf{Peak} & \textbf{Centroid [bit]}      & \textbf{Energy [keV]}      & \textbf{Centroid [bit]}     & \textbf{Energy [keV]}     \\ \hline
-Esc.          & $ 45.90 \pm 0.55$ & $ 3.19$ & $ 53.39 \pm 0.84$ & $ 3.19$ \\
-Fe K-$\alpha$ & $ 88.11 \pm 0.91$ & $ 5.89$ & $ 95.64 \pm 0.80$ & $ 5.89$ \\
-Fe K-$\beta$  & $ 96.06 \pm 3.13$ & $ 6.49$ & $107.21 \pm 2.22$ & $ 6.49$ \\
-Am            & $881.11 \pm 1.06$ & $ 59.5$ & $939.23 \pm 1.92$ & $ 59.5$ \\
-1             & $181.58 \pm 0.23$ & $12.31 \pm 0.04$ & - & - \\
-2             & $262.82 \pm 1.01$ & $17.79 \pm 0.08$ & - & - \\
-3             & $319.16 \pm 0.69$ & $21.60 \pm 0.07$ & - & - \\
-4             & $390.45 \pm 0.50$ & $26.41 \pm 0.06$ & $417.38 \pm 0.61$ & $26.34 \pm 0.08$ \\ \hline
+Esc.          & $ 45.90 \pm 0.55$ & $ 3.19$          & $ 53.39 \pm 0.84$ & $ 3.19$          \\
+Fe K-$\alpha$ & $ 88.11 \pm 0.91$ & $ 5.89$          & $ 95.64 \pm 0.80$ & $ 5.89$          \\
+Fe K-$\beta$  & $ 96.06 \pm 3.13$ & $ 6.49$          & $107.21 \pm 2.22$ & $ 6.49$          \\
+Am            & $881.11 \pm 1.06$ & $ 59.5$          & $939.23 \pm 1.92$ & $ 59.5$          \\
+1             & $181.58 \pm 0.23$ & $12.31 \pm 0.79$ & -                 & -                \\
+2             & $262.82 \pm 1.01$ & $17.79 \pm 1.14$ & -                 & -                \\
+3             & $319.16 \pm 0.69$ & $21.60 \pm 1.38$ & -                 & -                \\
+4             & $390.45 \pm 0.50$ & $26.41 \pm 1.69$ & $417.38 \pm 0.61$ & $26.34 \pm 0.08$ \\ \hline
 \end{tabular}
 \caption{List of measurement times for the different sources and setups.}
 \label{tab:peakschannelenergies}
 \end{table*}
+
+The systematic uncertainty for the can detector is derived from the calibration of the preamplifier and the amplifier.
+The MCA channel is a result of the original signal voltage amplified twice, leading to measurement of the form, $\textrm{channel} = f(G_\mathrm{pre} G_\mathrm{coarse} V)$.
+Assuming linearity of the equipment, the relative uncertainty of the preamplifier and amplifier can be added in quadrature with the relative uncertainty of the centroids of the peaks.
+The systematic uncertainty becomes rather large due to the coarse gain being derived from the scans that include the $\SI{10}{\percent}$ systematic uncertainty that accounts for the weakness of the resolution calculations.
+
+Since the calibration of the preamplifier and the amplifier were only done for the can detector, no systematics have been derived for the aluminium detector.
 
 % There's a lot of figures here, and we better flush them out, so they don't mingle way further down the article
 %\FloatBarrier

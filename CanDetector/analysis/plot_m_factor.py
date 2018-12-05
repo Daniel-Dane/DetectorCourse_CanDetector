@@ -116,9 +116,9 @@ plt.errorbar(x_values+0.2,y_am,yerr=dy_am,fmt='P',color='b',label=r'$Am^{241}$')
 # weighted average
 coarse_gain = (y_fe/dy_fe**2.+y_am/dy_am**2.)/(1./dy_fe**2+1./dy_am**2)
 coarse_gain_unc = np.sqrt(1./((1./dy_fe**2+1./dy_am**2)))
-print "Coarse gains: ",x_fe
-print "Coarse gain values: ",coarse_gain
-print "Coarse gain uncertainties: ",coarse_gain_unc
+print("Coarse gains: ",x_fe)
+print("Coarse gain values: ",coarse_gain)
+print("Coarse gain uncertainties: ",coarse_gain_unc)
 
 plt.errorbar(x_values+0.4,coarse_gain,yerr=coarse_gain_unc,fmt='s',color='r',label=r'Combined')
 

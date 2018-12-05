@@ -257,20 +257,18 @@ am2_energy = energyall(fit1, am2_mean, am2_unc)
 am3_energy = energyall(fit1, am3_mean, am3_unc)
 am4_energy = energyall(fit1, am4_mean, am4_unc)
 
-G = 10
-g = 6
-sigma_G = 0.095223926
-sigma_g = sigma_G/10
+# add systematic uncertainty
+G = 4.061514034468331
+g = 6.413172885849055
+sigma_G = 0.25911819816514414
+sigma_g = 0.005383031
 
-# # add systematic uncertainty
-am1_sigma_syst = am1_mean * np.sqrt( (sigma_g/g)**2 + (sigma_G/G)**2 )
-am2_sigma_syst = am2_mean * np.sqrt( (sigma_g/g)**2 + (sigma_G/G)**2 )
-am3_sigma_syst = am3_mean * np.sqrt( (sigma_g/g)**2 + (sigma_G/G)**2 )
-am4_sigma_syst = am4_mean * np.sqrt( (sigma_g/g)**2 + (sigma_G/G)**2 )
-# am1_sigma_syst = am1_mean*(G/g*sigma_g + g/G*sigma_G)
-# am2_sigma_syst = am2_mean*(G/g*sigma_g + g/G*sigma_G)
-# am3_sigma_syst = am3_mean*(G/g*sigma_g + g/G*sigma_G)
-# am4_sigma_syst = am4_mean*(G/g*sigma_g + g/G*sigma_G)
+factor = np.sqrt((sigma_g/g)**2 + (sigma_G/G)**2)
+
+am1_sigma_syst = am1_mean * factor
+am2_sigma_syst = am2_mean * factor
+am3_sigma_syst = am3_mean * factor
+am4_sigma_syst = am4_mean * factor
 
 am1_energy_syst = energywithuncertainty(fit1, am1_mean, am1_sigma_syst)[1]
 am2_energy_syst = energywithuncertainty(fit1, am2_mean, am2_sigma_syst)[1]
@@ -298,10 +296,10 @@ plt.savefig("../graphics/peaksearch.pdf", format='pdf')
 ######################################
 
 # add systematics
-am1_unc = np.sqrt( am1_unc**2 + am1_energy_syst**2 )
-am2_unc = np.sqrt( am2_unc**2 + am2_energy_syst**2 )
-am3_unc = np.sqrt( am3_unc**2 + am3_energy_syst**2 )
-am4_unc = np.sqrt( am4_unc**2 + am4_energy_syst**2 )
+am1_unc = np.sqrt( am1_unc**2 + am1_sigma_syst**2 )
+am2_unc = np.sqrt( am2_unc**2 + am2_sigma_syst**2 )
+am3_unc = np.sqrt( am3_unc**2 + am3_sigma_syst**2 )
+am4_unc = np.sqrt( am4_unc**2 + am4_sigma_syst**2 )
 
 # Get energies of peaks with full uncertainties
 esc_energy_calc = energywithuncertainty(fit1, fe_esc_mean, fe_esc_unc)

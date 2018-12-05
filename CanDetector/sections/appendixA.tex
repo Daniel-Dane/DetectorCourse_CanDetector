@@ -1,6 +1,8 @@
+\onecolumn
 \section{Resolution scans for Am and Fe}
 \label{app:resolution-scans}
-  \begin{figure*}[htb]
+\begin{figure}[htb]
+  \centering
   \foreach \n [count=\i] in {%
     am_100_1136,
     am_100_1191,
@@ -10,14 +12,15 @@
     am_100_1399,
     am_40_1397,
     am_40_1455}{
-   \begin{subfigure}{.48\linewidth}
-        \centering
+   \begin{subfigure}{.42\linewidth}
+        
          \includegraphics[width=\linewidth]{graphics/\n}
         \caption{\detokenize\expandafter{\n}}
       \end{subfigure}
     }
-  \end{figure*}
-  \begin{figure*}[htb]\ContinuedFloat
+  \end{figure}
+  \begin{figure}[htb]\ContinuedFloat
+  \centering
   \foreach \n [count=\i] in {%
     am_40_1502,
     am_40_1559,
@@ -27,14 +30,15 @@
     am_10_1665,
     am_10_1712,
     am_10_1758}{
-   \begin{subfigure}{.48\linewidth}
-        \centering
+   \begin{subfigure}{.42\linewidth}
+        
          \includegraphics[width=\linewidth]{graphics/\n}
         \caption{\detokenize\expandafter{\n}}
       \end{subfigure}
     }
-\end{figure*}
-  \begin{figure*}[htb]\ContinuedFloat
+\end{figure}
+  \begin{figure}[htb]\ContinuedFloat
+  \centering
   \foreach \n [count=\i] in {%
     am_4_1757,
     am_4_1808,
@@ -43,17 +47,18 @@
     am_2_1900,
     am_2_1951,
     am_2_2001} {
-   \begin{subfigure}{.48\linewidth}
-        \centering
+   \begin{subfigure}{.42\linewidth}
+        
          \includegraphics[width=\linewidth]{graphics/\n}
         \caption{\detokenize\expandafter{\n}}
       \end{subfigure}
     }
     \caption{Scan for different gains and voltages for Americium.}
     \label{fig:scan:americium}
-\end{figure*}
+\end{figure}
 
-  \begin{figure*}[htb]
+\begin{figure}[htb]
+  \centering
   \foreach \n [count=\i] in {%
 fe_100_1420,
 fe_100_1470,
@@ -63,14 +68,15 @@ fe_100_1617,
 fe_100_1717,
 fe_40_1717,
 fe_40_1801}{
-   \begin{subfigure}{.48\linewidth}
-        \centering
+   \begin{subfigure}{.42\linewidth}
+        
          \includegraphics[width=\linewidth]{graphics/\n}
         \caption{\detokenize\expandafter{\n}}
       \end{subfigure}
     }
-  \end{figure*}
-  \begin{figure*}[htb]\ContinuedFloat
+  \end{figure}
+  \begin{figure}[htb]\ContinuedFloat
+  \centering
   \foreach \n [count=\i] in {%
 fe_40_1853,
 fe_40_1901,
@@ -80,28 +86,29 @@ fe_10_1978,
 fe_10_2000,
 fe_10_2042,
 fe_10_2080}{
-   \begin{subfigure}{.48\linewidth}
-        \centering
+   \begin{subfigure}{.42\linewidth}
+        
          \includegraphics[width=\linewidth]{graphics/\n}
         \caption{\detokenize\expandafter{\n}}
       \end{subfigure}
     }
-\end{figure*}
-  \begin{figure*}[htb]\ContinuedFloat
+\end{figure}
+  \begin{figure}[htb]\ContinuedFloat
+  \centering
   \foreach \n [count=\i] in {%
 fe_4_2124,
 fe_4_2201,
 fe_2_2201,
 fe_2_2254,
 fe_2_2303}{
-   \begin{subfigure}{.48\linewidth}
-        \centering
+   \begin{subfigure}{.42\linewidth}
+        
          \includegraphics[width=\linewidth]{graphics/\n}
         \caption{\detokenize\expandafter{\n}}
       \end{subfigure}
     }
     \caption{Scan for different gains and voltages for Iron.}
     \label{fig:scan:iron}
-  \end{figure*}
+  \end{figure}
 
 \FloatBarrier

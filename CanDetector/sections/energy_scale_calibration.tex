@@ -4,14 +4,14 @@
 \subsection{Resolution Scans}
 \label{sec:resolution_scans}
 As the signal from the detector is rather weak, the detector is connected to an
-amplifying circuit as described in Sec.~\ref{sec:calibration:set-up}. However
+amplifying circuit as described in Sect.~\ref{sec:calibration:set-up}. However
 there is a trade-off associated with this procedure as amplification also
 applies to noise in the detector. In order to increase the signal strength the
 voltage applied to the detector can be increased which in turn increases the
 amount of signal electrons and leads to a stronger output signal. Along with
 this comes though an increased probability for spontaneous discharges along
 impurities and dirt remaining in the detector despite extensive cleaning
-procedures as described in Sec.~\ref{sec:construction}.
+procedures as described in Sect.~\ref{sec:construction}.
 
 As the two possibilities for varying the output signal strength are associated
 with independent increases of noise and accordingly reduction of resolution we
@@ -56,7 +56,7 @@ uncertainty was added due to the dependency on choosing the corresponding ROI.
 \section{Charge Multiplication}
 \label{sec:systematics}
 
-In Sec.~\ref{sec:energy_scan} the resolution for each voltage (with its coarse gain) is calculated by finding the FWHM and the mean of the characteristic peak of the two materials.
+In Sect.~\ref{sec:energy_scan} the resolution for each voltage (with its coarse gain) is calculated by finding the FWHM and the mean of the characteristic peak of the two materials.
 The same data can be used to calculate the collected charge as a function of the applied voltage. In fact, the MCA mean of the peaks can be converted in an amount of charge using the calibration curve in Fig.~\ref{fig:charge_calibration}. Since the data in Figs.~\ref{fig:resolution:americium} and \ref{fig:resolution:iron} are taken at different coarse gains and the calibration data are collected with coarse gain $10$, a factor needs to be applied to correct for the difference, with the factor being $10/G_\mathrm{coarse}$. For each measurement $i$, then, the collected charge is calculated as such:
 
 \begin{adjustwidth}{-1cm}{}
@@ -143,14 +143,14 @@ During the measurements, the temperature stayed mostly constant, but the pressur
 Given the parameters and uncertainties quoted in Tab.~\ref{Tab:params}, a MC simulation was created in order to compute the theoretical uncertainties on the expected multiplication factor as a function of operating voltage. In this systematics treatment, each parameter was drawn out of Gaussian shaped probability distribution, with a mean centred at a parameter's value and the width set as the quoted uncertainty. Fig.~\ref{final_lnm} shows the 1$\sigma$ and 2$\sigma$ confidence interval of the multiplication factor, after propagation of systematic uncertainties.
 
 
-%The theoretical expectation for the drift chamber's electron yield can be compared to the data obtained during the iron spectrum scan described in Sec.~\ref{sec:resolution_scans}. Given a number of MCA counts $Q_{mca}$, the charge accumulated at the electrodes of the drift chamber can be obtained with Eq.~\ref{eq:M_exp}.
+%The theoretical expectation for the drift chamber's electron yield can be compared to the data obtained during the iron spectrum scan described in Sect.~\ref{sec:resolution_scans}. Given a number of MCA counts $Q_{mca}$, the charge accumulated at the electrodes of the drift chamber can be obtained with Eq.~\ref{eq:M_exp}.
 
 %\begin{align}
 %  \label{eq:M_exp}
 %  Q_{detector} = \frac{Q_{MCA}}{G_{pre,mca}\cdot{G_{coarse}}}
 %\end{align}
 
-%where $G_{pre,mca}$ is the preamplifier gain in units of $d.c./V$ (as plotted in Fig.~\ref{fig:preamp_gain_mca}),and $G_{coarse}$ is the coarse gain that was described and measured in Sec.~\ref{sec:coarse}. From that point, the multiplication factor of the experimental data is given by Eq.~\ref{eq:Mexp}.
+%where $G_{pre,mca}$ is the preamplifier gain in units of $d.c./V$ (as plotted in Fig.~\ref{fig:preamp_gain_mca}),and $G_{coarse}$ is the coarse gain that was described and measured in Sect.~\ref{sec:coarse}. From that point, the multiplication factor of the experimental data is given by Eq.~\ref{eq:Mexp}.
 
 %\begin{align}
 %  \label{eq:Mexp}

@@ -2,7 +2,7 @@
 \label{sec:spectraanalysis}
 For the can detector, the approximate sweet spot for Am and Fe were rough gain of $4$ and bias voltage of $1937$ V. The measurement times are listed in Tab.~\ref{tab:measurementstimes}. For the can detector, the sources were collimated.
 
-In this section, the figures of the spectra taken with the aluminium detector assumbled by group 2 and with the can detector will be shown side-by-side with the can detector on the left and the aluminium detector on the right.
+In this section, the figures of the spectra taken with the aluminium detector assumbled by group 2 and with the can detector will be shown side-by-side with the can detector on the left and the aluminium detector on the right. The spectra from the aluminium detector were collected at a gain of $10$ and bias voltage of $1217$ V.
 
 \begin{table}[htb]
   \centering
@@ -99,5 +99,15 @@ The systematic uncertainty becomes rather large due to the coarse gain being der
 
 Since the calibration of the preamplifier and the amplifier were only done for the can detector, no systematics have been derived for the aluminium detector.
 
+
+\subsection{Copper pipe spectra}
+
+Besides the data collected with the aluminium detector of group 2 and with the cider can detector, spectra were collected with a reference copper tube detector, see Sect.~\ref{sec:copper_construction}. The spectra from this detector were collected at a gain of $10$ and bias voltage of $1224$ V. The data analysis was conducted in the same manner as for the aluminium and cider can detectors, with the histograms being converted into cubic basis splines in order to subtract the background to the Fe and Am spectra. The Am and background spectra are normalised to the Fe spectrum. The spectra are shown is Fig.~\ref{fig:copperpipepeaks}, where the Fe spectrum resembles the one in Fig.~\ref{fig:spectra}, with the clear Fe peak and the escape peak in the same channels. On the other hand, the Am spectrum is quite different, the only clear peak is around channel $150$ and it could correspond to one of the unknown Am peaks in Tab.~\ref{tab:peakschannelenergies}. Smaller peaks are visible in the channel range $0-100$, and those could correspond to some of the noise visible in the same reagion in Fig.~\ref{fig:peaksearch} for both the aluminium and cider can detector. The Am peak of $59.5$ keV is not visible in this spectrum, a possible explanation to this could be, that the gain was to high and the characteristic Am peak is then outside the probing window of MCA channels. 
+
+\begin{figure}[htbp]
+  \includegraphics[width=0.5\textwidth]{graphics/cupbkgsubtraction.pdf}
+  \caption{Spectra of Fe and Am as well as background for the copper pipe detector. Am and background have been normalised to the Fe spectra. The dashed lines are splines of the original histograms, and the full lines are the splined sources with splined background subtracted. The shown resolution of the splines is intentionally low.}
+  \label{fig:copperpipepeaks}
+\end{figure}
 % There's a lot of figures here, and we better flush them out, so they don't mingle way further down the article
 %\FloatBarrier

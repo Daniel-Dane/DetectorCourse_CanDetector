@@ -28,7 +28,7 @@ common.show_title_subtitle = "(Cu pipe)"
 ######################################
 
 # make figure and axes
-fig = plt.figure()
+fig = plt.figure(constrained_layout=True)
 ax = plt.subplot()
 
 # make zoomed in sub-figure
